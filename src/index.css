@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent;
+  }
+
+  /* Custom cursor - hide default on desktop */
+  @media (min-width: 768px) {
+    .custom-cursor,
+    .custom-cursor * {
+      cursor: none !important;
+    }
+  }
+}

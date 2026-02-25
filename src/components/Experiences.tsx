@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
     FaBriefcase,
     FaCalendar,
@@ -16,6 +16,7 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchExperiences } from "../services/api";
 
 interface Technology {
+    id: string;
     name: string;
     icon?: string;
     proficiency?: string;
@@ -23,35 +24,47 @@ interface Technology {
 }
 
 interface Project {
+    id: string;
+    experienceId: string | null;
     title: string;
-    category?: string;
-    projectRole?: string;
-    screenshot?: string;
     description?: string;
+    category?: string;
+    type?: string;
+    projectRole?: string;
+    thumbnailLink?: string | null;
+    githubRepo?: string | null;
+    dockerLink?: string | null;
+    liveDemo?: string | null;
+    screenshot?: string | null;
+    aiPowered?: boolean;
+    featured?: boolean;
     technologies?: Technology[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 interface Experience {
-    id?: string | number;
-    title?: string;
-    position?: string;
+    id: string;
+    title: string;
     company: string;
-    companyLogo?: string;
-    companyLink?: string;
+    companyLogo?: string | null;
+    companyLink?: string | null;
     startDate?: string;
-    endDate?: string;
+    endDate?: string | null;
     location?: string;
     descriptions?: string[];
     projects?: Project[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 interface ExperiencesData {
-    data?: Experience[];
-    experiences?: Experience[];
+    success: boolean;
+    data: Experience[];
 }
 
 const Experiences = () => {
-    const { data, loading, error } = useFetch<Experience[] | ExperiencesData>(fetchExperiences);
+    const { data, loading, error } = useFetch<ExperiencesData>(fetchExperiences);
     const [expandedProjects, setExpandedProjects] = useState<Record<number, boolean>>({});
 
     const toggleProjects = (experienceIndex: number) => {
@@ -96,7 +109,7 @@ const Experiences = () => {
         }
     };
 
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -106,7 +119,7 @@ const Experiences = () => {
         },
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { y: 50, opacity: 0 },
         visible: {
             y: 0,
@@ -142,8 +155,7 @@ const Experiences = () => {
         );
     }
 
-    const experiences: Experience[] =
-        Array.isArray(data) ? data : (data as ExperiencesData)?.data || (data as ExperiencesData)?.experiences || [];
+    const experiences: Experience[] = data?.data || [];
 
     return (
         <section id="experiences" className="py-20 bg-slate-900/20">
@@ -227,9 +239,7 @@ const Experiences = () => {
                                                 {/* Title and Company */}
                                                 <div className="flex-1 min-w-0">
                                                     <h3 className="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
-                                                        {experience.title ||
-                                                            experience.position ||
-                                                            "Position"}
+                                                        {experience.title}
                                                     </h3>
                                                     <div className="mb-2">
                                                         {experience.companyLink ?
@@ -420,12 +430,12 @@ const Experiences = () => {
                                                                                                             className="group/tech"
                                                                                                             data-tooltip-id="info-tooltip"
                                                                                                             data-tooltip-content={`${tech.name}${tech.proficiency ?
-                                                                                                                    " - " +
-                                                                                                                    tech.proficiency
-                                                                                                                    : tech.level ?
-                                                                                                                        " - Level " +
-                                                                                                                        tech.level
-                                                                                                                        : ""
+                                                                                                                " - " +
+                                                                                                                tech.proficiency
+                                                                                                                : tech.level ?
+                                                                                                                    " - Level " +
+                                                                                                                    tech.level
+                                                                                                                    : ""
                                                                                                                 }`}
                                                                                                             data-tooltip-place="top"
                                                                                                         >

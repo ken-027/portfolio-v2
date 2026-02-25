@@ -20,6 +20,7 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchProjects } from "../services/api";
 
 interface Technology {
+    id: string;
     name: string;
     icon?: string;
     proficiency?: string;
@@ -27,23 +28,28 @@ interface Technology {
 }
 
 interface Project {
+    id: string;
+    experienceId: string | null;
     title: string;
     description: string;
     type?: string;
     category?: string;
     projectRole?: string;
     thumbnailLink?: string;
-    githubRepo?: string;
-    dockerLink?: string;
-    liveDemo?: string;
-    screenshot?: string;
+    githubRepo?: string | null;
+    dockerLink?: string | null;
+    liveDemo?: string | null;
+    screenshot?: string | null;
     aiPowered?: boolean;
     technologies: Technology[];
-    featured: boolean
+    featured: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 interface ProjectsData {
-    projects?: Record<string, Project>;
+    success: boolean;
+    data: Project[];
 }
 
 interface CategoryInfo {
@@ -133,8 +139,7 @@ const Projects = () => {
 
     // Parse the API structure and filter for featured projects only
     const allProjects = useMemo(() => {
-        const projectsData = data?.projects || {};
-        return Object.values(projectsData).filter((project: Project) => project.featured);
+        return (data?.data || []).filter((project: Project) => project.featured);
     }, [data]);
 
     // Get unique types

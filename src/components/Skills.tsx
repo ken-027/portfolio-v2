@@ -16,7 +16,8 @@ interface SkillCategory {
 }
 
 interface SkillsData {
-    skills?: SkillCategory[];
+    success: boolean;
+    data: SkillCategory[];
 }
 
 const Skills = () => {
@@ -114,7 +115,7 @@ const Skills = () => {
     }
 
     // Get skills array from nested structure
-    const skillCategories = data?.skills || [];
+    const skillCategories = data?.data || [];
 
     return (
         <section id="skills" className="py-20 bg-transparent">

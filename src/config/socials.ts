@@ -1,4 +1,4 @@
-import { FaGithub, FaDocker, FaNpm, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { FaGithub, FaDocker, FaNpm, FaLinkedin, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { SiHuggingface, SiLeetcode, SiHackerrank } from "react-icons/si";
 
 export const socials = {

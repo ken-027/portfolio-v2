@@ -1,417 +1,395 @@
-import { useState, useEffect, useRef } from "react";
-import {
-    FaComments,
-    FaTimes,
-    FaPaperPlane,
-    FaUser,
-    FaRobot,
-    FaGithub,
-    FaCode,
-} from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaComments, FaTimes, FaPaperPlane, FaUser, FaRobot, FaGithub, FaCode } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import { chatStream } from '../services/api';
 
-type ChatMode = "personal" | "portfolio" | null;
+import 'highlight.js/styles/github-dark.css';
 
 interface Message {
     id: string;
-    text: string;
-    sender: "user" | "bot";
+    type: 'user' | 'bot';
+    content: string;
     timestamp: Date;
+    agent?: 'portfolio' | 'github';
 }
 
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [chatMode, setChatMode] = useState<ChatMode>(null);
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [inputText, setInputText] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
+    const [agent, setAgent] = useState<'portfolio' | 'github'>('portfolio');
+    const [messages, setMessages] = useState<Message[]>([
+        {
+            id: '1',
+            type: 'bot',
+            content: 'Hi! I\'m here to help you learn more about this portfolio. You can ask me about experiences, projects, skills, or switch to GitHub mode to explore repositories!',
+            timestamp: new Date(),
+            agent: 'portfolio'
+        }
+    ]);
+    const [inputMessage, setInputMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
 
-    const getWelcomeMessage = (mode: ChatMode): string => {
-        if (mode === "personal") {
-            return "Hi! I'm Kenneth's personal assistant. Feel free to ask me about Kenneth's background, interests, hobbies, or anything personal!";
-        } else if (mode === "portfolio") {
-            return "Hello! I'm here to help you explore Kenneth's portfolio and GitHub projects. Ask me about his technical skills, projects, or code!";
+    useEffect(() => {
+        if (isOpen && inputRef.current) {
+            inputRef.current.focus();
         }
-        return "";
-    };
+    }, [isOpen]);
 
-    const handleModeSelect = (mode: ChatMode) => {
-        setChatMode(mode);
-        const welcomeMsg: Message = {
+    const handleAgentSwitch = (newAgent: 'portfolio' | 'github') => {
+        setAgent(newAgent);
+        const welcomeMessage = newAgent === 'portfolio'
+            ? 'Switched to Portfolio mode! Ask me about experiences, projects, skills, or anything related to this portfolio.'
+            : 'Switched to GitHub mode! I can help you explore GitHub repositories, check code, and answer development questions.';
+
+        setMessages(prev => [...prev, {
             id: Date.now().toString(),
-            text: getWelcomeMessage(mode),
-            sender: "bot",
+            type: 'bot',
+            content: welcomeMessage,
             timestamp: new Date(),
-        };
-        setMessages([welcomeMsg]);
+            agent: newAgent
+        }]);
     };
 
-    const getBotResponse = (userMessage: string, mode: ChatMode): string => {
-        const lowerMessage = userMessage.toLowerCase();
-
-        if (mode === "personal") {
-            // Personal mode responses
-            if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-                return "Hello! I'm here to tell you all about Kenneth. What would you like to know?";
-            } else if (lowerMessage.includes("hobby") || lowerMessage.includes("hobbies")) {
-                return "Kenneth enjoys coding, learning new technologies, and contributing to open-source projects. He's passionate about problem-solving and building innovative solutions!";
-            } else if (lowerMessage.includes("location") || lowerMessage.includes("where")) {
-                return "Kenneth is based in Allen, Northern Samar, Philippines. He's open to remote opportunities worldwide!";
-            } else if (lowerMessage.includes("contact") || lowerMessage.includes("email")) {
-                return "You can reach Kenneth at keanolida7296@gmail.com or connect with him on LinkedIn!";
-            } else if (lowerMessage.includes("education") || lowerMessage.includes("study")) {
-                return "Kenneth has a strong background in software development and is always learning new technologies to stay current in the field.";
-            } else if (lowerMessage.includes("interest") || lowerMessage.includes("passionate")) {
-                return "Kenneth is passionate about full-stack development, AI/ML, cloud technologies, and creating impactful software solutions!";
-            } else {
-                return "That's an interesting question! Kenneth is a dedicated software developer with a passion for technology. Feel free to ask me more specific questions about his background, education, or interests!";
-            }
-        } else if (mode === "portfolio") {
-            // Portfolio/GitHub mode responses
-            if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-                return "Hi! Ready to explore Kenneth's technical work? Ask me about his projects, skills, or GitHub repositories!";
-            } else if (lowerMessage.includes("skill") || lowerMessage.includes("technology")) {
-                return "Kenneth is proficient in React, TypeScript, Node.js, Python, Docker, and many other modern technologies. Check out the Skills section for a complete list!";
-            } else if (lowerMessage.includes("project") || lowerMessage.includes("portfolio")) {
-                return "Kenneth has worked on various projects including web applications, APIs, and cloud solutions. You can view his projects in the Projects section or visit his GitHub profile!";
-            } else if (lowerMessage.includes("github") || lowerMessage.includes("repository")) {
-                return "You can find Kenneth's code and projects on GitHub at github.com/ken-027. He actively contributes to open-source and maintains several repositories!";
-            } else if (lowerMessage.includes("experience") || lowerMessage.includes("work")) {
-                return "Kenneth has experience in full-stack development, DevOps, and cloud technologies. Check the Experience section for detailed information about his professional journey!";
-            } else if (lowerMessage.includes("language") || lowerMessage.includes("programming")) {
-                return "Kenneth works with JavaScript/TypeScript, Python, Go, and more. He's experienced in both frontend and backend development!";
-            } else if (lowerMessage.includes("framework") || lowerMessage.includes("library")) {
-                return "Kenneth uses React, Next.js, Express, FastAPI, and other modern frameworks. He's always exploring new technologies to build better solutions!";
-            } else {
-                return "Great question! Kenneth has extensive experience in software development. You can explore his projects, check his GitHub, or ask me specific questions about his technical skills!";
-            }
-        }
-        return "I'm not sure how to answer that. Could you please rephrase your question?";
-    };
-
-    const handleSendMessage = () => {
-        if (!inputText.trim() || !chatMode) return;
+    const handleSendMessage = async () => {
+        if (!inputMessage.trim() || isLoading) return;
 
         const userMessage: Message = {
             id: Date.now().toString(),
-            text: inputText,
-            sender: "user",
-            timestamp: new Date(),
+            type: 'user',
+            content: inputMessage,
+            timestamp: new Date()
         };
 
-        setMessages((prev) => [...prev, userMessage]);
-        setInputText("");
-        setIsTyping(true);
+        setMessages(prev => [...prev, userMessage]);
+        setInputMessage('');
+        setIsLoading(true);
 
-        // Simulate bot typing delay
-        setTimeout(() => {
-            const botResponse: Message = {
+        try {
+            const reader = await chatStream(inputMessage, agent);
+            let botResponse = '';
+
+            const botMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                text: getBotResponse(inputText, chatMode),
-                sender: "bot",
+                type: 'bot',
+                content: '',
                 timestamp: new Date(),
+                agent: agent
             };
-            setMessages((prev) => [...prev, botResponse]);
-            setIsTyping(false);
-        }, 1000 + Math.random() * 1000);
+
+            setMessages(prev => [...prev, botMessage]);
+
+            const decoder = new TextDecoder();
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                botResponse += chunk;
+
+                setMessages(prev =>
+                    prev.map(msg =>
+                        msg.id === botMessage.id
+                            ? { ...msg, content: botResponse }
+                            : msg
+                    )
+                );
+            }
+        } catch (error) {
+            const errorMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                type: 'bot',
+                content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
+                timestamp: new Date(),
+                agent: agent
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter" && !e.shiftKey) {
+    const handleKeyPress = (e: any) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSendMessage();
         }
     };
 
-    const handleClose = () => {
-        setIsOpen(false);
-        // Reset chat after closing animation
-        setTimeout(() => {
-            setChatMode(null);
-            setMessages([]);
-        }, 300);
-    };
-
-    const handleBack = () => {
-        setChatMode(null);
-        setMessages([]);
-    };
-
     return (
         <>
-            {/* Floating Chat Button */}
-            <AnimatePresence>
-                {!isOpen && (
-                    <motion.button
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0, opacity: 0 }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 z-50 p-4 bg-linear-to-r from-cyan-500 to-blue-500 text-white rounded-full shadow-2xl shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all"
-                        aria-label="Open chat"
-                    >
-                        <FaComments className="text-2xl" />
-                        
-                        {/* Pulse indicator */}
-                        <span className="absolute top-0 right-0 flex h-3 w-3">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-                        </span>
-                    </motion.button>
-                )}
-            </AnimatePresence>
+            {/* Chat Toggle Button */}
+            <motion.button
+                onClick={() => setIsOpen(!isOpen)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center ${isOpen ? 'rotate-180' : ''
+                    }`}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
+                {isOpen ? <FaTimes className="text-xl" /> : <FaComments className="text-xl" />}
 
-            {/* Chat Modal */}
+                {/* Pulse animation when closed */}
+                {!isOpen && (
+                    <motion.div
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        style={{ opacity: 0.3 }}
+                    />
+                )}
+            </motion.button>
+
+            {/* Chat Window */}
             <AnimatePresence>
                 {isOpen && (
-                    <>
-                        {/* Backdrop */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={handleClose}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
-                        />
-
-                        {/* Chat Window */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                            className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-3rem)] bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 flex flex-col overflow-hidden"
-                        >
-                            {/* Header */}
-                            <div className="bg-linear-to-r from-cyan-500 to-blue-500 p-4 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    {chatMode && (
-                                        <motion.button
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            onClick={handleBack}
-                                            className="text-white/80 hover:text-white transition-colors"
-                                        >
-                                            ←
-                                        </motion.button>
-                                    )}
-                                    <FaRobot className="text-2xl text-white" />
-                                    <div>
-                                        <h3 className="text-white font-bold">
-                                            {chatMode === "personal"
-                                                ? "Personal Assistant"
-                                                : chatMode === "portfolio"
-                                                ? "Portfolio Assistant"
-                                                : "Kenneth's Assistant"}
-                                        </h3>
-                                        <p className="text-white/80 text-xs">
-                                            {chatMode ? "Online" : "Select a mode"}
-                                        </p>
-                                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        className="fixed bottom-24 right-6 z-40 w-96 max-w-[calc(100vw-3rem)] h-[500px] bg-slate-800/95 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden"
+                    >
+                        {/* Header */}
+                        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-b border-slate-700/50 p-4">
+                            <div className="flex items-center justify-between mb-3">
+                                <h3 className="text-white font-semibold flex items-center gap-2">
+                                    <FaRobot className="text-cyan-400" />
+                                    AI Assistant
+                                </h3>
+                                <div className="flex gap-2">
+                                    <motion.button
+                                        onClick={() => handleAgentSwitch('portfolio')}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${agent === 'portfolio'
+                                            ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
+                                            : 'bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-cyan-400'
+                                            }`}
+                                    >
+                                        <FaCode className="inline mr-1" />
+                                        Portfolio
+                                    </motion.button>
+                                    <motion.button
+                                        onClick={() => handleAgentSwitch('github')}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${agent === 'github'
+                                            ? 'bg-gradient-to-r from-purple-500 to-violet-500 text-white shadow-lg'
+                                            : 'bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-purple-400'
+                                            }`}
+                                    >
+                                        <FaGithub className="inline mr-1" />
+                                        GitHub
+                                    </motion.button>
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.1, rotate: 90 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    onClick={handleClose}
-                                    className="text-white/80 hover:text-white transition-colors"
+                            </div>
+                            <p className="text-xs text-slate-400">
+                                Currently in <span className={`font-medium ${
+                                    agent === 'github' ? 'text-purple-400' : 'text-cyan-400'
+                                }`}>{agent}</span> mode
+                            </p>
+                        </div>
+
+                        {/* Messages */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3 h-80">
+                            <AnimatePresence>
+                                {messages.map((message) => (
+                                    <motion.div
+                                        key={message.id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className={`flex gap-2 ${message.type === 'user' ? 'justify-end' : 'justify-start'
+                                            }`}
+                                    >
+                                        {message.type === 'bot' && (
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                message.agent === 'github'
+                                                    ? 'bg-gradient-to-r from-purple-500 to-violet-500'
+                                                    : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                                            }`}>
+                                                {message.agent === 'github' ? (
+                                                    <FaGithub className="text-white text-sm" />
+                                                ) : (
+                                                    <FaCode className="text-white text-sm" />
+                                                )}
+                                            </div>
+                                        )}
+                                        <div
+                                            className={`max-w-[80%] p-3 rounded-2xl text-sm ${message.type === 'user'
+                                                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
+                                                : 'bg-slate-700/50 text-slate-100 border border-slate-600/50'
+                                                }`}
+                                        >
+                                            {message.type === 'user' ? (
+                                                <p className="whitespace-pre-wrap">{message.content}</p>
+                                            ) : (
+                                                <div className="markdown-content">
+                                                    <ReactMarkdown
+                                                        remarkPlugins={[remarkGfm]}
+                                                        rehypePlugins={[rehypeHighlight]}
+                                                        components={{
+                                                            code: ({ inline, className, children, ...props }: any) => {
+                                                                const match = /language-(\w+)/.exec(className || '');
+                                                                return !inline && match ? (
+                                                                    <pre className="bg-slate-900 p-3 rounded-lg overflow-x-auto my-2">
+                                                                        <code className={className} {...props}>
+                                                                            {children}
+                                                                        </code>
+                                                                    </pre>
+                                                                ) : (
+                                                                    <code
+                                                                        className="bg-slate-700 px-1 py-0.5 rounded text-cyan-300"
+                                                                        {...props}
+                                                                    >
+                                                                        {children}
+                                                                    </code>
+                                                                );
+                                                            },
+                                                            p: ({ children }: any) => (
+                                                                <p className="mb-2 last:mb-0">{children}</p>
+                                                            ),
+                                                            ul: ({ children }: any) => (
+                                                                <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>
+                                                            ),
+                                                            ol: ({ children }: any) => (
+                                                                <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>
+                                                            ),
+                                                            li: ({ children }: any) => (
+                                                                <li className="text-slate-200">{children}</li>
+                                                            ),
+                                                            h1: ({ children }: any) => (
+                                                                <h1 className="text-lg font-bold mb-2 text-cyan-300">{children}</h1>
+                                                            ),
+                                                            h2: ({ children }: any) => (
+                                                                <h2 className="text-md font-bold mb-2 text-cyan-300">{children}</h2>
+                                                            ),
+                                                            h3: ({ children }: any) => (
+                                                                <h3 className="text-sm font-bold mb-2 text-cyan-300">{children}</h3>
+                                                            ),
+                                                            strong: ({ children }: any) => (
+                                                                <strong className="font-bold text-cyan-300">{children}</strong>
+                                                            ),
+                                                            em: ({ children }: any) => (
+                                                                <em className="italic text-cyan-300">{children}</em>
+                                                            ),
+                                                            blockquote: ({ children }: any) => (
+                                                                <blockquote className="border-l-4 border-cyan-500 pl-4 my-2 text-slate-300 italic">
+                                                                    {children}
+                                                                </blockquote>
+                                                            ),
+                                                            a: ({ href, children }: any) => (
+                                                                <a
+                                                                    href={href}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-cyan-400 hover:text-cyan-300 underline"
+                                                                >
+                                                                    {children}
+                                                                </a>
+                                                            ),
+                                                        }}
+                                                    >
+                                                        {message.content || ''}
+                                                    </ReactMarkdown>
+                                                </div>
+                                            )}
+                                            <p className="text-xs opacity-60 mt-1">
+                                                {message.timestamp.toLocaleTimeString([], {
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
+                                            </p>
+                                        </div>
+                                        {message.type === 'user' && (
+                                            <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <FaUser className="text-slate-300 text-sm" />
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+
+                            {/* Loading indicator */}
+                            {isLoading && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex gap-2"
                                 >
-                                    <FaTimes className="text-xl" />
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                        agent === 'github'
+                                            ? 'bg-gradient-to-r from-purple-500 to-violet-500'
+                                            : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                                    }`}>
+                                        {agent === 'github' ? (
+                                            <FaGithub className="text-white text-sm" />
+                                        ) : (
+                                            <FaCode className="text-white text-sm" />
+                                        )}
+                                    </div>
+                                    <div className="bg-slate-700/50 border border-slate-600/50 p-3 rounded-2xl">
+                                        <div className="flex gap-1">
+                                            {[0, 1, 2].map((i) => (
+                                                <motion.div
+                                                    key={i}
+                                                    className={`w-2 h-2 rounded-full ${
+                                                        agent === 'github' ? 'bg-purple-400' : 'bg-cyan-400'
+                                                    }`}
+                                                    animate={{ y: [0, -4, 0] }}
+                                                    transition={{
+                                                        duration: 0.6,
+                                                        repeat: Infinity,
+                                                        delay: i * 0.1
+                                                    }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                            <div ref={messagesEndRef} />
+                        </div>
+
+                        {/* Input */}
+                        <div className="border-t border-slate-700/50 p-4">
+                            <div className="flex gap-2">
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    value={inputMessage}
+                                    onChange={(e) => setInputMessage(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    placeholder={`Ask me about ${agent === 'portfolio' ? 'projects, skills, experience...' : 'GitHub repos, code, development...'}`}
+                                    className="flex-1 bg-slate-700/50 border border-slate-600/50 rounded-xl px-4 py-2 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-cyan-500/50 transition-colors"
+                                    disabled={isLoading}
+                                />
+                                <motion.button
+                                    onClick={handleSendMessage}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    disabled={isLoading || !inputMessage.trim()}
+                                    className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-lg"
+                                >
+                                    <FaPaperPlane className="text-sm" />
                                 </motion.button>
                             </div>
-
-                            {/* Content Area */}
-                            {!chatMode ? (
-                                // Mode Selection
-                                <div className="flex-1 flex flex-col items-center justify-center p-6 gap-4">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.1 }}
-                                        className="text-center mb-4"
-                                    >
-                                        <h4 className="text-xl font-bold text-white mb-2">
-                                            How can I help you?
-                                        </h4>
-                                        <p className="text-slate-400 text-sm">
-                                            Choose an interaction mode
-                                        </p>
-                                    </motion.div>
-
-                                    {/* Personal Mode Button */}
-                                    <motion.button
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.2 }}
-                                        whileHover={{ scale: 1.03, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => handleModeSelect("personal")}
-                                        className="w-full p-6 bg-linear-to-br from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 rounded-xl transition-all group"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-purple-500/20 rounded-lg group-hover:bg-purple-500/30 transition-all">
-                                                <FaUser className="text-2xl text-purple-400" />
-                                            </div>
-                                            <div className="text-left">
-                                                <h5 className="text-white font-bold text-lg mb-1">
-                                                    Personal
-                                                </h5>
-                                                <p className="text-slate-400 text-sm">
-                                                    Learn about Kenneth's background, interests, and more
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </motion.button>
-
-                                    {/* Portfolio/GitHub Mode Button */}
-                                    <motion.button
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.3 }}
-                                        whileHover={{ scale: 1.03, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => handleModeSelect("portfolio")}
-                                        className="w-full p-6 bg-linear-to-br from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/30 rounded-xl transition-all group"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="p-3 bg-cyan-500/20 rounded-lg group-hover:bg-cyan-500/30 transition-all">
-                                                <FaGithub className="text-2xl text-cyan-400" />
-                                            </div>
-                                            <div className="text-left">
-                                                <h5 className="text-white font-bold text-lg mb-1">
-                                                    Portfolio / GitHub
-                                                </h5>
-                                                <p className="text-slate-400 text-sm">
-                                                    Explore projects, skills, and technical expertise
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </motion.button>
-                                </div>
-                            ) : (
-                                // Chat Interface
-                                <>
-                                    {/* Messages Area */}
-                                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                                        {messages.map((message, index) => (
-                                            <motion.div
-                                                key={message.id}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: index * 0.05 }}
-                                                className={`flex gap-3 ${
-                                                    message.sender === "user"
-                                                        ? "flex-row-reverse"
-                                                        : "flex-row"
-                                                }`}
-                                            >
-                                                {/* Avatar */}
-                                                <div
-                                                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                                                        message.sender === "user"
-                                                            ? "bg-linear-to-br from-cyan-500 to-blue-500"
-                                                            : chatMode === "personal"
-                                                            ? "bg-linear-to-br from-purple-500 to-pink-500"
-                                                            : "bg-linear-to-br from-cyan-500 to-blue-500"
-                                                    }`}
-                                                >
-                                                    {message.sender === "user" ? (
-                                                        <FaUser className="text-white text-xs" />
-                                                    ) : chatMode === "personal" ? (
-                                                        <FaUser className="text-white text-xs" />
-                                                    ) : (
-                                                        <FaCode className="text-white text-xs" />
-                                                    )}
-                                                </div>
-
-                                                {/* Message Bubble */}
-                                                <div
-                                                    className={`max-w-[75%] p-3 rounded-2xl ${
-                                                        message.sender === "user"
-                                                            ? "bg-linear-to-br from-cyan-500 to-blue-500 text-white"
-                                                            : "bg-slate-800/50 text-slate-200 border border-slate-700/50"
-                                                    }`}
-                                                >
-                                                    <p className="text-sm leading-relaxed">
-                                                        {message.text}
-                                                    </p>
-                                                    <span className="text-xs opacity-60 mt-1 block">
-                                                        {message.timestamp.toLocaleTimeString([], {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        })}
-                                                    </span>
-                                                </div>
-                                            </motion.div>
-                                        ))}
-
-                                        {/* Typing Indicator */}
-                                        {isTyping && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                className="flex gap-3"
-                                            >
-                                                <div
-                                                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                                                        chatMode === "personal"
-                                                            ? "bg-linear-to-br from-purple-500 to-pink-500"
-                                                            : "bg-linear-to-br from-cyan-500 to-blue-500"
-                                                    }`}
-                                                >
-                                                    {chatMode === "personal" ? (
-                                                        <FaUser className="text-white text-xs" />
-                                                    ) : (
-                                                        <FaCode className="text-white text-xs" />
-                                                    )}
-                                                </div>
-                                                <div className="bg-slate-800/50 border border-slate-700/50 p-3 rounded-2xl">
-                                                    <div className="flex gap-1">
-                                                        <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
-                                                        <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
-                                                        <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                        <div ref={messagesEndRef} />
-                                    </div>
-
-                                    {/* Input Area */}
-                                    <div className="p-4 bg-slate-800/30 border-t border-slate-800/50">
-                                        <div className="flex gap-2">
-                                            <input
-                                                type="text"
-                                                value={inputText}
-                                                onChange={(e) => setInputText(e.target.value)}
-                                                onKeyPress={handleKeyPress}
-                                                placeholder="Type your message..."
-                                                className="flex-1 px-4 py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 transition-all"
-                                            />
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                onClick={handleSendMessage}
-                                                disabled={!inputText.trim()}
-                                                className="px-4 py-3 bg-linear-to-r from-cyan-500 to-blue-500 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:shadow-cyan-500/30"
-                                            >
-                                                <FaPaperPlane />
-                                            </motion.button>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </motion.div>
-                    </>
+                        </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>

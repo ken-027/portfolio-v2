@@ -220,7 +220,7 @@ const Contact = () => {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={socialData.name}
-                                                className="p-3 bg-slate-700/50 rounded-lg hover:bg-linear-to-br hover:from-cyan-500 hover:to-blue-500 text-slate-300 hover:text-white transition-all"
+                                                className="p-3 bg-slate-700/50 rounded-lg hover:bg-linear-to-br hover:from-cyan-500 hover:to-blue-500 text-slate-300 hover:text-white transition-colors"
                                             >
                                                 <Icon className="text-xl" />
                                             </motion.a>

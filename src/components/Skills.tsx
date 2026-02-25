@@ -92,10 +92,10 @@ const Skills = () => {
 
     if (loading) {
         return (
-            <section id="skills" className="py-20 bg-transparent">
-                <div className="container mx-auto px-4">
-                    <div className="flex items-center justify-center h-64">
-                        <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
+            <section id="skills" className="py-12 bg-transparent">
+                <div className="container mx-auto px-6 max-w-7xl">
+                    <div className="flex items-center justify-center h-40">
+                        <FaSpinner className="text-3xl text-cyan-400 animate-spin" />
                     </div>
                 </div>
             </section>
@@ -104,8 +104,8 @@ const Skills = () => {
 
     if (error) {
         return (
-            <section id="skills" className="py-20 bg-transparent">
-                <div className="container mx-auto px-4">
+            <section id="skills" className="py-12 bg-transparent">
+                <div className="container mx-auto px-6 max-w-7xl">
                     <div className="text-center text-red-400">
                         <p>Error loading skills: {error}</p>
                     </div>
@@ -118,24 +118,24 @@ const Skills = () => {
     const skillCategories = data?.data || [];
 
     return (
-        <section id="skills" className="py-20 bg-transparent">
-            <div className="container mx-auto px-4">
+        <section id="skills" className="py-12 bg-transparent">
+            <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-3">
                         <span className="text-gradient">Skills & Technologies</span>
                     </h2>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                    <p className="text-slate-400 text-base max-w-2xl mx-auto">
                         Tools and technologies I work with
                     </p>
                 </motion.div>
 
-                <div className="max-w-7xl mx-auto space-y-14">
+                <div className="max-w-7xl mx-auto space-y-8">
                     {skillCategories.map((category, categoryIndex) => {
                         const Icon = getCategoryIcon(category.name);
                         const categoryColor = getCategoryColor(category.name);
@@ -150,20 +150,20 @@ const Skills = () => {
                                 className="relative"
                             >
                                 {/* Category Header */}
-                                <div className="relative mb-6">
-                                    <div className="flex items-center gap-4">
+                                <div className="relative mb-4">
+                                    <div className="flex items-center gap-3">
                                         <motion.div
                                             whileHover={{ scale: 1.05, rotate: 5 }}
-                                            className={`p-3 bg-linear-to-br ${categoryColor} rounded-xl border shadow-lg`}
+                                            className={`p-2 bg-linear-to-br ${categoryColor} rounded-lg border shadow-lg`}
                                         >
-                                            <Icon className="text-2xl" />
+                                            <Icon className="text-xl" />
                                         </motion.div>
                                         <div>
-                                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">{category.name}</h3>
-                                            <p className="text-sm text-slate-400">{category.items?.length} technologies</p>
+                                            <h3 className="text-xl md:text-2xl font-bold text-white mb-0.5">{category.name}</h3>
+                                            <p className="text-xs text-slate-400">{category.items?.length} technologies</p>
                                         </div>
                                     </div>
-                                    <div className={`absolute -bottom-2 left-0 right-0 h-px bg-linear-to-r ${categoryColor} opacity-30`}></div>
+                                    <div className={`absolute -bottom-1 left-0 right-0 h-px bg-linear-to-r ${categoryColor} opacity-30`}></div>
                                 </div>
 
                                 {/* Skills Grid */}
@@ -172,7 +172,7 @@ const Skills = () => {
                                     initial="hidden"
                                     whileInView="visible"
                                     viewport={{ once: true, margin: "-50px" }}
-                                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+                                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3"
                                 >
                                     {category.items?.map((skill, skillIndex) => {
                                         const proficiencyColor = getProficiencyColor(skill.proficiency);
@@ -188,7 +188,7 @@ const Skills = () => {
                                                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency level`}
                                                 data-tooltip-place="top"
                                             >
-                                                <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700/50 hover:border-cyan-500/50 transition-all h-full flex flex-col items-center justify-center gap-3 overflow-hidden">
+                                                <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 hover:border-cyan-500/50 transition-all h-full flex flex-col items-center justify-center gap-2 overflow-hidden">
                                                     {/* Animated Background Glow */}
                                                     <motion.div
                                                         className={`absolute inset-0 bg-linear-to-br ${proficiencyColor} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
@@ -218,18 +218,18 @@ const Skills = () => {
 
                                                     {/* Skill Icon */}
                                                     {skill.icon && (
-                                                        <div className="w-14 h-14 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10">
+                                                        <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10">
                                                             <img
                                                                 src={skill.icon}
                                                                 alt={skill.name}
-                                                                className="w-full h-full object-contain filter drop-shadow-2xl"
+                                                                className="w-full h-full object-contain filter drop-shadow-lg"
                                                                 onError={(e) => (e.currentTarget.style.display = 'none')}
                                                             />
                                                         </div>
                                                     )}
 
                                                     {/* Skill Name */}
-                                                    <h4 className="font-semibold text-white text-sm text-center leading-tight group-hover:text-cyan-400 transition-colors line-clamp-2 relative z-10">
+                                                    <h4 className="font-semibold text-white text-xs text-center leading-tight group-hover:text-cyan-400 transition-colors line-clamp-2 relative z-10">
                                                         {skill.name}
                                                     </h4>
 
@@ -252,7 +252,7 @@ const Skills = () => {
                                                     </div>
 
                                                     {/* Proficiency Text - Small */}
-                                                    <div className="text-[10px] font-medium text-slate-500 group-hover:text-slate-400 transition-colors capitalize relative z-10">
+                                                    <div className="text-[9px] font-medium text-slate-500 group-hover:text-slate-400 transition-colors capitalize relative z-10">
                                                         {skill.proficiency}
                                                     </div>
                                                 </div>

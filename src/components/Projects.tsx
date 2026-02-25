@@ -199,21 +199,22 @@ const Projects = () => {
     }
 
     return (
-        <section id="projects" className="py-20 bg-slate-900/20">
-            <div className="container mx-auto px-4">
+        <section id="projects" className="py-12 bg-gradient-to-b from-transparent to-slate-950/30">
+            <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        <span className="text-gradient">Featured Projects</span>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                        <span className="text-gradient bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+                            Featured Projects
+                        </span>
                     </h2>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                        A collection of personal, professional, and freelance projects
-                        showcasing my expertise
+                    <p className="text-slate-400 text-base max-w-2xl mx-auto">
+                        Crafted with precision and passion—showcasing innovation through code
                     </p>
                 </motion.div>
 
@@ -223,117 +224,103 @@ const Projects = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="max-w-7xl mx-auto mb-12"
+                    className="mb-8"
                 >
-                    {/* Type Filter */}
-                    <div className="mb-6">
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaFolder className="text-cyan-400 text-lg" />
-                            <h3 className="text-lg font-semibold text-white">Project Type</h3>
-                        </div>
-                        <div className="flex flex-wrap gap-3">
-                            {projectTypes.map((type) => (
-                                <motion.button
-                                    key={type}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => setSelectedType(type)}
-                                    data-tooltip-id="quick-tooltip"
-                                    data-tooltip-content={
-                                        type === "all" ? "Show all projects" : (
-                                            `Filter: ${type} projects only`
-                                        )
-                                    }
-                                    className={`px-4 py-2 rounded-lg font-medium transition-all capitalize ${selectedType === type ?
-                                        "bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30"
-                                        : "bg-slate-800/50 text-slate-300 border border-slate-700 hover:border-cyan-500/50 hover:text-white"
-                                        }`}
-                                >
-                                    {type}
-                                    <span className="ml-2 text-xs opacity-70">
-                                        (
-                                        {type === "all" ?
-                                            allProjects.length
-                                            : allProjects.filter((p) => p.type?.toLowerCase() === type)
-                                                .length
-                                        }
-                                        )
-                                    </span>
-                                </motion.button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Category Filter */}
-                    <div>
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaFilter className="text-cyan-400 text-lg" />
-                            <h3 className="text-lg font-semibold text-white">Category</h3>
-                        </div>
-                        <div className="flex flex-wrap gap-3">
-                            {projectCategories.map((category) => {
-                                const categoryInfo = getCategoryInfo(category);
-                                return (
+                    <div className="bg-slate-900/30 backdrop-blur-sm rounded-xl p-4 border border-slate-800/50">
+                        {/* Type Filter */}
+                        <div className="mb-4">
+                            <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+                                Project Type
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {projectTypes.map((type) => (
                                     <motion.button
-                                        key={category}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => setSelectedCategory(category)}
-                                        data-tooltip-id="quick-tooltip"
-                                        data-tooltip-content={
-                                            category === "all" ?
-                                                "Show all categories"
-                                                : `Filter: ${categoryInfo.text} projects only`
-                                        }
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all capitalize ${selectedCategory === category ?
-                                            `bg-linear-to-r ${categoryInfo.color} text-white shadow-lg`
-                                            : "bg-slate-800/50 text-slate-300 border border-slate-700 hover:border-cyan-500/50 hover:text-white"
+                                        key={type}
+                                        whileHover={{ scale: 1.02, y: -1 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => setSelectedType(type)}
+                                        className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedType === type ?
+                                            "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25"
+                                            : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-cyan-500/30 hover:text-white hover:bg-slate-800/80"
                                             }`}
                                     >
-                                        {category !== "all" && (
-                                            <categoryInfo.Icon className="text-sm" />
-                                        )}
-                                        {category === "all" ? "All" : categoryInfo.text}
-                                        <span className="text-xs opacity-70">
-                                            (
-                                            {category === "all" ?
+                                        {type}
+                                        <span className="ml-1.5 text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
+                                            {type === "all" ?
                                                 allProjects.length
-                                                : allProjects.filter(
-                                                    (p) => p.category?.toLowerCase() === category,
-                                                ).length
+                                                : allProjects.filter((p) => p.type?.toLowerCase() === type).length
                                             }
-                                            )
                                         </span>
                                     </motion.button>
-                                );
-                            })}
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Category Filter */}
+                        <div>
+                            <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
+                                Category
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {projectCategories.map((category) => {
+                                    const categoryInfo = getCategoryInfo(category);
+                                    return (
+                                        <motion.button
+                                            key={category}
+                                            whileHover={{ scale: 1.02, y: -1 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            onClick={() => setSelectedCategory(category)}
+                                            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedCategory === category ?
+                                                `bg-gradient-to-r ${categoryInfo.color} text-white shadow-lg shadow-blue-500/25`
+                                                : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-purple-500/30 hover:text-white hover:bg-slate-800/80"
+                                                }`}
+                                        >
+                                            {category !== "all" && (
+                                                <categoryInfo.Icon className="text-xs" />
+                                            )}
+                                            {category === "all" ? "All" : categoryInfo.text}
+                                            <span className="text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
+                                                {category === "all" ?
+                                                    allProjects.length
+                                                    : allProjects.filter(
+                                                        (p) => p.category?.toLowerCase() === category,
+                                                    ).length
+                                                }
+                                            </span>
+                                        </motion.button>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
 
                     {/* Active Filters Summary */}
                     {(selectedType !== "all" || selectedCategory !== "all") && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mt-6 p-4 bg-slate-800/30 border border-slate-700/50 rounded-lg"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="mt-3 p-3 bg-gradient-to-r from-slate-900/50 to-slate-800/50 backdrop-blur-sm border border-slate-700/30 rounded-lg"
                         >
-                            <div className="flex items-center justify-between flex-wrap gap-3">
-                                <div className="flex items-center gap-2 text-sm text-slate-300">
-                                    <span className="font-medium text-cyan-400">
-                                        Showing {filteredProjects.length} of {allProjects.length}{" "}
-                                        projects
+                            <div className="flex items-center justify-between flex-wrap gap-2">
+                                <div className="flex items-center gap-2 text-sm">
+                                    <span className="font-semibold text-cyan-400 text-sm">
+                                        {filteredProjects.length} of {allProjects.length} projects
                                     </span>
-                                    {selectedType !== "all" && (
-                                        <span className="px-2 py-1 bg-slate-700 rounded text-xs capitalize">
-                                            Type: {selectedType}
-                                        </span>
-                                    )}
-                                    {selectedCategory !== "all" && (
-                                        <span className="px-2 py-1 bg-slate-700 rounded text-xs capitalize">
-                                            Category: {getCategoryInfo(selectedCategory).text}
-                                        </span>
-                                    )}
+                                    <div className="flex items-center gap-1.5">
+                                        {selectedType !== "all" && (
+                                            <span className="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 capitalize">
+                                                {selectedType}
+                                            </span>
+                                        )}
+                                        {selectedCategory !== "all" && (
+                                            <span className="px-2 py-0.5 bg-purple-500/10 border border-purple-500/20 rounded-full text-xs text-purple-400 capitalize">
+                                                {getCategoryInfo(selectedCategory).text}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
@@ -342,9 +329,9 @@ const Projects = () => {
                                         setSelectedType("all");
                                         setSelectedCategory("all");
                                     }}
-                                    className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm text-white transition-colors"
+                                    className="px-3 py-1 bg-slate-700/60 hover:bg-slate-600/60 border border-slate-600/50 rounded text-xs text-white transition-all duration-200 font-medium"
                                 >
-                                    Clear Filters
+                                    Clear
                                 </motion.button>
                             </div>
                         </motion.div>
@@ -356,7 +343,7 @@ const Projects = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
                 >
                     {filteredProjects.map((project, index) => {
                         const categoryInfo = getCategoryInfo(project.category);
@@ -366,38 +353,38 @@ const Projects = () => {
                             <motion.div
                                 key={index}
                                 variants={itemVariants}
-                                whileHover={{ y: -8 }}
+                                whileHover={{ y: -12, scale: 1.02 }}
                                 className="group"
                             >
-                                <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-cyan-500/50 transition-all h-full flex flex-col overflow-hidden shadow-lg hover:shadow-cyan-500/20">
+                                <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-cyan-400/40 transition-all duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10">
                                     {/* Project Image or Default Thumbnail */}
-                                    <div className="relative h-48 overflow-hidden bg-slate-900">
+                                    <div className="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                                         {project.thumbnailLink ? (
                                             <>
                                                 <img
                                                     src={project.thumbnailLink}
                                                     alt={project.title}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                                                     onError={(e) => {
                                                         e.currentTarget.style.display = "none";
                                                     }}
                                                 />
-                                                <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent"></div>
                                             </>
                                         ) : (
                                             // Default Thumbnail
-                                            <div className={`w-full h-full bg-linear-to-br ${categoryInfo.color} opacity-20 flex items-center justify-center group-hover:opacity-30 transition-opacity duration-500`}>
-                                                <categoryInfo.Icon className="text-6xl text-slate-700/50" />
+                                            <div className={`w-full h-full bg-gradient-to-br ${categoryInfo.color} opacity-15 flex items-center justify-center group-hover:opacity-25 transition-all duration-500`}>
+                                                <categoryInfo.Icon className="text-5xl text-slate-600/40 group-hover:text-slate-500/60 transition-colors duration-500" />
                                             </div>
                                         )}
 
                                         {/* Category Badge on Image */}
-                                        <div className="absolute top-3 left-3">
+                                        <div className="absolute top-2 left-2">
                                             <div
-                                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-linear-to-r ${categoryInfo.color} shadow-lg`}
+                                                className={`flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gradient-to-r ${categoryInfo.color} shadow-lg backdrop-blur-sm`}
                                             >
-                                                <categoryInfo.Icon className="text-white text-sm" />
-                                                <span className="text-white text-xs font-semibold">
+                                                <categoryInfo.Icon className="text-white text-xs" />
+                                                <span className="text-white text-[10px] font-bold tracking-wide">
                                                     {categoryInfo.text}
                                                 </span>
                                             </div>
@@ -405,10 +392,10 @@ const Projects = () => {
 
                                         {/* AI Badge on Image */}
                                         {project.aiPowered && (
-                                            <div className="absolute top-3 right-3">
-                                                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-linear-to-r from-violet-500 to-fuchsia-500 shadow-lg animate-pulse">
-                                                    <FaRobot className="text-white text-sm" />
-                                                    <span className="text-white text-xs font-semibold">
+                                            <div className="absolute top-2 right-2">
+                                                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 shadow-lg backdrop-blur-sm">
+                                                    <FaRobot className="text-white text-xs animate-pulse" />
+                                                    <span className="text-white text-[10px] font-bold tracking-wide">
                                                         AI
                                                     </span>
                                                 </div>
@@ -416,21 +403,21 @@ const Projects = () => {
                                         )}
                                     </div>
 
-                                    <div className="p-5 flex flex-col flex-1">
-                                        {/* Links Row */}
-                                        <div className="flex items-center justify-between mb-3">
-                                            {/* Type & Role Badges - Labels visible, no tooltips needed */}
-                                            <div className="flex flex-wrap gap-2">
+                                    <div className="p-4 flex flex-col flex-1">
+                                        {/* Header Row */}
+                                        <div className="flex items-start justify-between mb-3">
+                                            {/* Type & Role Badges */}
+                                            <div className="flex flex-wrap gap-1.5 mb-1">
                                                 {project.type && (
                                                     <span
-                                                        className={`px-2 py-0.5 rounded text-[10px] font-medium border ${getTypeColor(project.type)}`}
+                                                        className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getTypeColor(project.type)}`}
                                                     >
                                                         {project.type}
                                                     </span>
                                                 )}
                                                 {project.projectRole && (
                                                     <span
-                                                        className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-300 border border-slate-600"
+                                                        className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-700/40 text-slate-300 border border-slate-600/50"
                                                         data-tooltip-id="info-tooltip"
                                                         data-tooltip-content={`My role: ${project.projectRole}`}
                                                     >
@@ -442,114 +429,106 @@ const Projects = () => {
                                                 )}
                                             </div>
 
-                                            {/* Action Links - Important actions, keep informative tooltips */}
+                                            {/* Action Links */}
                                             <div className="flex gap-2">
                                                 {project.githubRepo && (
                                                     <motion.a
-                                                        whileHover={{ scale: 1.15, rotate: 5 }}
-                                                        whileTap={{ scale: 0.9 }}
+                                                        whileHover={{ scale: 1.1, y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                         href={project.githubRepo}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-1.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors"
+                                                        className="p-2 bg-slate-700/40 hover:bg-slate-600/60 rounded-lg text-slate-400 hover:text-white transition-all duration-300 border border-slate-600/30 hover:border-slate-500/50"
                                                         aria-label="View on GitHub"
-                                                        data-tooltip-id="portfolio-tooltip"
-                                                        data-tooltip-content="View source code - Click to open GitHub"
                                                     >
-                                                        <FaGithub className="text-base" />
+                                                        <FaGithub className="text-sm" />
                                                     </motion.a>
                                                 )}
                                                 {project.dockerLink && (
                                                     <motion.a
-                                                        whileHover={{ scale: 1.15, rotate: 5 }}
-                                                        whileTap={{ scale: 0.9 }}
+                                                        whileHover={{ scale: 1.1, y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                         href={project.dockerLink}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-1.5 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg text-blue-400 hover:text-blue-300 transition-colors"
+                                                        className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg text-blue-400 hover:text-blue-300 transition-all duration-300 border border-blue-500/20 hover:border-blue-400/40"
                                                         aria-label="View on Docker Hub"
-                                                        data-tooltip-id="portfolio-tooltip"
-                                                        data-tooltip-content="Pull Docker image - Click to view on Docker Hub"
                                                     >
-                                                        <FaDocker className="text-base" />
+                                                        <FaDocker className="text-sm" />
                                                     </motion.a>
                                                 )}
                                                 {(project.liveDemo || project.screenshot) && (
                                                     <motion.a
-                                                        whileHover={{ scale: 1.15, rotate: 5 }}
-                                                        whileTap={{ scale: 0.9 }}
+                                                        whileHover={{ scale: 1.1, y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                         href={project.liveDemo || project.screenshot}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-colors"
+                                                        className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-all duration-300 border border-cyan-500/20 hover:border-cyan-400/40"
                                                         aria-label="View Live Project"
-                                                        data-tooltip-id="portfolio-tooltip"
-                                                        data-tooltip-content={
-                                                            project.liveDemo ?
-                                                                "Open live demo - Click to visit site"
-                                                                : "View project screenshot"
-                                                        }
                                                     >
-                                                        <FaExternalLinkAlt className="text-base" />
+                                                        <FaExternalLinkAlt className="text-sm" />
                                                     </motion.a>
                                                 )}
                                             </div>
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
+                                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2 leading-tight">
                                             {project.title}
                                         </h3>
 
                                         {/* Description */}
-                                        <p className="text-slate-300 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+                                        <p className="text-slate-300 text-sm leading-relaxed mb-3 flex-1 line-clamp-2">
                                             {project.description}
                                         </p>
 
-                                        {/* Technologies - Informative tooltips for skill details */}
+                                        {/* Technologies */}
                                         {project.technologies &&
                                             Array.isArray(project.technologies) &&
                                             project.technologies.length > 0 && (
-                                                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-700/50">
-                                                    {project.technologies.slice(0, 6).map((tech, i) => (
-                                                        <div
-                                                            key={i}
-                                                            className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/50 border border-slate-700 rounded hover:border-cyan-500/50 transition-colors group/tech"
-                                                            data-tooltip-id="info-tooltip"
-                                                            data-tooltip-content={`${tech.name}${tech.proficiency ? " - " + tech.proficiency
-                                                                : tech.level ? " - Level " + tech.level
-                                                                    : ""
-                                                                }`}
-                                                        >
-                                                            {tech.icon && (
-                                                                <img
-                                                                    src={tech.icon}
-                                                                    alt={tech.name}
-                                                                    className="w-3 h-3 object-contain"
-                                                                    onError={(e) => {
-                                                                        e.currentTarget.style.display = "none";
-                                                                    }}
-                                                                />
-                                                            )}
-                                                            <span className="text-[10px] text-slate-400 group-hover/tech:text-cyan-400">
-                                                                {tech.name}
-                                                            </span>
-                                                            {tech.level && (
-                                                                <span className="text-[9px] text-slate-500">
-                                                                    Lv{tech.level}
+                                                <div className="mt-auto">
+                                                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-700/30">
+                                                        {project.technologies.slice(0, 5).map((tech, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/40 border border-slate-700/40 rounded-full hover:border-cyan-500/40 transition-all duration-300 group/tech"
+                                                                data-tooltip-id="info-tooltip"
+                                                                data-tooltip-content={`${tech.name}${tech.proficiency ? " - " + tech.proficiency
+                                                                    : tech.level ? " - Level " + tech.level
+                                                                        : ""
+                                                                    }`}
+                                                            >
+                                                                {tech.icon && (
+                                                                    <img
+                                                                        src={tech.icon}
+                                                                        alt={tech.name}
+                                                                        className="w-3 h-3 object-contain"
+                                                                        onError={(e) => {
+                                                                            e.currentTarget.style.display = "none";
+                                                                        }}
+                                                                    />
+                                                                )}
+                                                                <span className="text-[10px] text-slate-400 group-hover/tech:text-cyan-400 transition-colors duration-300 font-medium">
+                                                                    {tech.name}
                                                                 </span>
-                                                            )}
-                                                        </div>
-                                                    ))}
-                                                    {project.technologies.length > 6 && (
-                                                        <span
-                                                            className="px-2 py-1 text-[10px] text-slate-500 font-medium cursor-help"
-                                                            data-tooltip-id="info-tooltip"
-                                                            data-tooltip-content={`More technologies: ${project.technologies.slice(6).map(t => t.name).join(', ')}`}
-                                                        >
-                                                            +{project.technologies.length - 6}
-                                                        </span>
-                                                    )}
+                                                                {tech.level && (
+                                                                    <span className="text-[9px] text-slate-500 font-medium">
+                                                                        Lv{tech.level}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                        {project.technologies.length > 5 && (
+                                                            <span
+                                                                className="px-2 py-1 text-[10px] text-slate-500 font-medium cursor-help bg-slate-900/20 rounded-full border border-slate-700/30"
+                                                                data-tooltip-id="info-tooltip"
+                                                                data-tooltip-content={`More technologies: ${project.technologies.slice(5).map(t => t.name).join(', ')}`}
+                                                            >
+                                                                +{project.technologies.length - 5}
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             )}
                                     </div>
@@ -561,34 +540,36 @@ const Projects = () => {
 
                 {filteredProjects.length === 0 && (
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center text-slate-400 py-12"
+                        transition={{ duration: 0.6 }}
+                        className="text-center text-slate-400 py-8"
                     >
-                        <FaFolder className="text-6xl text-slate-600 mx-auto mb-4" />
-                        {allProjects.length === 0 ?
-                            <p className="text-lg">No projects available</p>
-                            : <>
-                                <p className="text-lg mb-2">
-                                    No projects found matching your filters
-                                </p>
-                                <p className="text-sm text-slate-500 mb-4">
-                                    Try adjusting your filter selection
-                                </p>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => {
-                                        setSelectedType("all");
-                                        setSelectedCategory("all");
-                                    }}
-                                    className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-400 transition-colors"
-                                >
-                                    Clear All Filters
-                                </motion.button>
-                            </>
-                        }
+                        <div className="bg-slate-900/30 backdrop-blur-sm rounded-xl p-6 border border-slate-800/50 max-w-sm mx-auto">
+                            <FaFolder className="text-4xl text-slate-600/60 mx-auto mb-3" />
+                            {allProjects.length === 0 ?
+                                <p className="text-base font-medium">No projects available</p>
+                                : <>
+                                    <p className="text-base font-medium mb-2">
+                                        No projects found
+                                    </p>
+                                    <p className="text-sm text-slate-500 mb-4">
+                                        Try adjusting your filters
+                                    </p>
+                                    <motion.button
+                                        whileHover={{ scale: 1.02, y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => {
+                                            setSelectedType("all");
+                                            setSelectedCategory("all");
+                                        }}
+                                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg text-white transition-all duration-300 font-medium shadow-lg shadow-cyan-500/25 text-sm"
+                                    >
+                                        View All Projects
+                                    </motion.button>
+                                </>
+                            }
+                        </div>
                     </motion.div>
                 )}
             </div>

@@ -21,7 +21,8 @@
     "react-tooltip": "^5.30.0",
     "rehype-highlight": "^7.0.0",
     "remark-gfm": "^4.0.0",
-    "simple-icons": "^16.8.0"
+    "simple-icons": "^16.8.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

@@ -9,14 +9,19 @@ import {
     FaSpinner,
 } from 'react-icons/fa';
 import { contactInformation, socials } from '../config/socials';
+import { sendEmail } from '../services/api';
+import z from 'zod/v4';
 
-interface FormData {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
-}
+const SendEmailDto = z
+    .object({
+        name: z.string().min(1, 'Name is required').trim().min(3, 'Name must be at least 3 characters').max(30, 'Name must be less than 30 characters'),
+        subject: z.string().min(1, 'Subject is required').trim().min(5, 'Subject must be at least 5 characters').max(100, 'Subject must be less than 100 characters'),
+        email: z.string().min(1, 'Email is required').trim().email('Please enter a valid email address'),
+        message: z.string().min(1, 'Message is required').trim().min(3, 'Message must be at least 3 characters').max(500, 'Message must be less than 500 characters'),
+    })
+    .required();
 
+type SendEmailType = z.infer<typeof SendEmailDto>;
 interface FormErrors {
     name?: string;
     email?: string;
@@ -25,7 +30,7 @@ interface FormErrors {
 }
 
 const Contact = () => {
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState<SendEmailType>({
         name: '',
         email: '',
         subject: '',
@@ -59,30 +64,23 @@ const Contact = () => {
     };
 
     const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
+        try {
+            SendEmailDto.parse(formData);
+            setErrors({});
+            return true;
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const newErrors: FormErrors = {};
 
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name is required';
+                error.issues.forEach((err) => {
+                    const field = err.path[0] as keyof FormErrors;
+                    newErrors[field] = err.message;
+                });
+
+                setErrors(newErrors);
+            }
+            return false;
         }
-
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = 'Please enter a valid email';
-        }
-
-        if (!formData.subject.trim()) {
-            newErrors.subject = 'Subject is required';
-        }
-
-        if (!formData.message.trim()) {
-            newErrors.message = 'Message is required';
-        } else if (formData.message.trim().length < 10) {
-            newErrors.message = 'Message must be at least 10 characters';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -96,15 +94,7 @@ const Contact = () => {
         setSubmitStatus('idle');
 
         try {
-            // Replace this with your actual API endpoint
-            // const response = await fetch('/api/contact', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify(formData),
-            // });
-
-            // Simulating API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            await sendEmail(formData.email, formData.subject, formData.message, formData.name);
 
             setSubmitStatus('success');
             setFormData({ name: '', email: '', subject: '', message: '' });
@@ -170,7 +160,7 @@ const Contact = () => {
 
                             <div className="space-y-4">
                                 {Object.keys(contactInformation).map((contactInfo: any, index: number) => {
-                                    const contactInfoData = contactInformation[contactInfo as keyof typeof contactInformation];
+                                    const contactInfoData = contactInformation[contactInfo as keyof typeof contactInformation] as any;
                                     const Icon = contactInfoData.icon;
 
                                     return (

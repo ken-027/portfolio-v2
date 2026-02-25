@@ -133,8 +133,8 @@ const Experiences = () => {
 
     if (loading) {
         return (
-            <section id="experiences" className="py-20 bg-slate-900/20">
-                <div className="container mx-auto px-4">
+            <section id="experiences" className="py-24 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
+                <div className="container mx-auto px-6 max-w-7xl">
                     <div className="flex items-center justify-center h-64">
                         <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
                     </div>
@@ -145,8 +145,8 @@ const Experiences = () => {
 
     if (error) {
         return (
-            <section id="experiences" className="py-20 bg-slate-900/20">
-                <div className="container mx-auto px-4">
+            <section id="experiences" className="py-24 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
+                <div className="container mx-auto px-6 max-w-7xl">
                     <div className="text-center text-red-400">
                         <p>Error loading experiences: {error}</p>
                     </div>
@@ -158,20 +158,22 @@ const Experiences = () => {
     const experiences: Experience[] = data?.data || [];
 
     return (
-        <section id="experiences" className="py-20 bg-slate-900/20">
-            <div className="container mx-auto px-4">
+        <section id="experiences" className="py-12 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
+            <div className="container mx-auto px-6 max-w-7xl">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        <span className="text-gradient">Professional Experience</span>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                        <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                            Professional Experience
+                        </span>
                     </h2>
-                    <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                        My professional journey and roles
+                    <p className="text-slate-400 text-base max-w-2xl mx-auto">
+                        A journey through meaningful roles and impactful contributions
                     </p>
                 </motion.div>
 
@@ -184,29 +186,29 @@ const Experiences = () => {
                 >
                     <div className="relative">
                         {/* Timeline line */}
-                        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-cyan-500 to-transparent transform md:-translate-x-1/2"></div>
+                        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-400 via-cyan-400 to-blue-500 transform md:-translate-x-1/2 rounded-full shadow-lg shadow-cyan-500/20"></div>
 
                         {experiences.map((experience, index) => (
                             <motion.div
                                 key={experience.id || index}
                                 variants={itemVariants}
-                                className={`relative mb-12 ${index % 2 === 0 ? "md:pr-1/2" : "md:pl-1/2 md:text-right"
+                                className={`relative mb-8 ${index % 2 === 0 ? "md:pr-1/2" : "md:pl-1/2 md:text-right"
                                     }`}
                             >
                                 <div
-                                    className={`md:w-1/2 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12 md:ml-auto"}`}
+                                    className={`md:w-1/2 ${index % 2 === 0 ? "md:pr-8" : "md:pl-8 md:ml-auto"}`}
                                 >
                                     {/* Timeline dot */}
                                     <div
-                                        className={`absolute left-0 md:left-1/2 top-6 w-4 h-4 bg-cyan-400 rounded-full border-4 border-slate-950 transform md:-translate-x-1/2`}
+                                        className={`absolute left-0 md:left-1/2 top-6 w-4 h-4 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full border-3 border-slate-950 transform md:-translate-x-1/2 shadow-lg shadow-cyan-500/30`}
                                     ></div>
 
                                     <motion.div
-                                        whileHover={{ scale: 1.02, y: -5 }}
-                                        className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-cyan-500/50 transition-all ml-8 md:ml-0 overflow-hidden"
+                                        whileHover={{ scale: 1.01, y: -4 }}
+                                        className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-all duration-500 ml-8 md:ml-0 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
                                     >
                                         {/* Card Header */}
-                                        <div className="p-6">
+                                        <div className="p-4">
                                             <div
                                                 className={`flex items-start gap-4 mb-4 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
                                             >
@@ -216,7 +218,7 @@ const Experiences = () => {
                                                         whileHover={{ scale: 1.05, rotate: 2 }}
                                                         className="shrink-0"
                                                     >
-                                                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/5 border border-slate-700/50 p-2 flex items-center justify-center overflow-hidden">
+                                                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/5 border border-slate-700/30 p-2 flex items-center justify-center overflow-hidden shadow-lg">
                                                             <img
                                                                 src={experience.companyLogo}
                                                                 alt={experience.company}
@@ -226,7 +228,7 @@ const Experiences = () => {
                                                                     target.style.display = "none";
                                                                     if (target.parentElement) {
                                                                         target.parentElement.innerHTML =
-                                                                            '<div class="text-cyan-400 text-xl font-bold">' +
+                                                                            '<div class="text-cyan-400 text-lg font-bold">' +
                                                                             (experience.company?.charAt(0) || "?") +
                                                                             "</div>";
                                                                     }
@@ -238,23 +240,22 @@ const Experiences = () => {
 
                                                 {/* Title and Company */}
                                                 <div className="flex-1 min-w-0">
-                                                    <h3 className="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                                                    <h3 className="text-lg md:text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors duration-300 leading-tight">
                                                         {experience.title}
                                                     </h3>
                                                     <div className="mb-2">
                                                         {experience.companyLink ?
-                                                            <a
+                                                            <motion.a
                                                                 href={experience.companyLink}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
-                                                                className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-medium transition-colors group/link"
-                                                                data-tooltip-id="portfolio-tooltip"
-                                                                data-tooltip-content={`Visit ${experience.company} website`}
+                                                                whileHover={{ scale: 1.02 }}
+                                                                className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-semibold text-base transition-colors group/link"
                                                             >
                                                                 <span>{experience.company}</span>
-                                                                <FaExternalLinkAlt className="text-xs group-hover/link:translate-x-0.5 transition-transform" />
-                                                            </a>
-                                                            : <span className="text-cyan-400 font-medium">
+                                                                <FaExternalLinkAlt className="text-xs group-hover/link:translate-x-0.5 transition-transform duration-300" />
+                                                            </motion.a>
+                                                            : <span className="text-cyan-400 font-semibold text-base">
                                                                 {experience.company}
                                                             </span>
                                                         }
@@ -264,22 +265,26 @@ const Experiences = () => {
 
                                             {/* Date and Location */}
                                             <div
-                                                className={`flex flex-wrap gap-4 text-sm text-slate-400 mb-4 ${index % 2 === 0 ? "" : "md:justify-end"}`}
+                                                className={`flex flex-wrap gap-3 text-sm text-slate-400 mb-4 ${index % 2 === 0 ? "" : "md:justify-end"}`}
                                             >
                                                 {experience.startDate && (
-                                                    <div className="flex items-center gap-2">
-                                                        <FaCalendar className="text-slate-500" />
-                                                        <span>
+                                                    <div className="flex items-center gap-2 bg-slate-900/30 px-3 py-1.5 rounded-lg border border-slate-700/30">
+                                                        <div className="p-1 bg-cyan-500/10 rounded">
+                                                            <FaCalendar className="text-cyan-400 text-xs" />
+                                                        </div>
+                                                        <span className="font-medium text-slate-300 text-xs">
                                                             {formatDate(experience.startDate)}
-                                                            {experience.endDate &&
-                                                                ` - ${experience.endDate === "Present" ? experience.endDate : formatDate(experience.endDate)}`}
+                                                            {experience.endDate ?
+                                                                ` - ${formatDate(experience.endDate)}` : " - Present"}
                                                         </span>
                                                     </div>
                                                 )}
                                                 {experience.location && (
-                                                    <div className="flex items-center gap-2">
-                                                        <FaMapMarkerAlt className="text-slate-500" />
-                                                        <span>{experience.location}</span>
+                                                    <div className="flex items-center gap-2 bg-slate-900/30 px-3 py-1.5 rounded-lg border border-slate-700/30">
+                                                        <div className="p-1 bg-emerald-500/10 rounded">
+                                                            <FaMapMarkerAlt className="text-emerald-400 text-xs" />
+                                                        </div>
+                                                        <span className="font-medium text-slate-300 text-xs">{experience.location}</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -288,23 +293,21 @@ const Experiences = () => {
                                             {experience.descriptions &&
                                                 Array.isArray(experience.descriptions) &&
                                                 experience.descriptions.length > 0 && (
-                                                    <ul
-                                                        className={`space-y-2 text-slate-300 ${index % 2 === 0 ? "" : "md:text-right"}`}
-                                                    >
+                                                    <div className="space-y-2">
                                                         {experience.descriptions.map((desc, i) => (
-                                                            <motion.li
+                                                            <motion.div
                                                                 key={i}
-                                                                initial={{ opacity: 0, x: -10 }}
+                                                                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                                                                 whileInView={{ opacity: 1, x: 0 }}
                                                                 viewport={{ once: true }}
-                                                                transition={{ delay: 0.05 * i }}
-                                                                className={`flex items-start gap-2 ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}
+                                                                transition={{ delay: 0.05 * i, duration: 0.3 }}
+                                                                className={`flex items-start gap-2 p-3 bg-slate-900/20 rounded-lg border border-slate-700/20 hover:border-cyan-500/30 transition-all duration-300 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
                                                             >
-                                                                <span className="text-cyan-400 mt-1">▹</span>
-                                                                <span className="flex-1">{desc}</span>
-                                                            </motion.li>
+                                                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-1.5 shrink-0"></div>
+                                                                <span className="flex-1 text-slate-300 text-sm leading-relaxed">{desc}</span>
+                                                            </motion.div>
                                                         ))}
-                                                    </ul>
+                                                    </div>
                                                 )}
                                         </div>
 
@@ -312,29 +315,32 @@ const Experiences = () => {
                                         {experience.projects &&
                                             Array.isArray(experience.projects) &&
                                             experience.projects.length > 0 && (
-                                                <div className="border-t border-slate-700/50">
+                                                <div className="border-t border-slate-700/30 mt-4">
                                                     <motion.button
                                                         onClick={() => toggleProjects(index)}
-                                                        className="w-full px-6 py-3 flex items-center justify-between hover:bg-slate-700/30 transition-colors"
-                                                        data-tooltip-id="quick-tooltip"
-                                                        data-tooltip-content={
-                                                            expandedProjects[index] ?
-                                                                "Click to hide projects"
-                                                                : "Click to view projects"
-                                                        }
+                                                        whileHover={{ backgroundColor: "rgba(51, 65, 85, 0.3)" }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        className="w-full px-4 py-3 flex items-center justify-between transition-all duration-300 rounded-b-xl"
                                                     >
-                                                        <div className="flex items-center gap-2">
-                                                            <FaBriefcase className="text-cyan-400" />
-                                                            <span className="font-medium text-white text-sm">
-                                                                {experience.projects.length} Project
-                                                                {experience.projects.length > 1 ? "s" : ""}
-                                                            </span>
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="p-1.5 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg border border-purple-500/20">
+                                                                <FaBriefcase className="text-purple-400 text-sm" />
+                                                            </div>
+                                                            <div className="text-left">
+                                                                <span className="font-semibold text-white text-sm block">
+                                                                    {experience.projects.length} Project{experience.projects.length > 1 ? "s" : ""}
+                                                                </span>
+                                                                <span className="text-slate-400 text-xs">
+                                                                    {expandedProjects[index] ? "Click to hide" : "Click to view"}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                         <motion.div
                                                             animate={{
                                                                 rotate: expandedProjects[index] ? 180 : 0,
                                                             }}
-                                                            transition={{ duration: 0.3 }}
+                                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                                            className="p-1.5 bg-slate-700/30 rounded"
                                                         >
                                                             <FaChevronDown className="text-slate-400 text-sm" />
                                                         </motion.div>
@@ -346,10 +352,10 @@ const Experiences = () => {
                                                                 initial={{ height: 0, opacity: 0 }}
                                                                 animate={{ height: "auto", opacity: 1 }}
                                                                 exit={{ height: 0, opacity: 0 }}
-                                                                transition={{ duration: 0.3 }}
+                                                                transition={{ duration: 0.3, ease: "easeInOut" }}
                                                                 className="overflow-hidden"
                                                             >
-                                                                <div className="px-6 pb-6 space-y-3">
+                                                                <div className="px-4 pb-4 space-y-3">
                                                                     {experience.projects.map(
                                                                         (project, projectIndex) => {
                                                                             const CategoryIcon = getCategoryIcon(
@@ -362,109 +368,113 @@ const Experiences = () => {
                                                                                     animate={{ opacity: 1, y: 0 }}
                                                                                     transition={{
                                                                                         delay: projectIndex * 0.1,
+                                                                                        duration: 0.3
                                                                                     }}
-                                                                                    whileHover={{ scale: 1.01 }}
-                                                                                    className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/50 hover:border-cyan-500/30 transition-all"
+                                                                                    whileHover={{ scale: 1.01, y: -2 }}
+                                                                                    className="bg-gradient-to-br from-slate-900/40 to-slate-800/60 rounded-xl p-4 border border-slate-700/40 hover:border-cyan-500/40 transition-all duration-300 shadow-lg hover:shadow-xl"
                                                                                 >
                                                                                     {/* Project Header */}
                                                                                     <div className="flex items-start justify-between gap-3 mb-3">
-                                                                                        <div className="flex items-start gap-2 flex-1">
+                                                                                        <div className="flex items-start gap-3 flex-1">
                                                                                             <div
-                                                                                                className={`p-1.5 rounded-lg bg-gradient-to-br ${getCategoryColor(project.category)} border shrink-0`}
+                                                                                                className={`p-2 rounded-lg bg-gradient-to-br ${getCategoryColor(project.category)} border shrink-0`}
                                                                                             >
                                                                                                 <CategoryIcon className="text-sm" />
                                                                                             </div>
                                                                                             <div className="flex-1 min-w-0">
                                                                                                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                                                                                                    <h4 className="font-bold text-white text-sm">
+                                                                                                    <h4 className="font-bold text-white text-base">
                                                                                                         {project.title}
                                                                                                     </h4>
                                                                                                     {project.category && (
                                                                                                         <span
-                                                                                                            className={`px-1.5 py-0.5 rounded text-[10px] font-medium border ${getCategoryColor(project.category)}`}
+                                                                                                            className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getCategoryColor(project.category)}`}
                                                                                                         >
                                                                                                             {project.category}
                                                                                                         </span>
                                                                                                     )}
                                                                                                 </div>
                                                                                                 {project.projectRole && (
-                                                                                                    <span className="inline-block px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-[10px] text-purple-400 font-medium">
+                                                                                                    <span className="inline-block px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-xs text-purple-400 font-semibold">
                                                                                                         {project.projectRole}
                                                                                                     </span>
                                                                                                 )}
                                                                                             </div>
                                                                                         </div>
                                                                                         {project.screenshot && (
-                                                                                            <a
+                                                                                            <motion.a
                                                                                                 href={project.screenshot}
                                                                                                 target="_blank"
                                                                                                 rel="noopener noreferrer"
-                                                                                                className="shrink-0 px-2 py-1 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded text-[10px] text-cyan-400 font-medium transition-colors"
+                                                                                                whileHover={{ scale: 1.1, y: -2 }}
+                                                                                                whileTap={{ scale: 0.95 }}
+                                                                                                className="shrink-0 p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-400 transition-all duration-300"
                                                                                             >
-                                                                                                <FaExternalLinkAlt />
-                                                                                            </a>
+                                                                                                <FaExternalLinkAlt className="text-xs" />
+                                                                                            </motion.a>
                                                                                         )}
                                                                                     </div>
 
                                                                                     {/* Project Description */}
                                                                                     {project.description && (
-                                                                                        <p className="text-slate-400 text-xs leading-relaxed mb-3">
+                                                                                        <p className="text-slate-300 text-sm leading-relaxed mb-3 bg-slate-900/30 p-3 rounded-lg border border-slate-700/20">
                                                                                             {project.description}
                                                                                         </p>
                                                                                     )}
 
                                                                                     {/* Technologies */}
                                                                                     {project.technologies &&
-                                                                                        Array.isArray(
-                                                                                            project.technologies,
-                                                                                        ) && (
+                                                                                        Array.isArray(project.technologies) &&
+                                                                                        project.technologies.length > 0 && (
                                                                                             <div className="flex flex-wrap gap-1.5">
                                                                                                 {project.technologies
-                                                                                                    .slice(0, 6)
+                                                                                                    .slice(0, 5)
                                                                                                     .map((tech, techIndex) => (
                                                                                                         <motion.div
                                                                                                             key={techIndex}
                                                                                                             whileHover={{
                                                                                                                 scale: 1.05,
+                                                                                                                y: -1
                                                                                                             }}
                                                                                                             className="group/tech"
                                                                                                             data-tooltip-id="info-tooltip"
                                                                                                             data-tooltip-content={`${tech.name}${tech.proficiency ?
-                                                                                                                " - " +
-                                                                                                                tech.proficiency
+                                                                                                                " - " + tech.proficiency
                                                                                                                 : tech.level ?
-                                                                                                                    " - Level " +
-                                                                                                                    tech.level
+                                                                                                                    " - Level " + tech.level
                                                                                                                     : ""
                                                                                                                 }`}
-                                                                                                            data-tooltip-place="top"
                                                                                                         >
-                                                                                                            <div className="px-2 py-1 bg-slate-800/50 border border-slate-700 rounded flex items-center gap-1.5 hover:border-cyan-500/50 transition-colors">
+                                                                                                            <div className="px-2 py-1 bg-slate-800/60 border border-slate-700/40 rounded-full flex items-center gap-1.5 hover:border-cyan-500/40 transition-all duration-300">
                                                                                                                 {tech.icon && (
                                                                                                                     <img
                                                                                                                         src={tech.icon}
                                                                                                                         alt={tech.name}
                                                                                                                         className="w-3 h-3 object-contain"
                                                                                                                         onError={(e) =>
-                                                                                                                        (e.currentTarget.style.display =
-                                                                                                                            "none")
+                                                                                                                            (e.currentTarget.style.display = "none")
                                                                                                                         }
                                                                                                                     />
                                                                                                                 )}
-                                                                                                                <span className="text-[10px] text-slate-300 font-medium group-hover/tech:text-cyan-400 transition-colors">
+                                                                                                                <span className="text-[10px] text-slate-300 font-medium group-hover/tech:text-cyan-400 transition-colors duration-300">
                                                                                                                     {tech.name}
                                                                                                                 </span>
+                                                                                                                {tech.level && (
+                                                                                                                    <span className="text-[9px] text-slate-500 font-medium">
+                                                                                                                        Lv{tech.level}
+                                                                                                                    </span>
+                                                                                                                )}
                                                                                                             </div>
                                                                                                         </motion.div>
                                                                                                     ))}
-                                                                                                {project.technologies.length >
-                                                                                                    6 && (
-                                                                                                        <span className="px-2 py-1 text-[10px] text-slate-500">
-                                                                                                            +
-                                                                                                            {project.technologies
-                                                                                                                .length - 6}
-                                                                                                        </span>
-                                                                                                    )}
+                                                                                                {project.technologies.length > 5 && (
+                                                                                                    <span className="px-2 py-1 text-[10px] text-slate-500 font-medium cursor-help bg-slate-900/30 rounded-full border border-slate-700/30"
+                                                                                                        data-tooltip-id="info-tooltip"
+                                                                                                        data-tooltip-content={`More technologies: ${project.technologies.slice(5).map(t => t.name).join(', ')}`}
+                                                                                                    >
+                                                                                                        +{project.technologies.length - 5}
+                                                                                                    </span>
+                                                                                                )}
                                                                                             </div>
                                                                                         )}
                                                                                 </motion.div>

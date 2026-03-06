@@ -35,7 +35,7 @@ const Hero = () => {
     // Parallax scroll effect
     const { scrollY } = useScroll();
     const scale = useTransform(scrollY, [0, 500], [1, 0.8]);
-    const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+    const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
 
     const containerVariants = {
         hidden: { opacity: 0 },

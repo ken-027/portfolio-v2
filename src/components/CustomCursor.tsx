@@ -17,8 +17,12 @@ const CustomCursor = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
     const [ripples, setRipples] = useState<Ripple[]>([]);
+    const [isTouchDevice] = useState(() =>
+        typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+    );
 
     useEffect(() => {
+        if (isTouchDevice) return;
         const updateMousePosition = (e: MouseEvent) => {
             setMousePosition({ x: e.clientX, y: e.clientY });
         };
@@ -67,7 +71,9 @@ const CustomCursor = () => {
                 el.removeEventListener('mouseleave', handleMouseLeave);
             });
         };
-    }, []);
+    }, [isTouchDevice]);
+
+    if (isTouchDevice) return null;
 
     return (
         <>

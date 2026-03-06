@@ -20,7 +20,8 @@ import {
     useScroll,
     useTransform,
 } from "framer-motion";
-import { socials } from "../config/socials";
+import { useFetch } from "../hooks/useFetch";
+import { getPublicProfile } from "../services/api";
 
 interface NavItem {
     id: string;
@@ -39,6 +40,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const Navigation = () => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { data: publicProfile } = useFetch(getPublicProfile);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
     const { scrollYProgress } = useScroll();
@@ -104,6 +106,10 @@ const Navigation = () => {
             setActiveSection(sectionId);
         }
     };
+
+    const handleDownloadResume = () => {
+        window.open(publicProfile?.resumeLink, '_blank')
+    }
 
     return (
         <>
@@ -208,7 +214,7 @@ const Navigation = () => {
                             <motion.a
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                href={socials.github.link}
+                                href={publicProfile?.githubLink}
                                 className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all"
                                 data-tooltip-id="portfolio-tooltip"
                                 aria-label="GitHub"
@@ -221,7 +227,7 @@ const Navigation = () => {
                             <motion.a
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                href={socials.linkedin.link}
+                                href={publicProfile?.linkedinLink}
                                 className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all"
                                 data-tooltip-id="portfolio-tooltip"
                                 aria-label="LinkedIn"
@@ -250,7 +256,7 @@ const Navigation = () => {
                                 className="px-4 py-2 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center gap-2 backdrop-blur-sm"
                                 data-tooltip-id="portfolio-tooltip"
                                 data-tooltip-content="Download my resume"
-                                onClick={() => window.open('https://portfolio-api.ksoftdev.site/resume/kenneth-andales.resume.2025.pdf', '_blank')}
+                                onClick={handleDownloadResume}
                             >
                                 <FaFileDownload className="text-sm" />
                                 <span>Resume</span>
@@ -400,7 +406,7 @@ const Navigation = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
                                         whileTap={{ scale: 0.98 }}
-                                        onClick={() => window.open('https://portfolio-api.ksoftdev.site/resume/kenneth-andales.resume.2025.pdf', '_blank')}
+                                        onClick={handleDownloadResume}
                                         className="w-full px-4 py-3.5 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center justify-center gap-2"
                                     >
                                         <FaFileDownload className="text-base" />

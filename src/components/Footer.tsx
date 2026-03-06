@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { FaHeart } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { contactInformation, socials } from '../config/socials';
+import { useFetch } from '../hooks/useFetch';
+import { getPublicProfile } from '../services/api';
 
 interface SocialLink {
     icon: IconType;
@@ -10,12 +12,12 @@ interface SocialLink {
 }
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-
+    const { data: publicProfile } = useFetch(getPublicProfile);
 
     const socialLinks: SocialLink[] = [
-        { icon: socials.github.icon, href: socials.github.link, label: socials.github.name },
-        { icon: socials.linkedin.icon, href: socials.linkedin.link, label: socials.linkedin.name },
-        { icon: contactInformation.email.icon, href: contactInformation.email.link, label: contactInformation.email.name },
+        { icon: socials.github.icon, href: publicProfile?.githubLink || socials.github.link, label: socials.github.name },
+        { icon: socials.linkedin.icon, href: publicProfile?.linkedinLink || socials.linkedin.link, label: socials.linkedin.name },
+        { icon: contactInformation.email.icon, href: publicProfile?.email || contactInformation.email.link, label: contactInformation.email.name },
     ];
 
     return (
@@ -59,12 +61,19 @@ const Footer = () => {
                                 const social = socials[socialKey as keyof typeof socials];
                                 const Icon = social.icon;
 
+                                let link = {
+                                    npm: publicProfile?.npmLink || socials.npm.link,
+                                    leetcode: publicProfile?.leetCodeLink || socials.leetcode.link,
+                                    hackerrank: publicProfile?.hackerRankLink || socials.hackerrank.link,
+                                    huggingface: publicProfile?.huggingFaceLink || socials.huggingFace.link,
+                                }
+
                                 return (
                                     <motion.a
                                         key={social.name}
                                         whileHover={{ scale: 1.1, y: -3 }}
                                         whileTap={{ scale: 0.95 }}
-                                        href={social.link}
+                                        href={link[socialKey as keyof typeof link]}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.name}

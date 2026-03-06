@@ -9,8 +9,9 @@ import {
     FaSpinner,
 } from 'react-icons/fa';
 import { contactInformation, socials } from '../config/socials';
-import { sendEmail } from '../services/api';
+import { getPublicProfile, sendEmail } from '../services/api';
 import z from 'zod/v4';
+import { useFetch } from '../hooks/useFetch';
 
 const SendEmailDto = z
     .object({
@@ -30,6 +31,7 @@ interface FormErrors {
 }
 
 const Contact = () => {
+    const { data: publicProfile } = useFetch(getPublicProfile);
     const [formData, setFormData] = useState<SendEmailType>({
         name: '',
         email: '',
@@ -201,12 +203,17 @@ const Contact = () => {
                                         const socialData = socials[socialKey as keyof typeof socials];
                                         const Icon = socialData.icon;
 
+                                        let link = {
+                                            github: publicProfile?.githubLink || socials.github.link,
+                                            linkedin: publicProfile?.linkedinLink || socials.linkedin.link,
+                                        }
+
                                         return (
                                             <motion.a
                                                 key={index}
                                                 whileHover={{ scale: 1.1, y: -3 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                href={socialData.link}
+                                                href={link[socialKey as keyof typeof link]}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={socialData.name}

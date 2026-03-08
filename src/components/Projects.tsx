@@ -13,7 +13,6 @@ import {
     FaLaptopCode,
     FaServer,
     FaLayerGroup,
-    FaFilter,
 } from "react-icons/fa";
 import { IconType } from 'react-icons';
 import { useFetch } from "../hooks/useFetch";
@@ -32,9 +31,9 @@ interface Project {
     experienceId: string | null;
     title: string;
     description: string;
-    type?: string;
-    category?: string;
-    projectRole?: string;
+    type: "personal" | "professional" | "open-source";
+    category: "frontend" | "backend" | "fullstack";
+    projectRole: "solo" | "leader" | "collaborator" | "contributor";
     thumbnailLink?: string;
     githubRepo?: string | null;
     dockerLink?: string | null;
@@ -60,8 +59,8 @@ interface CategoryInfo {
 
 const Projects = () => {
     const { data, loading, error } = useFetch<ProjectsData>(fetchProjects);
-    const [selectedType, setSelectedType] = useState("all");
-    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [selectedType, setSelectedType] = useState<Project["type"] | "all">("professional");
+    const [selectedCategory, setSelectedCategory] = useState<Project["category"] | "all">("all");
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -239,7 +238,7 @@ const Projects = () => {
                                         key={type}
                                         whileHover={{ scale: 1.02, y: -1 }}
                                         whileTap={{ scale: 0.98 }}
-                                        onClick={() => setSelectedType(type)}
+                                        onClick={() => setSelectedType(type as Project["type"])}
                                         className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedType === type ?
                                             "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25"
                                             : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-cyan-500/30 hover:text-white hover:bg-slate-800/80"
@@ -271,7 +270,7 @@ const Projects = () => {
                                             key={category}
                                             whileHover={{ scale: 1.02, y: -1 }}
                                             whileTap={{ scale: 0.98 }}
-                                            onClick={() => setSelectedCategory(category)}
+                                            onClick={() => setSelectedCategory(category as Project["category"])}
                                             className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedCategory === category ?
                                                 `bg-gradient-to-r ${categoryInfo.color} text-white shadow-lg shadow-blue-500/25`
                                                 : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-purple-500/30 hover:text-white hover:bg-slate-800/80"
@@ -297,7 +296,7 @@ const Projects = () => {
                     </div>
 
                     {/* Active Filters Summary */}
-                    {(selectedType !== "all" || selectedCategory !== "all") && (
+                    {(selectedType !== "professional" || selectedCategory !== "all") && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -461,7 +460,7 @@ const Projects = () => {
                                                     <motion.a
                                                         whileHover={{ scale: 1.1, y: -2 }}
                                                         whileTap={{ scale: 0.95 }}
-                                                        href={project.liveDemo || project.screenshot}
+                                                        href={project.liveDemo || project.screenshot || ""}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-all duration-300 border border-cyan-500/20 hover:border-cyan-400/40"

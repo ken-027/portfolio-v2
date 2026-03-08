@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
     FaGithub,
     FaExternalLinkAlt,
@@ -13,6 +13,8 @@ import {
     FaLaptopCode,
     FaServer,
     FaLayerGroup,
+    FaFilter,
+    FaChevronDown,
 } from "react-icons/fa";
 import { IconType } from 'react-icons';
 import { useFetch } from "../hooks/useFetch";
@@ -61,6 +63,7 @@ const Projects = () => {
     const { data, loading, error } = useFetch<ProjectsData>(fetchProjects);
     const [selectedType, setSelectedType] = useState<Project["type"] | "all">("professional");
     const [selectedCategory, setSelectedCategory] = useState<Project["category"] | "all">("all");
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -173,6 +176,72 @@ const Projects = () => {
         });
     }, [allProjects, selectedType, selectedCategory]);
 
+    const filterPanel = (
+        <div className="bg-slate-900/30 backdrop-blur-sm rounded-xl p-4 border border-slate-800/50">
+            {/* Type Filter */}
+            <div className="mb-4">
+                <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-linear-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+                    Project Type
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                    {projectTypes.map((type) => (
+                        <motion.button
+                            key={type}
+                            whileHover={{ scale: 1.02, y: -1 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setSelectedType(type as Project["type"])}
+                            className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedType === type
+                                ? "bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25"
+                                : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-cyan-500/30 hover:text-white hover:bg-slate-800/80"
+                                }`}
+                        >
+                            {type}
+                            <span className="ml-1.5 text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
+                                {type === "all"
+                                    ? allProjects.length
+                                    : allProjects.filter((p) => p.type?.toLowerCase() === type).length}
+                            </span>
+                        </motion.button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Category Filter */}
+            <div>
+                <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-linear-to-r from-purple-400 to-pink-500 rounded-full"></div>
+                    Category
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                    {projectCategories.map((category) => {
+                        const categoryInfo = getCategoryInfo(category);
+                        return (
+                            <motion.button
+                                key={category}
+                                whileHover={{ scale: 1.02, y: -1 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => setSelectedCategory(category as Project["category"])}
+                                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedCategory === category
+                                    ? `bg-linear-to-r ${categoryInfo.color} text-white shadow-lg shadow-blue-500/25`
+                                    : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-purple-500/30 hover:text-white hover:bg-slate-800/80"
+                                    }`}
+                            >
+                                {category !== "all" && <categoryInfo.Icon className="text-xs" />}
+                                {category === "all" ? "All" : categoryInfo.text}
+                                <span className="text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
+                                    {category === "all"
+                                        ? allProjects.length
+                                        : allProjects.filter((p) => p.category?.toLowerCase() === category).length}
+                                </span>
+                            </motion.button>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+
     if (loading) {
         return (
             <section id="projects" className="py-20 bg-slate-900/20">
@@ -208,7 +277,7 @@ const Projects = () => {
                     className="text-center mb-10"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                        <span className="text-gradient bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+                        <span className="text-gradient bg-linear-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
                             Featured Projects
                         </span>
                     </h2>
@@ -225,74 +294,64 @@ const Projects = () => {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-8"
                 >
-                    <div className="bg-slate-900/30 backdrop-blur-sm rounded-xl p-4 border border-slate-800/50">
-                        {/* Type Filter */}
-                        <div className="mb-4">
-                            <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
-                                Project Type
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {projectTypes.map((type) => (
-                                    <motion.button
-                                        key={type}
-                                        whileHover={{ scale: 1.02, y: -1 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => setSelectedType(type as Project["type"])}
-                                        className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedType === type ?
-                                            "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25"
-                                            : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-cyan-500/30 hover:text-white hover:bg-slate-800/80"
-                                            }`}
-                                    >
-                                        {type}
-                                        <span className="ml-1.5 text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
-                                            {type === "all" ?
-                                                allProjects.length
-                                                : allProjects.filter((p) => p.type?.toLowerCase() === type).length
-                                            }
-                                        </span>
-                                    </motion.button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Category Filter */}
-                        <div>
-                            <h3 className="text-base font-semibold text-white mb-2 flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
-                                Category
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {projectCategories.map((category) => {
-                                    const categoryInfo = getCategoryInfo(category);
-                                    return (
-                                        <motion.button
-                                            key={category}
-                                            whileHover={{ scale: 1.02, y: -1 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            onClick={() => setSelectedCategory(category as Project["category"])}
-                                            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedCategory === category ?
-                                                `bg-gradient-to-r ${categoryInfo.color} text-white shadow-lg shadow-blue-500/25`
-                                                : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-purple-500/30 hover:text-white hover:bg-slate-800/80"
-                                                }`}
-                                        >
-                                            {category !== "all" && (
-                                                <categoryInfo.Icon className="text-xs" />
-                                            )}
-                                            {category === "all" ? "All" : categoryInfo.text}
-                                            <span className="text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-full">
-                                                {category === "all" ?
-                                                    allProjects.length
-                                                    : allProjects.filter(
-                                                        (p) => p.category?.toLowerCase() === category,
-                                                    ).length
-                                                }
+                    {/* Mobile: CTA toggle button */}
+                    <div className="md:hidden mb-3">
+                        <motion.button
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setIsFilterOpen((v) => !v)}
+                            className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-all duration-300"
+                        >
+                            <div className="flex items-center gap-2.5">
+                                <FaFilter className="text-cyan-400 text-xs" />
+                                <span>Filters</span>
+                                {(selectedType !== "all" || selectedCategory !== "all") && (
+                                    <div className="flex items-center gap-1.5">
+                                        {selectedType !== "all" && (
+                                            <span className="px-2 py-0.5 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-[10px] text-cyan-400 capitalize">
+                                                {selectedType}
                                             </span>
-                                        </motion.button>
-                                    );
-                                })}
+                                        )}
+                                        {selectedCategory !== "all" && (
+                                            <span className="px-2 py-0.5 bg-purple-500/20 border border-purple-500/30 rounded-full text-[10px] text-purple-400 capitalize">
+                                                {getCategoryInfo(selectedCategory).text}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-slate-400">
+                                    {filteredProjects.length}/{allProjects.length}
+                                </span>
+                                <motion.span
+                                    animate={{ rotate: isFilterOpen ? 180 : 0 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <FaChevronDown className="text-slate-400 text-xs" />
+                                </motion.span>
+                            </div>
+                        </motion.button>
+                    </div>
+
+                    {/* Mobile: animated collapsible panel */}
+                    <AnimatePresence initial={false}>
+                        {isFilterOpen && (
+                            <motion.div
+                                key="filter-panel-mobile"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                className="overflow-hidden md:hidden mb-3"
+                            >
+                                {filterPanel}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* Desktop: always visible */}
+                    <div className="hidden md:block">
+                        {filterPanel}
                     </div>
 
                     {/* Active Filters Summary */}
@@ -301,7 +360,7 @@ const Projects = () => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            className="mt-3 p-3 bg-gradient-to-r from-slate-900/50 to-slate-800/50 backdrop-blur-sm border border-slate-700/30 rounded-lg"
+                            className="mt-3 p-3 bg-linear-to-r from-slate-900/50 to-slate-800/50 backdrop-blur-sm border border-slate-700/30 rounded-lg"
                         >
                             <div className="flex items-center justify-between flex-wrap gap-2">
                                 <div className="flex items-center gap-2 text-sm">
@@ -380,7 +439,7 @@ const Projects = () => {
                                         {/* Category Badge on Image */}
                                         <div className="absolute top-2 left-2">
                                             <div
-                                                className={`flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gradient-to-r ${categoryInfo.color} shadow-lg backdrop-blur-sm`}
+                                                className={`flex items-center gap-1.5 px-2 py-1 rounded-lg bg-linear-to-r ${categoryInfo.color} shadow-lg backdrop-blur-sm`}
                                             >
                                                 <categoryInfo.Icon className="text-white text-xs" />
                                                 <span className="text-white text-[10px] font-bold tracking-wide">
@@ -392,7 +451,7 @@ const Projects = () => {
                                         {/* AI Badge on Image */}
                                         {project.aiPowered && (
                                             <div className="absolute top-2 right-2">
-                                                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 shadow-lg backdrop-blur-sm">
+                                                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-linear-to-r from-violet-500 to-fuchsia-500 shadow-lg backdrop-blur-sm">
                                                     <FaRobot className="text-white text-xs animate-pulse" />
                                                     <span className="text-white text-[10px] font-bold tracking-wide">
                                                         AI
@@ -562,7 +621,7 @@ const Projects = () => {
                                             setSelectedType("all");
                                             setSelectedCategory("all");
                                         }}
-                                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg text-white transition-all duration-300 font-medium shadow-lg shadow-cyan-500/25 text-sm"
+                                        className="px-4 py-2 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg text-white transition-all duration-300 font-medium shadow-lg shadow-cyan-500/25 text-sm"
                                     >
                                         View All Projects
                                     </motion.button>

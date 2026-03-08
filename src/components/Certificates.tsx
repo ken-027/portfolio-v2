@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { motion, Variants } from 'framer-motion';
-import { FaAward, FaExternalLinkAlt, FaCalendar, FaSpinner } from 'react-icons/fa';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { FaAward, FaExternalLinkAlt, FaCalendar, FaSpinner, FaFilter, FaChevronDown } from 'react-icons/fa';
 import { useFetch } from '../hooks/useFetch';
 import { fetchCertificates } from '../services/api';
 
@@ -31,7 +31,8 @@ interface CertificatesData {
 
 const Certificates = () => {
     const { data, loading, error } = useFetch<Certificate[] | CertificatesData>(fetchCertificates);
-    const [selectedPlatform, setSelectedPlatform] = useState('all');
+    const [selectedPlatform, setSelectedPlatform] = useState('Udemy');
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     // Get all certificates
     const allCertificates = useMemo(() => {
@@ -152,14 +153,8 @@ const Certificates = () => {
                 </motion.div>
 
                 {/* Platform Filter */}
-                {platforms.length > 1 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="mb-8"
-                    >
+                {platforms.length > 1 && (() => {
+                    const filterPanel = (
                         <div className="bg-slate-900/30 backdrop-blur-sm rounded-xl p-4 border border-slate-800/50">
                             <h3 className="text-base font-semibold text-white mb-3 flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full"></div>
@@ -173,7 +168,7 @@ const Certificates = () => {
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setSelectedPlatform(platform)}
                                         className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedPlatform === platform
-                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+                                            ? 'bg-linear-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
                                             : 'bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-blue-500/30 hover:text-white hover:bg-slate-800/80'
                                             }`}
                                     >
@@ -188,8 +183,69 @@ const Certificates = () => {
                                 ))}
                             </div>
                         </div>
-                    </motion.div>
-                )}
+                    );
+
+                    return (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="mb-8"
+                        >
+                            {/* Mobile: CTA toggle button */}
+                            <div className="md:hidden mb-3">
+                                <motion.button
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => setIsFilterOpen((v) => !v)}
+                                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-all duration-300"
+                                >
+                                    <div className="flex items-center gap-2.5">
+                                        <FaFilter className="text-blue-400 text-xs" />
+                                        <span>Filters</span>
+                                        {selectedPlatform !== 'all' && (
+                                            <span className="px-2 py-0.5 bg-blue-500/20 border border-blue-500/30 rounded-full text-[10px] text-blue-400">
+                                                {selectedPlatform}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] text-slate-400">
+                                            {certificates.length}/{completedCertificates.length}
+                                        </span>
+                                        <motion.span
+                                            animate={{ rotate: isFilterOpen ? 180 : 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <FaChevronDown className="text-slate-400 text-xs" />
+                                        </motion.span>
+                                    </div>
+                                </motion.button>
+                            </div>
+
+                            {/* Mobile: animated collapsible panel */}
+                            <AnimatePresence initial={false}>
+                                {isFilterOpen && (
+                                    <motion.div
+                                        key="cert-filter-panel-mobile"
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                                        className="overflow-hidden md:hidden mb-3"
+                                    >
+                                        {filterPanel}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* Desktop: always visible */}
+                            <div className="hidden md:block">
+                                {filterPanel}
+                            </div>
+                        </motion.div>
+                    );
+                })()}
 
                 <motion.div
                     key={selectedPlatform}

@@ -83,6 +83,19 @@ const Experiences = () => {
         });
     };
 
+    const calculateDuration = (startDate?: string, endDate?: string | null): string => {
+        if (!startDate) return "";
+        const start = new Date(startDate);
+        const end = endDate ? new Date(endDate) : new Date();
+        let years = end.getFullYear() - start.getFullYear();
+        let months = end.getMonth() - start.getMonth();
+        if (months < 0) { years--; months += 12; }
+        const parts: string[] = [];
+        if (years > 0) parts.push(`${years} yr${years > 1 ? "s" : ""}`);
+        if (months > 0) parts.push(`${months} mo${months > 1 ? "s" : ""}`);
+        return parts.length > 0 ? parts.join(" ") : "< 1 mo";
+    };
+
     const getCategoryIcon = (category?: string): IconType => {
         switch (category?.toLowerCase()) {
             case "frontend":
@@ -276,6 +289,9 @@ const Experiences = () => {
                                                             {formatDate(experience.startDate)}
                                                             {experience.endDate ?
                                                                 ` - ${formatDate(experience.endDate)}` : " - Present"}
+                                                            <span className="ml-1 text-cyan-400/70">
+                                                                · {calculateDuration(experience.startDate, experience.endDate)}
+                                                            </span>
                                                         </span>
                                                     </div>
                                                 )}

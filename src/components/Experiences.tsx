@@ -127,19 +127,34 @@ const Experiences = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
+                staggerChildren: 0.15,
             },
         },
     };
 
     const itemVariants: Variants = {
-        hidden: { y: 50, opacity: 0 },
+        hidden: { y: 30, opacity: 0 },
         visible: {
             y: 0,
             opacity: 1,
             transition: {
-                duration: 0.6,
-                ease: "easeOut",
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+                when: "beforeChildren",
+                staggerChildren: 0.07,
+                delayChildren: 0.15,
+            },
+        },
+    };
+
+    const descriptionVariants: Variants = {
+        hidden: { opacity: 0, y: 8 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.3,
+                ease: [0.25, 0.46, 0.45, 0.94],
             },
         },
     };
@@ -217,9 +232,11 @@ const Experiences = () => {
                                     ></div>
 
                                     <motion.div
-                                        whileHover={{ scale: 1.01, y: -4 }}
-                                        className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-all duration-500 ml-8 md:ml-0 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
+                                        whileHover={{ scale: 1.02, y: -6 }}
+                                        className="group relative bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 ml-8 md:ml-0 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
                                     >
+                                        {/* Hover Glow */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 transition-colors duration-500 rounded-xl pointer-events-none" />
                                         {/* Card Header */}
                                         <div className="p-4">
                                             <div
@@ -313,11 +330,8 @@ const Experiences = () => {
                                                         {experience.descriptions.map((desc, i) => (
                                                             <motion.div
                                                                 key={i}
-                                                                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                                                                whileInView={{ opacity: 1, x: 0 }}
-                                                                viewport={{ once: true }}
-                                                                transition={{ delay: 0.05 * i, duration: 0.3 }}
-                                                                className={`flex items-start gap-2 p-3 bg-slate-900/20 rounded-lg border border-slate-700/20 hover:border-cyan-500/30 transition-all duration-300 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
+                                                                variants={descriptionVariants}
+                                                                className={`flex items-start gap-2 p-3 bg-slate-900/20 rounded-lg border border-slate-700/20 hover:border-cyan-500/30 transition-[border-color] duration-300 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
                                                             >
                                                                 <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-1.5 shrink-0"></div>
                                                                 <span className="flex-1 text-slate-300 text-sm leading-relaxed">{desc}</span>
@@ -336,7 +350,7 @@ const Experiences = () => {
                                                         onClick={() => toggleProjects(index)}
                                                         whileHover={{ backgroundColor: "rgba(51, 65, 85, 0.3)" }}
                                                         whileTap={{ scale: 0.98 }}
-                                                        className="w-full px-4 py-3 flex items-center justify-between transition-all duration-300 rounded-b-xl"
+                                                        className="w-full px-4 py-3 flex items-center justify-between transition-colors duration-300 rounded-b-xl"
                                                     >
                                                         <div className="flex items-center gap-3">
                                                             <div className="p-1.5 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg border border-purple-500/20">
@@ -362,7 +376,7 @@ const Experiences = () => {
                                                         </motion.div>
                                                     </motion.button>
 
-                                                    <AnimatePresence>
+                                                    <AnimatePresence initial={false}>
                                                         {expandedProjects[index] && (
                                                             <motion.div
                                                                 initial={{ height: 0, opacity: 0 }}
@@ -387,7 +401,7 @@ const Experiences = () => {
                                                                                         duration: 0.3
                                                                                     }}
                                                                                     whileHover={{ scale: 1.01, y: -2 }}
-                                                                                    className="bg-gradient-to-br from-slate-900/40 to-slate-800/60 rounded-xl p-4 border border-slate-700/40 hover:border-cyan-500/40 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                                                                    className="bg-gradient-to-br from-slate-900/40 to-slate-800/60 rounded-xl p-4 border border-slate-700/40 hover:border-cyan-500/40 transition-[border-color,box-shadow] duration-300 shadow-lg hover:shadow-xl"
                                                                                 >
                                                                                     {/* Project Header */}
                                                                                     <div className="flex items-start justify-between gap-3 mb-3">
@@ -424,7 +438,7 @@ const Experiences = () => {
                                                                                                 rel="noopener noreferrer"
                                                                                                 whileHover={{ scale: 1.1, y: -2 }}
                                                                                                 whileTap={{ scale: 0.95 }}
-                                                                                                className="shrink-0 p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-400 transition-all duration-300"
+                                                                                                className="shrink-0 p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-400 transition-[background-color] duration-300"
                                                                                             >
                                                                                                 <FaExternalLinkAlt className="text-xs" />
                                                                                             </motion.a>
@@ -461,7 +475,7 @@ const Experiences = () => {
                                                                                                                     : ""
                                                                                                                 }`}
                                                                                                         >
-                                                                                                            <div className="px-2 py-1 bg-slate-800/60 border border-slate-700/40 rounded-full flex items-center gap-1.5 hover:border-cyan-500/40 transition-all duration-300">
+                                                                                                            <div className="px-2 py-1 bg-slate-800/60 border border-slate-700/40 rounded-full flex items-center gap-1.5 hover:border-cyan-500/40 transition-[border-color] duration-300">
                                                                                                                 {tech.icon && (
                                                                                                                     <img
                                                                                                                         src={tech.icon}

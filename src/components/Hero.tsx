@@ -215,7 +215,7 @@ const Hero = () => {
                                 <motion.div
                                     key={index}
                                     whileHover={{ scale: 1.05, y: -5 }}
-                                    className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg hover:border-cyan-500/50 transition-all"
+                                    className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-lg hover:border-cyan-500/50 transition-colors"
                                 >
                                     <div
                                         className={`p-2 bg-linear-to-r ${highlight.color} bg-opacity-10 rounded-lg`}
@@ -246,7 +246,7 @@ const Hero = () => {
                                     const element = document.getElementById("projects");
                                     element?.scrollIntoView({ behavior: "smooth" });
                                 }}
-                                className="group px-8 py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all relative overflow-hidden"
+                                className="group px-8 py-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow relative overflow-hidden"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     <FaCode className="text-lg" />
@@ -262,7 +262,7 @@ const Hero = () => {
                                     const element = document.getElementById("experiences");
                                     element?.scrollIntoView({ behavior: "smooth" });
                                 }}
-                                className="px-8 py-4 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-all backdrop-blur-sm"
+                                className="px-8 py-4 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-colors backdrop-blur-sm"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     <FaBriefcase className="text-cyan-400" />
@@ -279,7 +279,7 @@ const Hero = () => {
                                     const element = document.getElementById("certificates");
                                     element?.scrollIntoView({ behavior: "smooth" });
                                 }}
-                                className="px-8 py-4 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-all backdrop-blur-sm flex items-center gap-2"
+                                className="px-8 py-4 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-colors backdrop-blur-sm flex items-center gap-2"
                             >
                                 <FaAward className="text-cyan-400" />
                                 Certificates
@@ -314,12 +314,12 @@ const Hero = () => {
                                         data-tooltip-id="info-tooltip"
                                         data-tooltip-content={`${tech.name} - Core technology in my development stack`}
                                     >
-                                        <div className="relative p-4 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-cyan-500/50 transition-all shadow-lg overflow-hidden">
+                                        <div className="relative p-4 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-cyan-500/50 transition-colors shadow-lg overflow-hidden">
                                             <motion.div
                                                 className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
                                             />
                                             <tech.Icon
-                                                className={`text-3xl ${tech.color} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10`}
+                                                className={`text-3xl ${tech.color} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 relative z-10`}
                                             />
                                         </div>
                                     </motion.div>

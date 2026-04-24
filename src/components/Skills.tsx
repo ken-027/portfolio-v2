@@ -188,7 +188,7 @@ const Skills = () => {
                                                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency level`}
                                                 data-tooltip-place="top"
                                             >
-                                                <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 hover:border-cyan-500/50 transition-all h-full flex flex-col items-center justify-center gap-2 overflow-hidden">
+                                                <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 hover:border-cyan-500/50 transition-colors h-full flex flex-col items-center justify-center gap-2 overflow-hidden">
                                                     {/* Animated Background Glow */}
                                                     <motion.div
                                                         className={`absolute inset-0 bg-linear-to-br ${proficiencyColor} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
@@ -203,7 +203,7 @@ const Skills = () => {
                                                             {[...Array(3)].map((_, i) => (
                                                                 <div
                                                                     key={i}
-                                                                    className={`w-1 h-0.5 rounded-full transition-all ${i < Math.ceil(proficiencyLevel / 3.5)
+                                                                    className={`w-1 h-0.5 rounded-full transition-colors ${i < Math.ceil(proficiencyLevel / 3.5)
                                                                         ? proficiencyLevel >= 8
                                                                             ? 'bg-green-500'
                                                                             : proficiencyLevel >= 6
@@ -218,7 +218,7 @@ const Skills = () => {
 
                                                     {/* Skill Icon */}
                                                     {skill.icon && (
-                                                        <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10">
+                                                        <div className="w-10 h-10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 relative z-10">
                                                             <img
                                                                 src={skill.icon}
                                                                 alt={skill.name}

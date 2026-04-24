@@ -117,7 +117,7 @@ const Navigation = () => {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ?
+                className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${isScrolled ?
                     "bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-cyan-500/5"
                     : "bg-transparent"
                     }`}
@@ -151,7 +151,7 @@ const Navigation = () => {
                                 />
 
                                 {/* Icon background */}
-                                <div className="relative bg-slate-800/50 backdrop-blur-sm p-2 rounded-xl border border-slate-700/50 group-hover:border-cyan-500/50 transition-all">
+                                <div className="relative bg-slate-800/50 backdrop-blur-sm p-2 rounded-xl border border-slate-700/50 group-hover:border-cyan-500/50 transition-colors">
                                     <FaCode className="text-cyan-400 text-xl relative z-10 group-hover:text-cyan-300 transition-colors" />
                                 </div>
                             </div>
@@ -179,7 +179,7 @@ const Navigation = () => {
                                         whileHover={{ scale: 1.05, y: -2 }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => scrollToSection(item.id)}
-                                        className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 group ${isActive ?
+                                        className={`relative px-4 py-2 rounded-xl font-medium transition-[color,background-color,border-color,box-shadow] duration-300 flex items-center gap-2 group ${isActive ?
                                             "text-white bg-linear-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 shadow-lg shadow-cyan-500/20"
                                             : "text-slate-300 hover:text-white hover:bg-slate-800/50 border border-transparent hover:border-slate-700/50"
                                             }`}
@@ -215,7 +215,7 @@ const Navigation = () => {
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                                 href={publicProfile?.githubLink}
-                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all"
+                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
                                 data-tooltip-id="portfolio-tooltip"
                                 aria-label="GitHub"
                                 target="_blank"
@@ -228,7 +228,7 @@ const Navigation = () => {
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                                 href={publicProfile?.linkedinLink}
-                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all"
+                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
                                 data-tooltip-id="portfolio-tooltip"
                                 aria-label="LinkedIn"
                                 target="_blank"
@@ -242,7 +242,7 @@ const Navigation = () => {
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => scrollToSection("contact")}
-                                className="ml-2 px-4 py-2 rounded-xl font-medium bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all flex items-center gap-2 border border-cyan-400/20"
+                                className="ml-2 px-4 py-2 rounded-xl font-medium bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow flex items-center gap-2 border border-cyan-400/20"
                                 data-tooltip-id="portfolio-tooltip"
                                 data-tooltip-content="Get in touch"
                             >
@@ -253,7 +253,7 @@ const Navigation = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-4 py-2 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center gap-2 backdrop-blur-sm"
+                                className="px-4 py-2 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center gap-2 backdrop-blur-sm"
                                 data-tooltip-id="portfolio-tooltip"
                                 data-tooltip-content="Download my resume"
                                 onClick={handleDownloadResume}
@@ -268,7 +268,7 @@ const Navigation = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="lg:hidden text-2xl text-slate-300 hover:text-white relative p-2 rounded-lg hover:bg-slate-800/50 transition-all"
+                            className="lg:hidden text-2xl text-slate-300 hover:text-white relative p-2 rounded-lg hover:bg-slate-800/50 transition-colors"
                             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                         >
                             <AnimatePresence mode="wait">
@@ -334,13 +334,13 @@ const Navigation = () => {
                                             transition={{ delay: index * 0.05, duration: 0.3 }}
                                             whileTap={{ scale: 0.98 }}
                                             onClick={() => scrollToSection(item.id)}
-                                            className={`px-4 py-3.5 rounded-xl text-left transition-all duration-300 flex items-center gap-3 group ${isActive ?
+                                            className={`px-4 py-3.5 rounded-xl text-left transition-[color,background-color,border-color,box-shadow] duration-300 flex items-center gap-3 group ${isActive ?
                                                 "text-white bg-linear-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 shadow-lg shadow-cyan-500/10"
                                                 : "text-slate-300 hover:text-white hover:bg-slate-800/50 border border-slate-800/50 hover:border-slate-700/50"
                                                 }`}
                                         >
                                             <div
-                                                className={`p-2 rounded-lg ${isActive ? "bg-cyan-500/20" : "bg-slate-800/50 group-hover:bg-slate-800"} transition-all`}
+                                                className={`p-2 rounded-lg ${isActive ? "bg-cyan-500/20" : "bg-slate-800/50 group-hover:bg-slate-800"} transition-colors`}
                                             >
                                                 <Icon
                                                     className={`text-base ${isActive ? "text-cyan-400" : "text-slate-400 group-hover:text-cyan-400"} transition-colors`}
@@ -371,7 +371,7 @@ const Navigation = () => {
                                     <motion.a
                                         whileTap={{ scale: 0.95 }}
                                         href="#"
-                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center justify-center gap-2"
+                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <FaGithub className="text-base" />
                                         <span>GitHub</span>
@@ -380,7 +380,7 @@ const Navigation = () => {
                                     <motion.a
                                         whileTap={{ scale: 0.95 }}
                                         href="#"
-                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center justify-center gap-2"
+                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <FaLinkedin className="text-base" />
                                         <span>LinkedIn</span>
@@ -407,7 +407,7 @@ const Navigation = () => {
                                         transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={handleDownloadResume}
-                                        className="w-full px-4 py-3.5 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-all flex items-center justify-center gap-2"
+                                        className="w-full px-4 py-3.5 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
                                     >
                                         <FaFileDownload className="text-base" />
                                         <span>Download Resume</span>

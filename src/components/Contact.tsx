@@ -250,7 +250,7 @@ const Contact = () => {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 className={`w-full pl-12 pr-4 py-3 bg-slate-900/50 border ${errors.name ? 'border-red-500/50' : 'border-slate-700'
-                                                    } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all`}
+                                                    } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
                                                 placeholder="John Doe"
                                             />
                                         </div>
@@ -278,7 +278,7 @@ const Contact = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 className={`w-full pl-12 pr-4 py-3 bg-slate-900/50 border ${errors.email ? 'border-red-500/50' : 'border-slate-700'
-                                                    } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all`}
+                                                    } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
                                                 placeholder="john@example.com"
                                             />
                                         </div>
@@ -303,7 +303,7 @@ const Contact = () => {
                                         value={formData.subject}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 bg-slate-900/50 border ${errors.subject ? 'border-red-500/50' : 'border-slate-700'
-                                            } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all`}
+                                            } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
                                         placeholder="What's this about?"
                                     />
                                     {errors.subject && (
@@ -326,7 +326,7 @@ const Contact = () => {
                                         onChange={handleChange}
                                         rows={6}
                                         className={`w-full px-4 py-3 bg-slate-900/50 border ${errors.message ? 'border-red-500/50' : 'border-slate-700'
-                                            } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all resize-none`}
+                                            } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow] resize-none`}
                                         placeholder="Tell me about your project..."
                                     />
                                     {errors.message && (
@@ -344,7 +344,7 @@ const Contact = () => {
                                         disabled={isSubmitting}
                                         whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                                         whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                                        className={`px-8 py-4 rounded-xl font-semibold text-white shadow-lg transition-all flex items-center gap-2 ${isSubmitting
+                                        className={`px-8 py-4 rounded-xl font-semibold text-white shadow-lg transition-[background-image,box-shadow] flex items-center gap-2 ${isSubmitting
                                             ? 'bg-slate-700 cursor-not-allowed'
                                             : 'bg-linear-to-r from-blue-500 to-cyan-500 hover:shadow-cyan-500/50'
                                             }`}

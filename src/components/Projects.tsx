@@ -191,7 +191,7 @@ const Projects = () => {
                             whileHover={{ scale: 1.02, y: -1 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setSelectedType(type as Project["type"])}
-                            className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedType === type
+                            className={`px-4 py-2 rounded-full text-xs font-medium transition-[color,background-color,border-color,box-shadow] duration-300 capitalize ${selectedType === type
                                 ? "bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25"
                                 : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-cyan-500/30 hover:text-white hover:bg-slate-800/80"
                                 }`}
@@ -222,7 +222,7 @@ const Projects = () => {
                                 whileHover={{ scale: 1.02, y: -1 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setSelectedCategory(category as Project["category"])}
-                                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedCategory === category
+                                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-[color,background-color,border-color,box-shadow] duration-300 capitalize ${selectedCategory === category
                                     ? `bg-linear-to-r ${categoryInfo.color} text-white shadow-lg shadow-blue-500/25`
                                     : "bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-purple-500/30 hover:text-white hover:bg-slate-800/80"
                                     }`}
@@ -299,7 +299,7 @@ const Projects = () => {
                         <motion.button
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setIsFilterOpen((v) => !v)}
-                            className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-all duration-300"
+                            className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-colors duration-300"
                         >
                             <div className="flex items-center gap-2.5">
                                 <FaFilter className="text-cyan-400 text-xs" />
@@ -387,7 +387,7 @@ const Projects = () => {
                                         setSelectedType("all");
                                         setSelectedCategory("all");
                                     }}
-                                    className="px-3 py-1 bg-slate-700/60 hover:bg-slate-600/60 border border-slate-600/50 rounded text-xs text-white transition-all duration-200 font-medium"
+                                    className="px-3 py-1 bg-slate-700/60 hover:bg-slate-600/60 border border-slate-600/50 rounded text-xs text-white transition-colors duration-200 font-medium"
                                 >
                                     Clear
                                 </motion.button>
@@ -414,7 +414,7 @@ const Projects = () => {
                                 whileHover={{ y: -12, scale: 1.02 }}
                                 className="group"
                             >
-                                <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-cyan-400/40 transition-all duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10">
+                                <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10">
                                     {/* Project Image or Default Thumbnail */}
                                     <div className="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                                         {project.thumbnailLink ? (
@@ -431,7 +431,7 @@ const Projects = () => {
                                             </>
                                         ) : (
                                             // Default Thumbnail
-                                            <div className={`w-full h-full bg-gradient-to-br ${categoryInfo.color} opacity-15 flex items-center justify-center group-hover:opacity-25 transition-all duration-500`}>
+                                            <div className={`w-full h-full bg-gradient-to-br ${categoryInfo.color} opacity-15 flex items-center justify-center group-hover:opacity-25 transition-opacity duration-500`}>
                                                 <categoryInfo.Icon className="text-5xl text-slate-600/40 group-hover:text-slate-500/60 transition-colors duration-500" />
                                             </div>
                                         )}
@@ -496,7 +496,7 @@ const Projects = () => {
                                                         href={project.githubRepo}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-slate-700/40 hover:bg-slate-600/60 rounded-lg text-slate-400 hover:text-white transition-all duration-300 border border-slate-600/30 hover:border-slate-500/50"
+                                                        className="p-2 bg-slate-700/40 hover:bg-slate-600/60 rounded-lg text-slate-400 hover:text-white transition-colors duration-300 border border-slate-600/30 hover:border-slate-500/50"
                                                         aria-label="View on GitHub"
                                                     >
                                                         <FaGithub className="text-sm" />
@@ -509,7 +509,7 @@ const Projects = () => {
                                                         href={project.dockerLink}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg text-blue-400 hover:text-blue-300 transition-all duration-300 border border-blue-500/20 hover:border-blue-400/40"
+                                                        className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg text-blue-400 hover:text-blue-300 transition-colors duration-300 border border-blue-500/20 hover:border-blue-400/40"
                                                         aria-label="View on Docker Hub"
                                                     >
                                                         <FaDocker className="text-sm" />
@@ -522,7 +522,7 @@ const Projects = () => {
                                                         href={project.liveDemo || project.screenshot || ""}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-all duration-300 border border-cyan-500/20 hover:border-cyan-400/40"
+                                                        className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-colors duration-300 border border-cyan-500/20 hover:border-cyan-400/40"
                                                         aria-label="View Live Project"
                                                     >
                                                         <FaExternalLinkAlt className="text-sm" />
@@ -550,7 +550,7 @@ const Projects = () => {
                                                         {project.technologies.slice(0, 5).map((tech, i) => (
                                                             <div
                                                                 key={i}
-                                                                className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/40 border border-slate-700/40 rounded-full hover:border-cyan-500/40 transition-all duration-300 group/tech"
+                                                                className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/40 border border-slate-700/40 rounded-full hover:border-cyan-500/40 transition-colors duration-300 group/tech"
                                                                 data-tooltip-id="info-tooltip"
                                                                 data-tooltip-content={`${tech.name}${tech.proficiency ? " - " + tech.proficiency
                                                                     : tech.level ? " - Level " + tech.level
@@ -621,7 +621,7 @@ const Projects = () => {
                                             setSelectedType("all");
                                             setSelectedCategory("all");
                                         }}
-                                        className="px-4 py-2 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg text-white transition-all duration-300 font-medium shadow-lg shadow-cyan-500/25 text-sm"
+                                        className="px-4 py-2 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 rounded-lg text-white transition-[background-image,box-shadow] duration-300 font-medium shadow-lg shadow-cyan-500/25 text-sm"
                                     >
                                         View All Projects
                                     </motion.button>

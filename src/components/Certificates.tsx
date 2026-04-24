@@ -167,7 +167,7 @@ const Certificates = () => {
                                         whileHover={{ scale: 1.02, y: -1 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setSelectedPlatform(platform)}
-                                        className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 capitalize ${selectedPlatform === platform
+                                        className={`px-4 py-2 rounded-full text-xs font-medium transition-[color,background-color,border-color,box-shadow] duration-300 capitalize ${selectedPlatform === platform
                                             ? 'bg-linear-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
                                             : 'bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-blue-500/30 hover:text-white hover:bg-slate-800/80'
                                             }`}
@@ -198,7 +198,7 @@ const Certificates = () => {
                                 <motion.button
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => setIsFilterOpen((v) => !v)}
-                                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-all duration-300"
+                                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-900/50 border border-slate-700/50 rounded-xl text-sm font-medium text-white transition-colors duration-300"
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <FaFilter className="text-blue-400 text-xs" />
@@ -265,7 +265,7 @@ const Certificates = () => {
                                 whileHover={{ y: -12, scale: 1.02 }}
                                 className="group"
                             >
-                                <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-blue-400/40 transition-all duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/10">
+                                <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-blue-400/40 transition-[border-color,box-shadow] duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/10">
                                     {/* Certificate Image/Badge */}
                                     <div className="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                                         {certificateImage ? (
@@ -300,7 +300,7 @@ const Certificates = () => {
                                                 </>
                                             )
                                         ) : (
-                                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 opacity-15 flex items-center justify-center group-hover:opacity-25 transition-all duration-500">
+                                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 opacity-15 flex items-center justify-center group-hover:opacity-25 transition-opacity duration-500">
                                                 <FaAward className="text-5xl text-slate-600/40 group-hover:text-slate-500/60 transition-colors duration-500" />
                                             </div>
                                         )}
@@ -338,7 +338,7 @@ const Certificates = () => {
                                                             href={certificateLink}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-all duration-300 border border-cyan-500/20 hover:border-cyan-400/40"
+                                                            className="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 rounded-lg text-cyan-400 hover:text-cyan-300 transition-colors duration-300 border border-cyan-500/20 hover:border-cyan-400/40"
                                                             aria-label="View Certificate"
                                                         >
                                                             <FaExternalLinkAlt className="text-sm" />
@@ -417,7 +417,7 @@ const Certificates = () => {
                                                         {certificate.skills.slice(0, 5).map((skill, i) => (
                                                             <span
                                                                 key={i}
-                                                                className="px-2 py-1 bg-slate-900/40 border border-slate-700/40 rounded-full hover:border-cyan-500/40 transition-all duration-300 text-[10px] text-slate-400 font-medium"
+                                                                className="px-2 py-1 bg-slate-900/40 border border-slate-700/40 rounded-full hover:border-cyan-500/40 transition-colors duration-300 text-[10px] text-slate-400 font-medium"
                                                             >
                                                                 {skill}
                                                             </span>
@@ -465,7 +465,7 @@ const Certificates = () => {
                                         whileHover={{ scale: 1.02, y: -2 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setSelectedPlatform('all')}
-                                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 rounded-lg text-white transition-all duration-300 font-medium shadow-lg shadow-blue-500/25 text-sm"
+                                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 rounded-lg text-white transition-[background-image,box-shadow] duration-300 font-medium shadow-lg shadow-blue-500/25 text-sm"
                                     >
                                         View All Certificates
                                     </motion.button>

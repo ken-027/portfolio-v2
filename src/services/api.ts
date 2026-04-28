@@ -31,7 +31,7 @@ const apiEmail = axios.create({
 });
 
 const apiChatbot = axios.create({
-    baseURL: `${CHATBOT_API}/agents`,
+    baseURL: `${CHATBOT_API}/chat`,
     headers: {
         'Content-Type': 'application/json',
     },

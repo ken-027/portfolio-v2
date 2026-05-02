@@ -14,12 +14,7 @@ import {
     FaLinkedin,
 } from "react-icons/fa";
 import { IconType } from 'react-icons';
-import {
-    motion,
-    AnimatePresence,
-    useScroll,
-    useTransform,
-} from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useFetch } from "../hooks/useFetch";
 import { getPublicProfile } from "../services/api";
 
@@ -29,7 +24,6 @@ interface NavItem {
     icon: IconType;
 }
 
-// Navigation items - defined outside component to prevent re-creation
 const NAV_ITEMS: NavItem[] = [
     { id: "home", label: "Home", icon: FaHome },
     { id: "experiences", label: "Experience", icon: FaBriefcase },
@@ -40,76 +34,54 @@ const NAV_ITEMS: NavItem[] = [
 
 const Navigation = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const { data: publicProfile } = useFetch(getPublicProfile);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
+    const { data: publicProfile } = useFetch(getPublicProfile);
     const { scrollYProgress } = useScroll();
-
-    // Transform scroll progress for gradient indicator
     const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
-
-            // Detect active section
-            const sections = NAV_ITEMS.map((item) => item.id);
             const scrollPosition = window.scrollY + 100;
-
-            for (let i = sections.length - 1; i >= 0; i--) {
-                // @ts-ignore
-                const section = document.getElementById(sections[i]);
+            for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
+                const section = document.getElementById(NAV_ITEMS[i]!.id);
                 if (section && section.offsetTop <= scrollPosition) {
-                    setActiveSection(sections[i] || '');
+                    setActiveSection(NAV_ITEMS[i]!.id);
                     break;
                 }
             }
         };
-
         window.addEventListener("scroll", handleScroll);
         handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Close mobile menu on escape key
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === "Escape" && isMobileMenuOpen) {
-                setIsMobileMenuOpen(false);
-            }
+            if (e.key === "Escape") setIsMobileMenuOpen(false);
         };
         window.addEventListener("keydown", handleEscape);
         return () => window.removeEventListener("keydown", handleEscape);
-    }, [isMobileMenuOpen]);
+    }, []);
 
-    // Lock body scroll when mobile menu is open
     useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
-        }
-        return () => {
-            document.body.style.overflow = "unset";
-        };
+        document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
+        return () => { document.body.style.overflow = "unset"; };
     }, [isMobileMenuOpen]);
 
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
         if (element) {
-            const offsetTop = element.offsetTop - 64;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth",
-            });
+            window.scrollTo({ top: element.offsetTop - 64, behavior: "smooth" });
             setIsMobileMenuOpen(false);
             setActiveSection(sectionId);
         }
     };
 
     const handleDownloadResume = () => {
-        window.open(publicProfile?.resumeLink, '_blank')
-    }
+        if (publicProfile?.resumeLink) window.open(publicProfile.resumeLink, '_blank');
+    };
 
     return (
         <>
@@ -117,300 +89,241 @@ const Navigation = () => {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${isScrolled ?
-                    "bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-cyan-500/5"
-                    : "bg-transparent"
-                    }`}
+                className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-500 ${
+                    isScrolled
+                        ? "bg-slate-900/85 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-slate-800/60"
+                        : "bg-transparent"
+                }`}
             >
-                {/* Multi-color Scroll Progress Indicator */}
+                {/* Scroll progress bar */}
                 <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-blue-500 via-cyan-500 via-purple-500 to-fuchsia-500 origin-left"
+                    className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-blue-500 via-cyan-400 to-purple-500 origin-left"
                     style={{ scaleX }}
                 />
 
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16">
-                        {/* Enhanced Logo - Self-explanatory, no tooltip needed */}
+
+                        {/* Logo */}
                         <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-3 cursor-pointer group"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
                             onClick={() => scrollToSection("home")}
+                            className="flex items-center gap-3 cursor-pointer group"
                         >
-                            {/* Animated Icon Container */}
-                            <div className="relative">
-                                {/* Rotating background glow */}
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{
-                                        duration: 20,
-                                        repeat: Infinity,
-                                        ease: "linear",
-                                    }}
-                                    className="absolute -inset-2 rounded-full bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-20 blur-lg group-hover:opacity-30 transition-opacity"
-                                />
-
-                                {/* Icon background */}
-                                <div className="relative bg-slate-800/50 backdrop-blur-sm p-2 rounded-xl border border-slate-700/50 group-hover:border-cyan-500/50 transition-colors">
-                                    <FaCode className="text-cyan-400 text-xl relative z-10 group-hover:text-cyan-300 transition-colors" />
-                                </div>
+                            <div className="p-2 rounded-xl bg-linear-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 group-hover:border-cyan-400/60 transition-colors">
+                                <FaCode className="text-cyan-400 text-lg" />
                             </div>
-
-                            {/* Logo Text with Badge */}
-                            <div className="flex flex-col">
-                                <span className="text-lg font-bold text-gradient leading-none">
-                                    Portfolio
+                            <div className="flex flex-col leading-tight">
+                                <span className="text-sm font-bold tracking-wide">
+                                    <span className="text-white">Kenneth </span>
+                                    <span className="text-gradient">Andales</span>
                                 </span>
-                                <span className="text-[10px] text-slate-500 uppercase tracking-wider">
-                                    Kenneth Andales
-                                </span>
+                                <span className="text-[10px] text-slate-500 uppercase tracking-widest">Full-Stack Developer</span>
                             </div>
                         </motion.div>
 
-                        {/* Desktop Navigation */}
-                        <div className="hidden lg:flex items-center gap-2">
+                        {/* Desktop nav */}
+                        <div className="hidden lg:flex items-center gap-1">
                             {NAV_ITEMS.map((item) => {
                                 const Icon = item.icon;
                                 const isActive = activeSection === item.id;
-
                                 return (
                                     <motion.button
                                         key={item.id}
-                                        whileHover={{ scale: 1.05, y: -2 }}
-                                        whileTap={{ scale: 0.95 }}
+                                        whileHover={{ y: -1 }}
+                                        whileTap={{ scale: 0.96 }}
                                         onClick={() => scrollToSection(item.id)}
-                                        className={`relative px-4 py-2 rounded-xl font-medium transition-[color,background-color,border-color,box-shadow] duration-300 flex items-center gap-2 group ${isActive ?
-                                            "text-white bg-linear-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 shadow-lg shadow-cyan-500/20"
-                                            : "text-slate-300 hover:text-white hover:bg-slate-800/50 border border-transparent hover:border-slate-700/50"
-                                            }`}
+                                        className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+                                            isActive
+                                                ? "text-cyan-400 bg-cyan-500/10"
+                                                : "text-slate-400 hover:text-white hover:bg-slate-800/50"
+                                        }`}
                                     >
-                                        <Icon
-                                            className={`text-sm ${isActive ? "text-cyan-400" : "text-slate-400 group-hover:text-cyan-400"} transition-colors`}
-                                        />
-                                        <span>{item.label}</span>
-
-                                        {/* Active indicator - floating dot */}
+                                        <Icon className="text-xs shrink-0" />
+                                        {item.label}
                                         {isActive && (
                                             <motion.div
-                                                layoutId="navActiveIndicator"
-                                                className="absolute -bottom-1 left-1/2 -translate-x-1/2"
-                                                transition={{
-                                                    type: "spring",
-                                                    stiffness: 380,
-                                                    damping: 30,
-                                                }}
-                                            >
-                                                <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full" />
-                                                <div className="absolute inset-0 w-1.5 h-1.5 bg-cyan-400 rounded-full blur-sm animate-pulse" />
-                                            </motion.div>
+                                                layoutId="navDot"
+                                                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full"
+                                                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                                            />
                                         )}
                                     </motion.button>
                                 );
                             })}
+                        </div>
 
-                            <div className="w-px h-6 bg-slate-700/50 mx-2" />
+                        {/* Desktop actions */}
+                        <div className="hidden lg:flex items-center gap-2">
+                            {publicProfile?.githubLink && (
+                                <motion.a
+                                    whileHover={{ scale: 1.1, y: -1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    href={publicProfile.githubLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="GitHub"
+                                    className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors"
+                                >
+                                    <FaGithub className="text-lg" />
+                                </motion.a>
+                            )}
+                            {publicProfile?.linkedinLink && (
+                                <motion.a
+                                    whileHover={{ scale: 1.1, y: -1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    href={publicProfile.linkedinLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="LinkedIn"
+                                    className="p-2 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-slate-800/60 transition-colors"
+                                >
+                                    <FaLinkedin className="text-lg" />
+                                </motion.a>
+                            )}
 
-                            {/* Social Icons */}
-                            <motion.a
-                                whileHover={{ scale: 1.1, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                href={publicProfile?.githubLink}
-                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
-                                data-tooltip-id="portfolio-tooltip"
-                                aria-label="GitHub"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <FaGithub className="text-lg" />
-                            </motion.a>
+                            <div className="w-px h-5 bg-slate-700/70 mx-1" />
 
-                            <motion.a
-                                whileHover={{ scale: 1.1, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                href={publicProfile?.linkedinLink}
-                                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
-                                data-tooltip-id="portfolio-tooltip"
-                                aria-label="LinkedIn"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <FaLinkedin className="text-lg" />
-                            </motion.a>
-
-                            {/* CTA Buttons */}
                             <motion.button
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileHover={{ scale: 1.04, y: -1 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={() => scrollToSection("contact")}
-                                className="ml-2 px-4 py-2 rounded-xl font-medium bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow flex items-center gap-2 border border-cyan-400/20"
-                                data-tooltip-id="portfolio-tooltip"
-                                data-tooltip-content="Get in touch"
+                                className="px-4 py-2 rounded-xl text-sm font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-shadow flex items-center gap-2"
                             >
-                                <FaEnvelope className="text-sm" />
-                                <span>Contact</span>
+                                <FaEnvelope className="text-xs" />
+                                Contact
                             </motion.button>
 
                             <motion.button
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="px-4 py-2 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center gap-2 backdrop-blur-sm"
-                                data-tooltip-id="portfolio-tooltip"
-                                data-tooltip-content="Download my resume"
+                                whileHover={{ scale: 1.04, y: -1 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={handleDownloadResume}
+                                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-slate-600/70 transition-colors flex items-center gap-2"
                             >
-                                <FaFileDownload className="text-sm" />
-                                <span>Resume</span>
+                                <FaFileDownload className="text-xs" />
+                                Resume
                             </motion.button>
                         </div>
 
-                        {/* Mobile Menu Button */}
+                        {/* Mobile menu toggle */}
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.9 }}
+                            whileTap={{ scale: 0.92 }}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="lg:hidden text-2xl text-slate-300 hover:text-white relative p-2 rounded-lg hover:bg-slate-800/50 transition-colors"
+                            className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors"
                             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                         >
                             <AnimatePresence mode="wait">
-                                {isMobileMenuOpen ?
-                                    <motion.div
-                                        key="close"
-                                        initial={{ rotate: -90, opacity: 0 }}
-                                        animate={{ rotate: 0, opacity: 1 }}
-                                        exit={{ rotate: 90, opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <FaTimes />
+                                {isMobileMenuOpen ? (
+                                    <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                                        <FaTimes className="text-xl" />
                                     </motion.div>
-                                    : <motion.div
-                                        key="menu"
-                                        initial={{ rotate: 90, opacity: 0 }}
-                                        animate={{ rotate: 0, opacity: 1 }}
-                                        exit={{ rotate: -90, opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <FaBars />
+                                ) : (
+                                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                                        <FaBars className="text-xl" />
                                     </motion.div>
-                                }
+                                )}
                             </AnimatePresence>
                         </motion.button>
                     </div>
                 </div>
             </motion.nav>
 
-            {/* Enhanced Mobile Menu */}
+            {/* Mobile menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <>
-                        {/* Backdrop with blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-md lg:hidden z-40"
+                            className="fixed inset-0 bg-black/50 backdrop-blur-sm lg:hidden z-40"
                             style={{ top: "64px" }}
                         />
 
-                        {/* Menu Content */}
                         <motion.div
-                            initial={{ opacity: 0, y: -20 }}
+                            initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                            className="fixed top-16 left-0 right-0 lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-b border-slate-800/50 shadow-2xl z-40 max-h-[calc(100vh-64px)] overflow-y-auto"
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                            className="fixed top-16 left-0 right-0 lg:hidden bg-slate-900/95 backdrop-blur-xl border-b border-slate-800/60 shadow-2xl z-40 max-h-[calc(100vh-64px)] overflow-y-auto"
                         >
-                            <div className="container mx-auto px-4 py-6 flex flex-col space-y-2">
-                                {/* Navigation Items */}
+                            <div className="container mx-auto px-4 py-4 flex flex-col gap-1.5">
                                 {NAV_ITEMS.map((item, index) => {
                                     const Icon = item.icon;
                                     const isActive = activeSection === item.id;
-
                                     return (
                                         <motion.button
                                             key={item.id}
-                                            initial={{ opacity: 0, x: -20 }}
+                                            initial={{ opacity: 0, x: -12 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.05, duration: 0.3 }}
+                                            transition={{ delay: index * 0.04 }}
                                             whileTap={{ scale: 0.98 }}
                                             onClick={() => scrollToSection(item.id)}
-                                            className={`px-4 py-3.5 rounded-xl text-left transition-[color,background-color,border-color,box-shadow] duration-300 flex items-center gap-3 group ${isActive ?
-                                                "text-white bg-linear-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 shadow-lg shadow-cyan-500/10"
-                                                : "text-slate-300 hover:text-white hover:bg-slate-800/50 border border-slate-800/50 hover:border-slate-700/50"
-                                                }`}
+                                            className={`px-4 py-3 rounded-xl text-left flex items-center gap-3 transition-colors ${
+                                                isActive
+                                                    ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/20"
+                                                    : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                                            }`}
                                         >
-                                            <div
-                                                className={`p-2 rounded-lg ${isActive ? "bg-cyan-500/20" : "bg-slate-800/50 group-hover:bg-slate-800"} transition-colors`}
-                                            >
-                                                <Icon
-                                                    className={`text-base ${isActive ? "text-cyan-400" : "text-slate-400 group-hover:text-cyan-400"} transition-colors`}
-                                                />
-                                            </div>
-                                            <span className="font-medium flex-1">{item.label}</span>
-                                            {isActive && (
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    animate={{ scale: 1 }}
-                                                    className="relative"
-                                                >
-                                                    <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-                                                    <div className="absolute inset-0 w-2 h-2 bg-cyan-400 rounded-full blur-sm animate-pulse" />
-                                                </motion.div>
-                                            )}
+                                            <Icon className={`text-sm ${isActive ? "text-cyan-400" : "text-slate-500"}`} />
+                                            <span className="font-medium">{item.label}</span>
+                                            {isActive && <div className="ml-auto w-1.5 h-1.5 bg-cyan-400 rounded-full" />}
                                         </motion.button>
                                     );
                                 })}
 
-                                {/* Social Links */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: NAV_ITEMS.length * 0.05 }}
-                                    className="pt-4 border-t border-slate-800 flex gap-2"
-                                >
-                                    <motion.a
-                                        whileTap={{ scale: 0.95 }}
-                                        href="#"
-                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        <FaGithub className="text-base" />
-                                        <span>GitHub</span>
-                                    </motion.a>
+                                <div className="border-t border-slate-800/60 mt-2 pt-3 flex gap-2">
+                                    {publicProfile?.githubLink && (
+                                        <motion.a
+                                            whileTap={{ scale: 0.96 }}
+                                            href={publicProfile.githubLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-slate-600 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                                        >
+                                            <FaGithub />
+                                            GitHub
+                                        </motion.a>
+                                    )}
+                                    {publicProfile?.linkedinLink && (
+                                        <motion.a
+                                            whileTap={{ scale: 0.96 }}
+                                            href={publicProfile.linkedinLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-blue-400 border border-slate-700/50 hover:border-blue-600/40 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                                        >
+                                            <FaLinkedin />
+                                            LinkedIn
+                                        </motion.a>
+                                    )}
+                                </div>
 
-                                    <motion.a
-                                        whileTap={{ scale: 0.95 }}
-                                        href="#"
-                                        className="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        <FaLinkedin className="text-base" />
-                                        <span>LinkedIn</span>
-                                    </motion.a>
-                                </motion.div>
-
-                                {/* Mobile CTA Buttons */}
-                                <div className="space-y-2 pt-2">
+                                <div className="flex flex-col gap-2 pb-2">
                                     <motion.button
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: NAV_ITEMS.length * 0.05 + 0.05 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: NAV_ITEMS.length * 0.04 + 0.05 }}
                                         whileTap={{ scale: 0.98 }}
-                                        onClick={() => scrollToSection("home")}
-                                        className="w-full px-4 py-3.5 rounded-xl font-medium bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 border border-cyan-400/20"
+                                        onClick={() => scrollToSection("contact")}
+                                        className="w-full py-3 rounded-xl font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-cyan-500/20 flex items-center justify-center gap-2 text-sm"
                                     >
-                                        <FaEnvelope className="text-base" />
-                                        <span>Contact Me</span>
+                                        <FaEnvelope />
+                                        Contact Me
                                     </motion.button>
 
                                     <motion.button
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: NAV_ITEMS.length * 0.05 + 0.1 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: NAV_ITEMS.length * 0.04 + 0.1 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={handleDownloadResume}
-                                        className="w-full px-4 py-3.5 rounded-xl font-medium bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-2"
+                                        className="w-full py-3 rounded-xl font-medium bg-slate-800/50 text-slate-300 border border-slate-700/50 hover:border-slate-600 transition-colors flex items-center justify-center gap-2 text-sm"
                                     >
-                                        <FaFileDownload className="text-base" />
-                                        <span>Download Resume</span>
+                                        <FaFileDownload />
+                                        Download Resume
                                     </motion.button>
                                 </div>
                             </div>
@@ -419,7 +332,6 @@ const Navigation = () => {
                 )}
             </AnimatePresence>
 
-            {/* Spacer */}
             <div className="h-16" />
         </>
     );

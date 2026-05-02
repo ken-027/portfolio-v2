@@ -12,11 +12,8 @@
     @apply bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent;
   }
 
-  /* Custom cursor - hide default on desktop */
-  @media (min-width: 768px) {
-    .custom-cursor,
-    .custom-cursor * {
-      cursor: none !important;
-    }
-  }
+}
+
+a, button {
+    cursor: pointer;
 }

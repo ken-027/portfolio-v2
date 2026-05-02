@@ -15,9 +15,21 @@ const Footer = () => {
     const { data: publicProfile } = useFetch(getPublicProfile);
 
     const socialLinks: SocialLink[] = [
-        { icon: socials.github.icon, href: publicProfile?.githubLink || socials.github.link, label: socials.github.name },
-        { icon: socials.linkedin.icon, href: publicProfile?.linkedinLink || socials.linkedin.link, label: socials.linkedin.name },
-        { icon: contactInformation.email.icon, href: publicProfile?.email || contactInformation.email.link, label: contactInformation.email.name },
+      {
+        icon: socials.github.icon,
+        href: publicProfile?.githubLink || socials.github.link,
+        label: socials.github.name,
+      },
+      {
+        icon: socials.linkedin.icon,
+        href: publicProfile?.linkedinLink || socials.linkedin.link,
+        label: socials.linkedin.name,
+      },
+      {
+        icon: contactInformation.email.icon,
+        href: `mailto:${publicProfile?.email || contactInformation.email.link}`,
+        label: contactInformation.email.name,
+      },
     ];
 
     return (
@@ -65,7 +77,8 @@ const Footer = () => {
                                     npm: publicProfile?.npmLink || socials.npm.link,
                                     leetcode: publicProfile?.leetCodeLink || socials.leetcode.link,
                                     hackerrank: publicProfile?.hackerRankLink || socials.hackerrank.link,
-                                    huggingface: publicProfile?.huggingFaceLink || socials.huggingFace.link,
+                                    huggingface: publicProfile?.huggingFaceLink || socials.huggingface.link,
+                                    docker: publicProfile?.dockerHubLink || socials.docker.link,
                                 }
 
                                 return (

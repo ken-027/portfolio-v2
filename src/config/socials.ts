@@ -12,7 +12,7 @@ export const socials = {
         icon: FaDocker,
         link: "https://hub.docker.com/u/ken027"
     },
-    huggingFace: {
+    huggingface: {
         name: "Hugging Face",
         icon: SiHuggingface,
         link: "https://huggingface.co/kenneth-andales"

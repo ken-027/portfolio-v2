@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import TiltCard from "./TiltCard";
 import {
     FaGithub,
     FaExternalLinkAlt,
@@ -411,9 +412,13 @@ const Projects = () => {
                             <motion.div
                                 key={index}
                                 variants={itemVariants}
-                                whileHover={{ y: -12, scale: 1.02 }}
                                 className="group"
                             >
+                                <TiltCard
+                                    intensity={5}
+                                    spotlightColor="rgba(6,182,212,0.08)"
+                                    className="h-full"
+                                >
                                 <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10">
                                     {/* Project Image or Default Thumbnail */}
                                     <div className="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
@@ -591,6 +596,7 @@ const Projects = () => {
                                             )}
                                     </div>
                                 </div>
+                                </TiltCard>
                             </motion.div>
                         );
                     })}

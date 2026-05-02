@@ -144,7 +144,7 @@ const Contact = () => {
                         <span className="text-gradient">Get In Touch</span>
                     </h2>
                     <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                        Have a project in mind or want to collaborate? Feel free to reach out!
+                        Have a startup idea or project in mind? Let&apos;s turn it into a shipping product.
                     </p>
                 </motion.div>
 

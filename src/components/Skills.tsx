@@ -1,4 +1,5 @@
 import { motion, Variants } from 'framer-motion';
+import TiltCard from './TiltCard';
 import { FaCode, FaDatabase, FaTools, FaServer, FaSpinner, FaCloud, FaRobot, FaLaptopCode } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { useFetch } from '../hooks/useFetch';
@@ -182,12 +183,16 @@ const Skills = () => {
                                             <motion.div
                                                 key={skillIndex}
                                                 variants={itemVariants}
-                                                whileHover={{ scale: 1.08, y: -6 }}
                                                 className="group cursor-pointer"
                                                 data-tooltip-id="info-tooltip"
                                                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency level`}
                                                 data-tooltip-place="top"
                                             >
+                                                <TiltCard
+                                                    intensity={20}
+                                                    spotlightColor="rgba(6,182,212,0.12)"
+                                                    className="h-full"
+                                                >
                                                 <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-lg p-3 border border-slate-700/50 hover:border-cyan-500/50 transition-colors h-full flex flex-col items-center justify-center gap-2 overflow-hidden">
                                                     {/* Animated Background Glow */}
                                                     <motion.div
@@ -256,6 +261,7 @@ const Skills = () => {
                                                         {skill.proficiency}
                                                     </div>
                                                 </div>
+                                                </TiltCard>
                                             </motion.div>
                                         );
                                     })}

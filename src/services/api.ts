@@ -134,6 +134,20 @@ export interface PublicProfile {
     createdAt: string;
     updatedAt: string;
 }
+export interface AvailabilityStatus {
+    availableForProjects: boolean;
+}
+
+export const getAvailabilityStatus = async (): Promise<AvailabilityStatus> => {
+    try {
+        const { data: { data } } = await apiAuthCached.get('/available-for-projects');
+        return data as AvailabilityStatus;
+    } catch (error) {
+        console.error('Error fetching availability status:', error);
+        throw error;
+    }
+};
+
 export const getPublicProfile = async (): Promise<PublicProfile> => {
     try {
         const response = await apiAuthCached.get('/public-profile');

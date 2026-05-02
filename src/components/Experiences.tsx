@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import TiltCard from "./TiltCard";
 import {
     FaBriefcase,
     FaCalendar,
@@ -231,9 +232,10 @@ const Experiences = () => {
                                         className={`absolute left-0 md:left-1/2 top-6 w-4 h-4 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full border-3 border-slate-950 transform md:-translate-x-1/2 shadow-lg shadow-cyan-500/30`}
                                     ></div>
 
-                                    <motion.div
-                                        whileHover={{ scale: 1.02, y: -6 }}
-                                        className="group relative bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 ml-8 md:ml-0 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
+                                    <TiltCard
+                                        intensity={2}
+                                        spotlightColor="rgba(6,182,212,0.08)"
+                                        className="group ml-8 md:ml-0 bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
                                     >
                                         {/* Hover Glow */}
                                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 transition-colors duration-500 rounded-xl pointer-events-none" />
@@ -517,7 +519,7 @@ const Experiences = () => {
                                                     </AnimatePresence>
                                                 </div>
                                             )}
-                                    </motion.div>
+                                    </TiltCard>
                                 </div>
                             </motion.div>
                         ))}

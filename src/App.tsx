@@ -1,5 +1,6 @@
 import './App.css'
 import Navigation from './components/Navigation'
+import AnimatedBackground from './components/AnimatedBackground'
 import Hero from './components/Hero'
 import Experiences from './components/Experiences'
 import Skills from './components/Skills'
@@ -13,7 +14,8 @@ import Chatbot from './components/Chatbot'
 
 function App() {
     return (
-        <div className="min-h-screen custom-cursor">
+        <div className="min-h-screen">
+            <AnimatedBackground />
             <CustomCursor />
             <Tooltip />
             <Navigation />

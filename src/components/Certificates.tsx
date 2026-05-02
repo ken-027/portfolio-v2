@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import TiltCard from './TiltCard';
 import { FaAward, FaExternalLinkAlt, FaCalendar, FaSpinner, FaFilter, FaChevronDown } from 'react-icons/fa';
 import { useFetch } from '../hooks/useFetch';
 import { fetchCertificates } from '../services/api';
@@ -262,9 +263,13 @@ const Certificates = () => {
                             <motion.div
                                 key={certificate.id || index}
                                 variants={itemVariants}
-                                whileHover={{ y: -12, scale: 1.02 }}
                                 className="group"
                             >
+                                <TiltCard
+                                    intensity={5}
+                                    spotlightColor="rgba(96,165,250,0.08)"
+                                    className="h-full"
+                                >
                                 <div className="bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-2xl border border-slate-700/30 hover:border-blue-400/40 transition-[border-color,box-shadow] duration-500 h-full flex flex-col overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/10">
                                     {/* Certificate Image/Badge */}
                                     <div className="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
@@ -437,6 +442,7 @@ const Certificates = () => {
                                         </div>
                                     </div>
                                 </div>
+                                </TiltCard>
                             </motion.div>
                         );
                     })}

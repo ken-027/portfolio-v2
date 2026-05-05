@@ -217,7 +217,9 @@ const Experiences = () => {
                         {/* Timeline line */}
                         <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-400 via-cyan-400 to-blue-500 transform md:-translate-x-1/2 rounded-full shadow-lg shadow-cyan-500/20"></div>
 
-                        {experiences.map((experience, index) => (
+                        {experiences.map((experience, index) => {
+                            const featuredProjects = (experience.projects || []).filter(p => p.featured);
+                            return (
                             <motion.div
                                 key={experience.id || index}
                                 variants={itemVariants}
@@ -344,9 +346,7 @@ const Experiences = () => {
                                         </div>
 
                                         {/* Projects Section */}
-                                        {experience.projects &&
-                                            Array.isArray(experience.projects) &&
-                                            experience.projects.length > 0 && (
+                                        {featuredProjects.length > 0 && (
                                                 <div className="border-t border-slate-700/30 mt-4">
                                                     <motion.button
                                                         onClick={() => toggleProjects(index)}
@@ -360,7 +360,7 @@ const Experiences = () => {
                                                             </div>
                                                             <div className="text-left">
                                                                 <span className="font-semibold text-white text-sm block">
-                                                                    {experience.projects.length} Project{experience.projects.length > 1 ? "s" : ""}
+                                                                    {featuredProjects.length} Project{featuredProjects.length > 1 ? "s" : ""}
                                                                 </span>
                                                                 <span className="text-slate-400 text-xs">
                                                                     {expandedProjects[index] ? "Click to hide" : "Click to view"}
@@ -388,7 +388,7 @@ const Experiences = () => {
                                                                 className="overflow-hidden"
                                                             >
                                                                 <div className="px-4 pb-4 space-y-3">
-                                                                    {experience.projects.map(
+                                                                    {featuredProjects.map(
                                                                         (project, projectIndex) => {
                                                                             const CategoryIcon = getCategoryIcon(
                                                                                 project.category,
@@ -522,7 +522,8 @@ const Experiences = () => {
                                     </TiltCard>
                                 </div>
                             </motion.div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </motion.div>
             </div>

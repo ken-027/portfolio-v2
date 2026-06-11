@@ -308,16 +308,16 @@ const Hero = () => {
                   <span className="text-gradient block">Andales</span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-slate-200 font-semibold">
-                  Full-Stack Developer for{" "}
-                  <span className="text-cyan-400">Startups</span>
+                  Full-Stack Developer{" "}
+                  <span className="text-cyan-400">· AI-Ready</span>
                 </p>
               </motion.div>
 
               {/* Value prop */}
               <motion.div variants={itemVariants} className="mb-8">
                 <p className="text-slate-400 text-lg leading-relaxed max-w-xl">
-                  I help founders build scalable web apps and SaaS products —
-                  from MVP to production, quickly and affordably.
+                  I build full-stack SaaS products and AI-powered web apps for
+                  startups — from MVP to production, fast and clean.
                 </p>
               </motion.div>
 
@@ -414,17 +414,19 @@ const Hero = () => {
                   <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </motion.button>
 
-                <motion.a
+                <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  href="https://services.kdevtech.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={() =>
+                    document
+                      .getElementById("contact")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
                   className="px-6 py-3 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-colors backdrop-blur-sm flex items-center gap-2"
                 >
                   <FaRocket className="text-cyan-400" />
-                  Start a Project
-                </motion.a>
+                  Hire Me
+                </motion.button>
               </motion.div>
             </div>
 
@@ -446,43 +448,33 @@ const Hero = () => {
                   <div className="relative z-10 flex justify-center mb-6">
                     <div className="relative">
                       <div className="absolute inset-0 rounded-full blur-2xl bg-cyan-500/35 scale-110" />
+                      {availability?.availableForProjects && (
+                        <div className="absolute inset-0 rounded-full border-2 border-emerald-400/60 animate-pulse scale-110 z-10" />
+                      )}
                       {profile?.avatarLink ?
                         <img
                           src={profile.avatarLink}
                           alt="Kenneth Andales"
-                          className="relative w-36 h-36 rounded-full border-4 border-cyan-500/45 object-cover shadow-[0_0_48px_rgba(34,211,238,0.32)]"
+                          className={`relative w-36 h-36 rounded-full border-4 object-cover shadow-[0_0_48px_rgba(34,211,238,0.32)] ${availability?.availableForProjects ? "border-emerald-400" : "border-orange-400"}`}
                         />
-                      : <div className="relative w-36 h-36 rounded-full border-4 border-cyan-500/45 bg-slate-700/50 flex items-center justify-center shadow-[0_0_48px_rgba(34,211,238,0.32)]">
+                      : <div
+                          className={`relative w-36 h-36 rounded-full border-4 bg-slate-700/50 flex items-center justify-center shadow-[0_0_48px_rgba(34,211,238,0.32)] ${availability?.availableForProjects ? "border-emerald-400" : "border-orange-400"}`}
+                        >
                           <FaCode className="text-5xl text-cyan-500/50" />
                         </div>
                       }
                     </div>
                   </div>
 
-                  {availability?.availableForProjects ?
-                    <div className="relative z-10 border border-emerald-500/35 bg-emerald-500/10 rounded-full px-4 py-2 w-fit mx-auto mb-7">
-                      <p className="text-emerald-300 text-sm inline-flex items-center gap-2">
-                        <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                        Available for new projects
-                      </p>
-                    </div>
-                  : <div className="relative z-10 border border-orange-500/35 bg-orange-500/10 rounded-full px-4 py-2 w-fit mx-auto mb-7">
-                      <p className="text-orange-300 text-sm inline-flex items-center gap-2">
-                        <span className="w-2 h-2 bg-orange-400 rounded-full" />
-                        Currently busy with existing projects
-                      </p>
-                    </div>
-                  }
-
-                  <div className="relative z-10 border-t border-slate-700/70 pt-6 mb-6">
+                  <div className="relative z-10 border-t border-slate-700/70 pt-6 mb-6 mt-7">
                     <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
                       {[
-                        "Startup MVP",
-                        "Business Website",
-                        "Web Application",
+                        "Full-Stack Apps",
                         "SaaS Development",
                         "AI Integration",
                         "API & Backend",
+                        "B2B Platforms",
+                        "Startup MVP",
                       ].map((item) => (
                         <div key={item} className="flex items-center gap-2">
                           <FaCheckCircle className="text-cyan-400 text-xs shrink-0" />

@@ -9,11 +9,9 @@ import {
   FaRobot,
   FaChevronDown,
   FaRocket,
-  FaCheckCircle,
   FaCalendarAlt,
   FaFolderOpen,
   FaGlobe,
-  FaQuoteLeft,
 } from "react-icons/fa";
 import { SiTypescript, SiPostgresql, SiExpress } from "react-icons/si";
 import { IconType } from "react-icons";
@@ -37,10 +35,7 @@ import {
   fetchExperiences,
   fetchSkills,
   fetchProjects,
-  getPublicProfile,
-  getAvailabilityStatus,
 } from "../services/api";
-import type { PublicProfile, AvailabilityStatus } from "../services/api";
 
 interface TechIcon {
   Icon: IconType;
@@ -134,12 +129,6 @@ const Hero = () => {
   const { data: experiencesData } = useFetch<ExperiencesData>(fetchExperiences);
   const { data: skillsData } = useFetch<SkillsData>(fetchSkills);
   const { data: projectsData } = useFetch<ProjectsData>(fetchProjects);
-  const { data: availability } = useFetch<AvailabilityStatus>(
-    getAvailabilityStatus,
-  );
-
-  const { data: profile } = useFetch<PublicProfile>(getPublicProfile);
-
   const experiences = useMemo(
     () => experiencesData?.data ?? [],
     [experiencesData],
@@ -430,70 +419,110 @@ const Hero = () => {
               </motion.div>
             </div>
 
-            {/* Right: profile card (2/5) */}
+            {/* Right: code editor card (2/5) */}
             <motion.div
               variants={itemVariants}
               className="lg:col-span-2 flex justify-center lg:justify-end"
             >
-              <TiltCard
-                intensity={5}
-                spotlightColor="rgba(6,182,212,0.10)"
-                className="w-full max-w-sm rounded-[30px]"
+              <motion.div
+                drag
+                dragSnapToOrigin
+                dragElastic={0.15}
+                whileDrag={{ scale: 1.03, cursor: "grabbing" }}
+                className="relative w-full max-w-sm cursor-grab"
               >
-                <div className="relative w-full rounded-[30px] border border-cyan-500/25 bg-slate-900/50 px-7 py-8 backdrop-blur-xl shadow-[0_30px_80px_rgba(14,116,255,0.22)]">
-                  <div className="pointer-events-none absolute inset-0 rounded-[30px] bg-linear-to-b from-cyan-500/10 via-transparent to-transparent" />
-                  <div className="pointer-events-none absolute inset-3 rounded-[24px] border border-slate-400/10" />
-
-                  {/* Avatar */}
-                  <div className="relative z-10 flex justify-center mb-6">
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-full blur-2xl bg-cyan-500/35 scale-110" />
-                      {availability?.availableForProjects && (
-                        <div className="absolute inset-0 rounded-full border-2 border-emerald-400/60 animate-pulse scale-110 z-10" />
-                      )}
-                      {profile?.avatarLink ?
-                        <img
-                          src={profile.avatarLink}
-                          alt="Kenneth Andales"
-                          className={`relative w-36 h-36 rounded-full border-4 object-cover shadow-[0_0_48px_rgba(34,211,238,0.32)] ${availability?.availableForProjects ? "border-emerald-400" : "border-orange-400"}`}
-                        />
-                      : <div
-                          className={`relative w-36 h-36 rounded-full border-4 bg-slate-700/50 flex items-center justify-center shadow-[0_0_48px_rgba(34,211,238,0.32)] ${availability?.availableForProjects ? "border-emerald-400" : "border-orange-400"}`}
-                        >
-                          <FaCode className="text-5xl text-cyan-500/50" />
-                        </div>
-                      }
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 border-t border-slate-700/70 pt-6 mb-6 mt-7">
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
-                      {[
-                        "Full-Stack Apps",
-                        "SaaS Development",
-                        "AI Integration",
-                        "API & Backend",
-                        "B2B Platforms",
-                        "Startup MVP",
-                      ].map((item) => (
-                        <div key={item} className="flex items-center gap-2">
-                          <FaCheckCircle className="text-cyan-400 text-xs shrink-0" />
-                          <span className="text-slate-200 text-xs">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 border-t border-slate-700/70 mb-5" />
-
-                  <div className="relative z-10 border-t border-slate-700/70 pt-5">
-                    <FaQuoteLeft className="text-cyan-400/70 text-lg mb-2" />
-                    <blockquote className="text-slate-300/90 text-lg font-semibold leading-relaxed">
-                      Clean architecture. Fast delivery. Real results.
-                    </blockquote>
-                  </div>
+                {/* Floating tech badges — desktop only */}
+                <div className="hidden lg:inline-flex absolute -top-3 -right-5 z-20 items-center gap-1.5 rounded-full border border-fuchsia-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <FaRobot className="text-fuchsia-400" />
+                  AI/LLM
                 </div>
-              </TiltCard>
+                <div className="hidden lg:inline-flex absolute top-[27%] -right-14 z-20 items-center gap-1.5 rounded-full border border-cyan-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <FaReact className="text-cyan-400" />
+                  React
+                </div>
+                <div className="hidden lg:inline-flex absolute top-[47%] -right-16 z-20 items-center gap-1.5 rounded-full border border-green-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <FaNodeJs className="text-green-400" />
+                  Node.js
+                </div>
+                <div className="hidden lg:inline-flex absolute bottom-[28%] -left-14 z-20 items-center gap-1.5 rounded-full border border-blue-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <SiTypescript className="text-blue-400" />
+                  TypeScript
+                </div>
+                <div className="hidden lg:inline-flex absolute bottom-[14%] -right-14 z-20 items-center gap-1.5 rounded-full border border-blue-400/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <SiPostgresql className="text-blue-300" />
+                  PostgreSQL
+                </div>
+                <div className="hidden lg:inline-flex absolute -bottom-3 right-12 z-20 items-center gap-1.5 rounded-full border border-blue-600/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
+                  <FaDocker className="text-blue-500" />
+                  Docker
+                </div>
+
+                <TiltCard
+                  intensity={5}
+                  spotlightColor="rgba(6,182,212,0.10)"
+                  className="w-full rounded-2xl"
+                >
+                  <div className="rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900/80 shadow-[0_30px_80px_rgba(14,116,255,0.22)]">
+                    {/* Title bar */}
+                    <div className="flex items-center gap-1.5 bg-slate-800 px-4 py-3 border-b border-slate-700/60">
+                      <span className="w-3 h-3 rounded-full bg-red-500/90" />
+                      <span className="w-3 h-3 rounded-full bg-yellow-400/90" />
+                      <span className="w-3 h-3 rounded-full bg-green-500/90" />
+                      <span className="ml-3 text-xs text-slate-400 font-mono">api/routes.ts</span>
+                    </div>
+
+                    {/* Code body */}
+                    <div className="bg-[#0d1117] py-4 font-mono text-[13px] leading-[1.7] overflow-x-auto">
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">1</span>
+                        <span><span className="text-purple-400">const</span>{" "}<span className="text-cyan-300">router</span>{" "}<span className="text-slate-400">=</span>{" "}<span className="text-slate-200">express</span><span className="text-slate-400">.</span><span className="text-yellow-300">Router</span><span className="text-slate-400">()</span></span>
+                      </div>
+                      <div className="flex px-2">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">2</span>
+                        <span>&nbsp;</span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">3</span>
+                        <span><span className="text-cyan-300">router</span><span className="text-slate-400">.</span><span className="text-yellow-300">get</span><span className="text-slate-400">(</span><span className="text-green-400">&apos;/api/products&apos;</span><span className="text-slate-400">,</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">4</span>
+                        <span className="pl-[2ch]"><span className="text-cyan-300">authenticate</span><span className="text-slate-400">,</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">5</span>
+                        <span className="pl-[2ch]"><span className="text-purple-400">async</span>{" "}<span className="text-slate-400">(</span><span className="text-cyan-300">req</span><span className="text-slate-400">,</span>{" "}<span className="text-cyan-300">res</span><span className="text-slate-400">)</span>{" "}<span className="text-purple-400">{"=>"}</span>{" "}<span className="text-slate-400">{"{"}</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">6</span>
+                        <span className="pl-[4ch]"><span className="text-purple-400">const</span>{" "}<span className="text-cyan-300">products</span>{" "}<span className="text-slate-400">=</span>{" "}<span className="text-purple-400">await</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">7</span>
+                        <span className="pl-[6ch]"><span className="text-slate-200">db</span><span className="text-slate-400">.</span><span className="text-yellow-300">query</span><span className="text-slate-400">(</span><span className="text-green-400">&apos;SELECT * FROM products&apos;</span><span className="text-slate-400">)</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">8</span>
+                        <span className="pl-[4ch]"><span className="text-cyan-300">res</span><span className="text-slate-400">.</span><span className="text-yellow-300">json</span><span className="text-slate-400">({"{ "}</span><span className="text-cyan-300">products</span><span className="text-slate-400">{" })"}</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">9</span>
+                        <span className="pl-[2ch]"><span className="text-slate-400">{"}"}</span></span>
+                      </div>
+                      <div className="flex px-2 hover:bg-white/[0.025]">
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">10</span>
+                        <span><span className="text-slate-400">)</span></span>
+                      </div>
+                    </div>
+
+                    {/* Status bar */}
+                    <div className="flex items-center gap-2 bg-slate-800/80 px-4 py-2 border-t border-slate-700/50">
+                      <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
+                      <span className="text-[11px] text-slate-500 font-mono truncate">Node.js · TypeScript · Express · PostgreSQL</span>
+                    </div>
+                  </div>
+                </TiltCard>
+              </motion.div>
             </motion.div>
           </div>
         </div>

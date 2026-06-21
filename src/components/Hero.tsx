@@ -425,11 +425,11 @@ const Hero = () => {
               className="lg:col-span-2 flex justify-center lg:justify-end"
             >
               <motion.div
-                drag
-                dragSnapToOrigin
-                dragElastic={0.15}
-                whileDrag={{ scale: 1.03, cursor: "grabbing" }}
-                className="relative w-full max-w-sm cursor-grab"
+                // drag
+                // dragSnapToOrigin
+                // dragElastic={0.15}
+                // whileDrag={{ scale: 1.03, cursor: "grabbing" }}
+                className="relative w-full max-w-sm"
               >
                 {/* Floating tech badges — desktop only */}
                 <div className="hidden lg:inline-flex absolute -top-3 -right-5 z-20 items-center gap-1.5 rounded-full border border-fuchsia-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">

@@ -46,13 +46,16 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ## 📍 Detailed Breakdown
 
 ### 1️⃣ Certificate Image (Entire Image Area)
+
 **Location**: Top of card  
-**Visual Cue**: 
+**Visual Cue**:
+
 - "Verified" badge on image
 - Hover shows "View Certificate" overlay
 - Image slightly zooms on hover
 
 **Appearance on Hover**:
+
 ```
 ┌─────────────────────────────┐
 │   [Dark Overlay]            │
@@ -66,14 +69,17 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ---
 
 ### 2️⃣ External Link Icon (Top Right)
+
 **Location**: Top-right corner of content area  
 **Visual Cue**:
+
 - Cyan colored icon
 - Light background highlight
 - Rotates and scales on hover
 - Tooltip: "View Certificate"
 
 **Styling**:
+
 - Background: Cyan glow
 - Icon size: Large (18px)
 - Hover effect: Scale + rotate
@@ -83,13 +89,16 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ---
 
 ### 3️⃣ Certificate Title
+
 **Location**: Below platform badges  
 **Visual Cue**:
+
 - Entire title is clickable
 - Turns cyan on hover
 - Underline appears on hover (optional)
 
 **Styling**:
+
 - Font: Large, bold
 - Hover color: Cyan
 - Cursor changes to pointer
@@ -99,8 +108,10 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ---
 
 ### 4️⃣ "VERIFY CERTIFICATE" Button (PRIMARY CTA)
+
 **Location**: Bottom of card, above credential ID  
 **Visual Cue**:
+
 - **MOST PROMINENT** verification element
 - Green gradient background
 - Border with glow effect
@@ -109,6 +120,7 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 - Sub-text: "Click to verify on official platform"
 
 **Styling**:
+
 ```css
 - Background: Green gradient (light)
 - Border: 2px solid green
@@ -118,6 +130,7 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ```
 
 **Features**:
+
 - ✅ Always visible on every card
 - ✅ Full width for easy clicking
 - ✅ Clear call-to-action text
@@ -129,14 +142,17 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ---
 
 ### 5️⃣ Credential ID
+
 **Location**: Bottom of card  
 **Visual Cue**:
+
 - Monospace font for ID
 - Small external link icon next to ID
 - Turns cyan on hover
 - Icon animates on hover
 
 **Styling**:
+
 - Text: Small, monospace
 - Hover: Cyan color
 - Icon: Tiny external link
@@ -146,6 +162,7 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ---
 
 ### 6️⃣ Image "Verified" Badge (If No Link Available)
+
 **Location**: Top-right of certificate image  
 **Visual Cue**: Green badge
 **Note**: Still visible even without link to show certificate status
@@ -155,6 +172,7 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ## 🎨 Visual States
 
 ### When Link IS Available ✅
+
 ```
 ┌─────────────────────────────────────┐
 │  [Image with "Verified" Badge]      │ ← Clickable
@@ -168,6 +186,7 @@ Each certificate card now has **6 CLICKABLE AREAS** to verify legitimacy. This e
 ```
 
 ### When Link is NOT Available ❌
+
 ```
 ┌─────────────────────────────────────┐
 │  [Image - No hover effect]          │ ← Not clickable
@@ -193,6 +212,7 @@ The component checks for verification links in this order:
 7. `credential_url`
 
 **Example API Response**:
+
 ```json
 {
   "id": 1,
@@ -205,12 +225,14 @@ The component checks for verification links in this order:
 ## 💡 User Experience Flow
 
 ### Discovery Phase
+
 1. User scrolls to certificates section
 2. Sees green "VERIFY CERTIFICATE" button (immediate trust signal)
 3. Notices "Verified" badges on images
 4. Recognizes multiple ways to verify
 
 ### Interaction Phase
+
 1. **Hover over any clickable element**:
    - Visual feedback (color change, scale, glow)
    - Cursor changes to pointer
@@ -228,22 +250,26 @@ The component checks for verification links in this order:
 ## 🎯 Accessibility Features
 
 ### Keyboard Navigation
+
 - All clickable elements are keyboard accessible
 - Tab order: Image → Icon → Title → Button → Credential ID
 - Enter/Space activates links
 
 ### Screen Readers
+
 - ARIA labels on all interactive elements
 - Alt text on images
 - Clear semantic HTML structure
 - Proper heading hierarchy
 
 ### Visual Indicators
+
 - Color contrast meets WCAG AA standards
 - Multiple visual cues for clickability
 - Not relying solely on color
 
 ### Touch Devices
+
 - Large touch targets (minimum 44x44px)
 - No hover-only functionality
 - Clear tap feedback
@@ -338,7 +364,7 @@ Your certificates now have:
 ✅ **Smooth hover animations**  
 ✅ **Accessible to all users**  
 ✅ **Mobile-friendly touch targets**  
-✅ **Disabled state when no link available**  
+✅ **Disabled state when no link available**
 
 **Result**: Crystal clear, impossible-to-miss certificate verification! 🎉
 

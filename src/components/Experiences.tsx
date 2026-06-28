@@ -1,534 +1,488 @@
-import { useState } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
-import TiltCard from "./TiltCard";
+import { useState } from 'react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import {
-    FaBriefcase,
-    FaCalendar,
-    FaMapMarkerAlt,
-    FaSpinner,
-    FaExternalLinkAlt,
-    FaChevronDown,
-    FaCode,
-    FaLaptopCode,
-    FaServer,
-} from "react-icons/fa";
-import { IconType } from 'react-icons';
-import { useFetch } from "../hooks/useFetch";
-import { fetchExperiences } from "../services/api";
+  FaSpinner,
+  FaExternalLinkAlt,
+  FaMapMarkerAlt,
+  FaChevronDown,
+  FaChevronRight,
+  FaBriefcase,
+} from 'react-icons/fa';
+import { useFetch } from '../hooks/useFetch';
+import { fetchExperiences } from '../services/api';
 
 interface Technology {
-    id: string;
-    name: string;
-    icon?: string;
-    proficiency?: string;
-    level?: number;
+  id: string;
+  name: string;
+  icon?: string;
+  proficiency?: string;
+  level?: number;
 }
 
 interface Project {
-    id: string;
-    experienceId: string | null;
-    title: string;
-    description?: string;
-    category?: string;
-    type?: string;
-    projectRole?: string;
-    thumbnailLink?: string | null;
-    githubRepo?: string | null;
-    dockerLink?: string | null;
-    liveDemo?: string | null;
-    screenshot?: string | null;
-    aiPowered?: boolean;
-    featured?: boolean;
-    technologies?: Technology[];
-    createdAt?: string;
-    updatedAt?: string;
+  id: string;
+  experienceId: string | null;
+  title: string;
+  description?: string;
+  category?: string;
+  type?: string;
+  projectRole?: string;
+  featured?: boolean;
+  technologies?: Technology[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Experience {
-    id: string;
-    title: string;
-    company: string;
-    companyLogo?: string | null;
-    companyLink?: string | null;
-    startDate?: string;
-    endDate?: string | null;
-    location?: string;
-    descriptions?: string[];
-    projects?: Project[];
-    createdAt?: string;
-    updatedAt?: string;
+  id: string;
+  title: string;
+  company: string;
+  companyLogo?: string | null;
+  companyLink?: string | null;
+  startDate?: string;
+  endDate?: string | null;
+  location?: string;
+  descriptions?: string[];
+  projects?: Project[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ExperiencesData {
-    success: boolean;
-    data: Experience[];
+  success: boolean;
+  data: Experience[];
 }
 
+const formatYear = (dateString: string): string => {
+  if (!dateString) return '';
+  return new Date(dateString).getFullYear().toString();
+};
+
+const calculateDuration = (startDate?: string, endDate?: string | null): string => {
+  if (!startDate) return '';
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : new Date();
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  const parts: string[] = [];
+  if (years > 0) parts.push(`${years} yr${years > 1 ? 's' : ''}`);
+  if (months > 0) parts.push(`${months} mo${months > 1 ? 's' : ''}`);
+  return parts.length > 0 ? parts.join(' ') : '< 1 mo';
+};
+
+const getUniqueTechs = (experience: Experience): Technology[] => {
+  const seen = new Set<string>();
+  const techs: Technology[] = [];
+  for (const project of experience.projects || []) {
+    for (const tech of project.technologies || []) {
+      if (!seen.has(tech.name)) {
+        seen.add(tech.name);
+        techs.push(tech);
+      }
+    }
+  }
+  return techs.slice(0, 6);
+};
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 24, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
+const expandVariants: Variants = {
+  hidden: { height: 0, opacity: 0 },
+  visible: {
+    height: 'auto',
+    opacity: 1,
+    transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+  exit: {
+    height: 0,
+    opacity: 0,
+    transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
 const Experiences = () => {
-    const { data, loading, error } = useFetch<ExperiencesData>(fetchExperiences);
-    const [expandedProjects, setExpandedProjects] = useState<Record<number, boolean>>({});
+  const { data, loading, error } = useFetch<ExperiencesData>(fetchExperiences);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
-    const toggleProjects = (experienceIndex: number) => {
-        setExpandedProjects((prev) => ({
-            ...prev,
-            [experienceIndex]: !prev[experienceIndex],
-        }));
-    };
+  const toggleExpand = (id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
-    const formatDate = (dateString: string): string => {
-        if (!dateString) return "";
-        const date = new Date(dateString);
-        return date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-        });
-    };
-
-    const calculateDuration = (startDate?: string, endDate?: string | null): string => {
-        if (!startDate) return "";
-        const start = new Date(startDate);
-        const end = endDate ? new Date(endDate) : new Date();
-        let years = end.getFullYear() - start.getFullYear();
-        let months = end.getMonth() - start.getMonth();
-        if (months < 0) { years--; months += 12; }
-        const parts: string[] = [];
-        if (years > 0) parts.push(`${years} yr${years > 1 ? "s" : ""}`);
-        if (months > 0) parts.push(`${months} mo${months > 1 ? "s" : ""}`);
-        return parts.length > 0 ? parts.join(" ") : "< 1 mo";
-    };
-
-    const getCategoryIcon = (category?: string): IconType => {
-        switch (category?.toLowerCase()) {
-            case "frontend":
-                return FaCode;
-            case "backend":
-                return FaServer;
-            case "fullstack":
-                return FaLaptopCode;
-            default:
-                return FaBriefcase;
-        }
-    };
-
-    const getCategoryColor = (category?: string): string => {
-        switch (category?.toLowerCase()) {
-            case "frontend":
-                return "from-blue-500/10 to-cyan-500/10 border-blue-500/30 text-blue-400";
-            case "backend":
-                return "from-green-500/10 to-emerald-500/10 border-green-500/30 text-green-400";
-            case "fullstack":
-                return "from-purple-500/10 to-pink-500/10 border-purple-500/30 text-purple-400";
-            default:
-                return "from-slate-500/10 to-slate-500/10 border-slate-500/30 text-slate-400";
-        }
-    };
-
-    const containerVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-            },
-        },
-    };
-
-    const itemVariants: Variants = {
-        hidden: { y: 30, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.5,
-                ease: [0.25, 0.46, 0.45, 0.94],
-                when: "beforeChildren",
-                staggerChildren: 0.07,
-                delayChildren: 0.15,
-            },
-        },
-    };
-
-    const descriptionVariants: Variants = {
-        hidden: { opacity: 0, y: 8 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.3,
-                ease: [0.25, 0.46, 0.45, 0.94],
-            },
-        },
-    };
-
-    if (loading) {
-        return (
-            <section id="experiences" className="py-24 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
-                <div className="container mx-auto px-6 max-w-7xl">
-                    <div className="flex items-center justify-center h-64">
-                        <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
-                    </div>
-                </div>
-            </section>
-        );
-    }
-
-    if (error) {
-        return (
-            <section id="experiences" className="py-24 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
-                <div className="container mx-auto px-6 max-w-7xl">
-                    <div className="text-center text-red-400">
-                        <p>Error loading experiences: {error}</p>
-                    </div>
-                </div>
-            </section>
-        );
-    }
-
-    const experiences: Experience[] = data?.data || [];
-
+  if (loading) {
     return (
-        <section id="experiences" className="py-12 bg-gradient-to-b from-transparent via-slate-950/20 to-transparent">
-            <div className="container mx-auto px-6 max-w-7xl">
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-10"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                        <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                            Professional Experience
-                        </span>
-                    </h2>
-                    <p className="text-slate-400 text-base max-w-2xl mx-auto">
-                        A journey through meaningful roles and impactful contributions
-                    </p>
-                </motion.div>
-
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="max-w-5xl mx-auto"
-                >
-                    <div className="relative">
-                        {/* Timeline line */}
-                        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-400 via-cyan-400 to-blue-500 transform md:-translate-x-1/2 rounded-full shadow-lg shadow-cyan-500/20"></div>
-
-                        {experiences.map((experience, index) => {
-                            const featuredProjects = (experience.projects || []).filter(p => p.featured);
-                            return (
-                            <motion.div
-                                key={experience.id || index}
-                                variants={itemVariants}
-                                className={`relative mb-8 ${index % 2 === 0 ? "md:pr-1/2" : "md:pl-1/2 md:text-right"
-                                    }`}
-                            >
-                                <div
-                                    className={`md:w-1/2 ${index % 2 === 0 ? "md:pr-8" : "md:pl-8 md:ml-auto"}`}
-                                >
-                                    {/* Timeline dot */}
-                                    <div
-                                        className={`absolute left-0 md:left-1/2 top-6 w-4 h-4 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full border-3 border-slate-950 transform md:-translate-x-1/2 shadow-lg shadow-cyan-500/30`}
-                                    ></div>
-
-                                    <TiltCard
-                                        intensity={2}
-                                        spotlightColor="rgba(6,182,212,0.08)"
-                                        className="group ml-8 md:ml-0 bg-gradient-to-b from-slate-800/40 to-slate-900/60 backdrop-blur-sm rounded-xl border border-slate-700/30 hover:border-cyan-400/40 transition-[border-color,box-shadow] duration-500 overflow-hidden shadow-xl hover:shadow-xl hover:shadow-cyan-500/10"
-                                    >
-                                        {/* Hover Glow */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/5 group-hover:to-blue-500/5 transition-colors duration-500 rounded-xl pointer-events-none" />
-                                        {/* Card Header */}
-                                        <div className="p-4">
-                                            <div
-                                                className={`flex items-start gap-4 mb-4 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
-                                            >
-                                                {/* Company Logo */}
-                                                {experience.companyLogo && (
-                                                    <motion.div
-                                                        whileHover={{ scale: 1.05, rotate: 2 }}
-                                                        className="shrink-0"
-                                                    >
-                                                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/5 border border-slate-700/30 p-2 flex items-center justify-center overflow-hidden shadow-lg">
-                                                            <img
-                                                                src={experience.companyLogo}
-                                                                alt={experience.company}
-                                                                className="w-full h-full object-contain"
-                                                                onError={(e) => {
-                                                                    const target = e.currentTarget;
-                                                                    target.style.display = "none";
-                                                                    if (target.parentElement) {
-                                                                        target.parentElement.innerHTML =
-                                                                            '<div class="text-cyan-400 text-lg font-bold">' +
-                                                                            (experience.company?.charAt(0) || "?") +
-                                                                            "</div>";
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </motion.div>
-                                                )}
-
-                                                {/* Title and Company */}
-                                                <div className="flex-1 min-w-0">
-                                                    <h3 className="text-lg md:text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors duration-300 leading-tight">
-                                                        {experience.title}
-                                                    </h3>
-                                                    <div className="mb-2">
-                                                        {experience.companyLink ?
-                                                            <motion.a
-                                                                href={experience.companyLink}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                whileHover={{ scale: 1.02 }}
-                                                                className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-semibold text-base transition-colors group/link"
-                                                            >
-                                                                <span>{experience.company}</span>
-                                                                <FaExternalLinkAlt className="text-xs group-hover/link:translate-x-0.5 transition-transform duration-300" />
-                                                            </motion.a>
-                                                            : <span className="text-cyan-400 font-semibold text-base">
-                                                                {experience.company}
-                                                            </span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {/* Date and Location */}
-                                            <div
-                                                className={`flex flex-wrap gap-3 text-sm text-slate-400 mb-4 ${index % 2 === 0 ? "" : "md:justify-end"}`}
-                                            >
-                                                {experience.startDate && (
-                                                    <div className="flex items-center gap-2 bg-slate-900/30 px-3 py-1.5 rounded-lg border border-slate-700/30">
-                                                        <div className="p-1 bg-cyan-500/10 rounded">
-                                                            <FaCalendar className="text-cyan-400 text-xs" />
-                                                        </div>
-                                                        <span className="font-medium text-slate-300 text-xs">
-                                                            {formatDate(experience.startDate)}
-                                                            {experience.endDate ?
-                                                                ` - ${formatDate(experience.endDate)}` : " - Present"}
-                                                            <span className="ml-1 text-cyan-400/70">
-                                                                · {calculateDuration(experience.startDate, experience.endDate)}
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {experience.location && (
-                                                    <div className="flex items-center gap-2 bg-slate-900/30 px-3 py-1.5 rounded-lg border border-slate-700/30">
-                                                        <div className="p-1 bg-emerald-500/10 rounded">
-                                                            <FaMapMarkerAlt className="text-emerald-400 text-xs" />
-                                                        </div>
-                                                        <span className="font-medium text-slate-300 text-xs">{experience.location}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            {/* Descriptions */}
-                                            {experience.descriptions &&
-                                                Array.isArray(experience.descriptions) &&
-                                                experience.descriptions.length > 0 && (
-                                                    <div className="space-y-2">
-                                                        {experience.descriptions.map((desc, i) => (
-                                                            <motion.div
-                                                                key={i}
-                                                                variants={descriptionVariants}
-                                                                className={`flex items-start gap-2 p-3 bg-slate-900/20 rounded-lg border border-slate-700/20 hover:border-cyan-500/30 transition-[border-color] duration-300 ${index % 2 === 0 ? "" : "md:flex-row-reverse md:text-right"}`}
-                                                            >
-                                                                <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mt-1.5 shrink-0"></div>
-                                                                <span className="flex-1 text-slate-300 text-sm leading-relaxed">{desc}</span>
-                                                            </motion.div>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                        </div>
-
-                                        {/* Projects Section */}
-                                        {featuredProjects.length > 0 && (
-                                                <div className="border-t border-slate-700/30 mt-4">
-                                                    <motion.button
-                                                        onClick={() => toggleProjects(index)}
-                                                        whileHover={{ backgroundColor: "rgba(51, 65, 85, 0.3)" }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        className="w-full px-4 py-3 flex items-center justify-between transition-colors duration-300 rounded-b-xl"
-                                                    >
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-1.5 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg border border-purple-500/20">
-                                                                <FaBriefcase className="text-purple-400 text-sm" />
-                                                            </div>
-                                                            <div className="text-left">
-                                                                <span className="font-semibold text-white text-sm block">
-                                                                    {featuredProjects.length} Project{featuredProjects.length > 1 ? "s" : ""}
-                                                                </span>
-                                                                <span className="text-slate-400 text-xs">
-                                                                    {expandedProjects[index] ? "Click to hide" : "Click to view"}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <motion.div
-                                                            animate={{
-                                                                rotate: expandedProjects[index] ? 180 : 0,
-                                                            }}
-                                                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                                                            className="p-1.5 bg-slate-700/30 rounded"
-                                                        >
-                                                            <FaChevronDown className="text-slate-400 text-sm" />
-                                                        </motion.div>
-                                                    </motion.button>
-
-                                                    <AnimatePresence initial={false}>
-                                                        {expandedProjects[index] && (
-                                                            <motion.div
-                                                                initial={{ height: 0, opacity: 0 }}
-                                                                animate={{ height: "auto", opacity: 1 }}
-                                                                exit={{ height: 0, opacity: 0 }}
-                                                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                                                className="overflow-hidden"
-                                                            >
-                                                                <div className="px-4 pb-4 space-y-3">
-                                                                    {featuredProjects.map(
-                                                                        (project, projectIndex) => {
-                                                                            const CategoryIcon = getCategoryIcon(
-                                                                                project.category,
-                                                                            );
-                                                                            return (
-                                                                                <motion.div
-                                                                                    key={projectIndex}
-                                                                                    initial={{ opacity: 0, y: 10 }}
-                                                                                    animate={{ opacity: 1, y: 0 }}
-                                                                                    transition={{
-                                                                                        delay: projectIndex * 0.1,
-                                                                                        duration: 0.3
-                                                                                    }}
-                                                                                    whileHover={{ scale: 1.01, y: -2 }}
-                                                                                    className="bg-gradient-to-br from-slate-900/40 to-slate-800/60 rounded-xl p-4 border border-slate-700/40 hover:border-cyan-500/40 transition-[border-color,box-shadow] duration-300 shadow-lg hover:shadow-xl"
-                                                                                >
-                                                                                    {/* Project Header */}
-                                                                                    <div className="flex items-start justify-between gap-3 mb-3">
-                                                                                        <div className="flex items-start gap-3 flex-1">
-                                                                                            <div
-                                                                                                className={`p-2 rounded-lg bg-gradient-to-br ${getCategoryColor(project.category)} border shrink-0`}
-                                                                                            >
-                                                                                                <CategoryIcon className="text-sm" />
-                                                                                            </div>
-                                                                                            <div className="flex-1 min-w-0">
-                                                                                                <div className="flex items-center gap-2 flex-wrap mb-1">
-                                                                                                    <h4 className="font-bold text-white text-base">
-                                                                                                        {project.title}
-                                                                                                    </h4>
-                                                                                                    {project.category && (
-                                                                                                        <span
-                                                                                                            className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getCategoryColor(project.category)}`}
-                                                                                                        >
-                                                                                                            {project.category}
-                                                                                                        </span>
-                                                                                                    )}
-                                                                                                </div>
-                                                                                                {project.projectRole && (
-                                                                                                    <span className="inline-block px-2 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-xs text-purple-400 font-semibold">
-                                                                                                        {project.projectRole}
-                                                                                                    </span>
-                                                                                                )}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        {project.screenshot && (
-                                                                                            <motion.a
-                                                                                                href={project.screenshot}
-                                                                                                target="_blank"
-                                                                                                rel="noopener noreferrer"
-                                                                                                whileHover={{ scale: 1.1, y: -2 }}
-                                                                                                whileTap={{ scale: 0.95 }}
-                                                                                                className="shrink-0 p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg text-cyan-400 transition-[background-color] duration-300"
-                                                                                            >
-                                                                                                <FaExternalLinkAlt className="text-xs" />
-                                                                                            </motion.a>
-                                                                                        )}
-                                                                                    </div>
-
-                                                                                    {/* Project Description */}
-                                                                                    {project.description && (
-                                                                                        <p className="text-slate-300 text-sm leading-relaxed mb-3 bg-slate-900/30 p-3 rounded-lg border border-slate-700/20">
-                                                                                            {project.description}
-                                                                                        </p>
-                                                                                    )}
-
-                                                                                    {/* Technologies */}
-                                                                                    {project.technologies &&
-                                                                                        Array.isArray(project.technologies) &&
-                                                                                        project.technologies.length > 0 && (
-                                                                                            <div className="flex flex-wrap gap-1.5">
-                                                                                                {project.technologies
-                                                                                                    .slice(0, 5)
-                                                                                                    .map((tech, techIndex) => (
-                                                                                                        <motion.div
-                                                                                                            key={techIndex}
-                                                                                                            whileHover={{
-                                                                                                                scale: 1.05,
-                                                                                                                y: -1
-                                                                                                            }}
-                                                                                                            className="group/tech"
-                                                                                                            data-tooltip-id="info-tooltip"
-                                                                                                            data-tooltip-content={`${tech.name}${tech.proficiency ?
-                                                                                                                " - " + tech.proficiency
-                                                                                                                : tech.level ?
-                                                                                                                    " - Level " + tech.level
-                                                                                                                    : ""
-                                                                                                                }`}
-                                                                                                        >
-                                                                                                            <div className="px-2 py-1 bg-slate-800/60 border border-slate-700/40 rounded-full flex items-center gap-1.5 hover:border-cyan-500/40 transition-[border-color] duration-300">
-                                                                                                                {tech.icon && (
-                                                                                                                    <img
-                                                                                                                        src={tech.icon}
-                                                                                                                        alt={tech.name}
-                                                                                                                        className="w-3 h-3 object-contain"
-                                                                                                                        onError={(e) =>
-                                                                                                                            (e.currentTarget.style.display = "none")
-                                                                                                                        }
-                                                                                                                    />
-                                                                                                                )}
-                                                                                                                <span className="text-[10px] text-slate-300 font-medium group-hover/tech:text-cyan-400 transition-colors duration-300">
-                                                                                                                    {tech.name}
-                                                                                                                </span>
-                                                                                                                {tech.level && (
-                                                                                                                    <span className="text-[9px] text-slate-500 font-medium">
-                                                                                                                        Lv{tech.level}
-                                                                                                                    </span>
-                                                                                                                )}
-                                                                                                            </div>
-                                                                                                        </motion.div>
-                                                                                                    ))}
-                                                                                                {project.technologies.length > 5 && (
-                                                                                                    <span className="px-2 py-1 text-[10px] text-slate-500 font-medium cursor-help bg-slate-900/30 rounded-full border border-slate-700/30"
-                                                                                                        data-tooltip-id="info-tooltip"
-                                                                                                        data-tooltip-content={`More technologies: ${project.technologies.slice(5).map(t => t.name).join(', ')}`}
-                                                                                                    >
-                                                                                                        +{project.technologies.length - 5}
-                                                                                                    </span>
-                                                                                                )}
-                                                                                            </div>
-                                                                                        )}
-                                                                                </motion.div>
-                                                                            );
-                                                                        },
-                                                                    )}
-                                                                </div>
-                                                            </motion.div>
-                                                        )}
-                                                    </AnimatePresence>
-                                                </div>
-                                            )}
-                                    </TiltCard>
-                                </div>
-                            </motion.div>
-                            );
-                        })}
-                    </div>
-                </motion.div>
-            </div>
-        </section>
+      <section id="experiences" className="py-20">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="flex items-center justify-center h-64">
+            <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
+          </div>
+        </div>
+      </section>
     );
+  }
+
+  if (error) {
+    return (
+      <section id="experiences" className="py-20">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="text-center text-red-400">
+            <p>Error loading experiences: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const experiences: Experience[] = data?.data || [];
+
+  return (
+    <section id="experiences" className="py-20">
+      <div className="container mx-auto px-6 max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-12"
+        >
+          <p className="text-xs uppercase tracking-widest text-emerald-500/70 mb-2 font-semibold">
+            Career
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Professional Experience
+            </span>
+          </h2>
+          <p className="text-slate-400 text-base max-w-2xl">
+            Startups, agencies, and client products — shipped across the full stack
+          </p>
+        </motion.div>
+
+        <div className="relative">
+          {/* Timeline line — hidden on mobile */}
+          <motion.div
+            className="hidden sm:block absolute left-3 top-0 bottom-0 w-px origin-top"
+            initial={{ scaleY: 0, opacity: 0 }}
+            whileInView={{ scaleY: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{
+              background:
+                'linear-gradient(to bottom, transparent, rgba(148,163,184,0.35) 15%, rgba(148,163,184,0.35) 85%, transparent)',
+            }}
+          />
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            className="space-y-4 sm:pl-10"
+          >
+            {experiences.map((experience, index) => {
+              const techs = getUniqueTechs(experience);
+              const featuredCount = (experience.projects || []).filter((p) => p.featured).length;
+              const startYear = experience.startDate ? formatYear(experience.startDate) : '';
+              const endLabel = experience.endDate ? formatYear(experience.endDate) : 'present';
+              const duration = calculateDuration(experience.startDate, experience.endDate);
+              const isCurrent = !experience.endDate;
+              const hasDetails =
+                (experience.descriptions?.length ?? 0) > 0 ||
+                (experience.projects?.length ?? 0) > 0;
+              const isExpanded = expandedIds.has(experience.id || String(index));
+              const cardId = experience.id || String(index);
+
+              return (
+                <motion.div key={cardId} variants={itemVariants} className="relative">
+                  {/* Timeline dot — hidden on mobile */}
+                  <div className="hidden sm:block absolute -left-7 top-10 z-10 -translate-x-1/2">
+                    <div className="relative flex items-center justify-center w-2.5 h-2.5">
+                      {isCurrent && (
+                        <motion.div
+                          className="absolute w-5 h-5 rounded-full bg-emerald-400/25"
+                          animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
+                          transition={{
+                            duration: 2.4,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                            delay: index * 0.2,
+                          }}
+                        />
+                      )}
+                      <motion.div
+                        className={`w-2.5 h-2.5 rounded-full ${isCurrent ? 'bg-emerald-400' : 'bg-slate-600'}`}
+                        animate={{ scale: [1, 1.35, 1] }}
+                        transition={{
+                          duration: 2.4,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: index * 0.2,
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
+                    {/* Card header — always visible */}
+                    <div className="p-5 flex items-start gap-4">
+                      {/* Company logo or fallback */}
+                      <div className="hidden sm:flex shrink-0 w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 items-center justify-center overflow-hidden">
+                        {experience.companyLogo ? (
+                          <img
+                            src={experience.companyLogo}
+                            alt={experience.company}
+                            className="w-full h-full object-contain p-1.5 opacity-70 group-hover:opacity-90 transition-opacity duration-300"
+                            onError={(e) => {
+                              const el = e.currentTarget;
+                              el.style.display = 'none';
+                              if (el.parentElement) {
+                                el.parentElement.innerHTML =
+                                  '<span class="text-base font-bold text-slate-600">' +
+                                  (experience.company?.charAt(0) || '?') +
+                                  '</span>';
+                              }
+                            }}
+                          />
+                        ) : (
+                          <FaBriefcase className="text-slate-600 text-sm group-hover:text-slate-500 transition-colors duration-300" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        {/* Title row */}
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="text-base font-bold text-white leading-tight group-hover:text-cyan-400 transition-colors duration-300">
+                            {experience.title}
+                          </h3>
+                          {isCurrent && (
+                            <span className="shrink-0 px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded-full text-[10px] text-emerald-400 font-semibold">
+                              Current
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Company */}
+                        <div className="flex items-center gap-2 mb-4">
+                          {experience.companyLink ? (
+                            <a
+                              href={experience.companyLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+                            >
+                              {experience.company}
+                              <FaExternalLinkAlt className="text-[9px]" />
+                            </a>
+                          ) : (
+                            <span className="text-sm text-slate-400">{experience.company}</span>
+                          )}
+                          {experience.location && (
+                            <>
+                              <span className="text-slate-600 text-xs">·</span>
+                              <span className="flex items-center gap-1 text-xs text-slate-600">
+                                <FaMapMarkerAlt className="text-[9px]" />
+                                {experience.location}
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Tech pills */}
+                        {techs.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {techs.map((tech, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center gap-1 px-2.5 py-1 bg-white/[0.04] border border-white/[0.1] rounded-full"
+                              >
+                                {tech.icon && (
+                                  <img
+                                    src={tech.icon}
+                                    alt={tech.name}
+                                    className="w-3 h-3 object-contain"
+                                    onError={(e) => (e.currentTarget.style.display = 'none')}
+                                  />
+                                )}
+                                <span className="text-xs text-slate-300 font-medium">
+                                  {tech.name}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Stats row + expand toggle */}
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                            {startYear && (
+                              <span className="text-slate-400 font-medium">
+                                {startYear} — {endLabel}
+                              </span>
+                            )}
+                            {featuredCount > 0 && (
+                              <>
+                                <span className="text-slate-700">·</span>
+                                <span>
+                                  {featuredCount} project{featuredCount > 1 ? 's' : ''} shipped
+                                </span>
+                              </>
+                            )}
+                            {duration && (
+                              <>
+                                <span className="text-slate-700">·</span>
+                                <span>{duration} exp</span>
+                              </>
+                            )}
+                          </div>
+                          {hasDetails && (
+                            <button
+                              onClick={() => toggleExpand(cardId)}
+                              className="shrink-0 flex items-center gap-1 text-[11px] text-slate-500 hover:text-cyan-400 transition-colors duration-200"
+                            >
+                              {isExpanded ? 'less' : 'more'}
+                              <motion.span
+                                animate={{ rotate: isExpanded ? 180 : 0 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <FaChevronDown className="text-[9px]" />
+                              </motion.span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Expandable section */}
+                    <AnimatePresence initial={false}>
+                      {isExpanded && hasDetails && (
+                        <motion.div
+                          key="expand"
+                          variants={expandVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          className="overflow-hidden"
+                        >
+                          <div className="px-5 pb-5 border-t border-white/[0.07]">
+                            {/* Descriptions */}
+                            {(experience.descriptions?.length ?? 0) > 0 && (
+                              <div className="pt-4 mb-4">
+                                <ul className="space-y-1.5">
+                                  {experience.descriptions!.map((desc, i) => (
+                                    <li
+                                      key={i}
+                                      className="flex items-start gap-2 text-sm text-slate-400 leading-relaxed"
+                                    >
+                                      <FaChevronRight className="text-cyan-500/60 text-[9px] mt-1.5 shrink-0" />
+                                      <span>{desc}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Projects */}
+                            {(experience.projects?.filter((p) => p.featured).length ?? 0) > 0 && (
+                              <div
+                                className={
+                                  (experience.descriptions?.length ?? 0) > 0
+                                    ? 'border-t border-white/[0.07] pt-4'
+                                    : 'pt-4'
+                                }
+                              >
+                                <p className="text-[10px] text-slate-600 uppercase tracking-widest font-semibold mb-3">
+                                  Featured Projects
+                                </p>
+                                <div className="space-y-2">
+                                  {experience
+                                    .projects!.filter((p) => p.featured)
+                                    .map((project, pi) => (
+                                      <div
+                                        key={project.id || pi}
+                                        className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
+                                      >
+                                        <div className="flex items-start justify-between gap-2 mb-1">
+                                          <span className="text-sm font-medium text-slate-300">
+                                            {project.title}
+                                          </span>
+                                          {project.featured && (
+                                            <span className="shrink-0 px-1.5 py-0.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-[9px] text-cyan-400 font-semibold">
+                                              Featured
+                                            </span>
+                                          )}
+                                        </div>
+                                        {project.description && (
+                                          <p className="text-xs text-slate-500 leading-relaxed mb-2">
+                                            {project.description}
+                                          </p>
+                                        )}
+                                        {project.technologies &&
+                                          project.technologies.length > 0 && (
+                                            <div className="flex flex-wrap gap-1">
+                                              {project.technologies.slice(0, 5).map((tech, ti) => (
+                                                <span
+                                                  key={ti}
+                                                  className="px-1.5 py-0.5 bg-white/[0.03] border border-white/[0.07] rounded-full text-[10px] text-slate-500"
+                                                >
+                                                  {tech.name}
+                                                </span>
+                                              ))}
+                                              {project.technologies.length > 5 && (
+                                                <span
+                                                  className="text-[10px] text-slate-600 py-0.5 cursor-default"
+                                                  data-tooltip-id="info-tooltip"
+                                                  data-tooltip-content={project.technologies
+                                                    .slice(5)
+                                                    .map((t) => t.name)
+                                                    .join(', ')}
+                                                  data-tooltip-place="top"
+                                                >
+                                                  +{project.technologies.length - 5}
+                                                </span>
+                                              )}
+                                            </div>
+                                          )}
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Experiences;

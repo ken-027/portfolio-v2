@@ -1,39 +1,49 @@
 # Enhanced Parallax Background Guide
 
 ## Overview
+
 The ParallaxBackground component has been completely redesigned with a sophisticated multi-layer gradient mesh system, featuring animated orbs, floating particles, glow effects, and dynamic color blending for a visually stunning backdrop.
 
 ## Key Features
 
 ### 1. **Multi-Layer Gradient Mesh** 🎨
+
 - **Base Layer**: Dark slate gradient foundation
 - **Animated Mesh**: Continuously morphing radial gradients
 - **6 Large Gradient Orbs**: Primary, secondary, and accent color layers
 - **Dynamic Blending**: Colors flow and blend organically
 
 ### 2. **Pulsing Glow Effects** ✨
+
 Each major orb has independent pulsing animation:
+
 - **Scale**: Grows from 1.0 to 1.2 and back
 - **Opacity**: Fades between 0.4 and 0.6
 - **Duration**: 6-9 seconds per cycle
 - **Staggered**: Delays create wave-like effect
 
 ### 3. **Floating Accent Orbs** 🌟
+
 4 medium-sized glowing orbs that float independently:
+
 - **Movement**: Up, down, and sideways motion
 - **Scale Animation**: Subtle size changes
 - **Opacity Shifts**: Breathing effect
 - **Positions**: Strategically placed for depth
 
 ### 4. **Particle System** ⭐
+
 12 small particle dots with floating animations:
+
 - **Size**: 3x3 pixels with blur
 - **Movement**: Gentle float patterns
 - **Staggered**: Each has unique timing
 - **Visibility**: Hidden on mobile, visible on desktop (lg+)
 
 ### 5. **Scroll-Based Parallax** 🔄
+
 Elements move at different speeds as you scroll:
+
 - **Y1**: 150px to -150px (300px range)
 - **Y2**: 100px to -100px (200px range)
 - **Y3**: -100px to 100px (200px range, reverse)
@@ -42,7 +52,9 @@ Elements move at different speeds as you scroll:
 - **Scale**: 1.0 → 1.2 → 1.0 wave effect
 
 ### 6. **Enhanced Theme System** 🎭
+
 Each theme has 8 color properties:
+
 - `primary`: Main gradient (40-20% opacity)
 - `secondary`: Secondary gradient (30-15% opacity)
 - `accent`: Accent gradient (25-15% opacity)
@@ -51,6 +63,7 @@ Each theme has 8 color properties:
 - `particle`: Particle dot color (60% opacity)
 
 ### 7. **Subtle Overlays** 📐
+
 - **Grid Pattern**: 50x50px subtle cyan grid (2% opacity)
 - **Noise Texture**: SVG fractal noise for depth (1.5% opacity)
 - **Radial Fade**: Edge darkening for focus
@@ -76,20 +89,21 @@ Each theme has 8 color properties:
 
 ## Layer Structure (Bottom to Top)
 
-| Layer | Element | Animation | Effect |
-|-------|---------|-----------|--------|
-| 1 | Base gradient | Static | Dark foundation |
-| 2 | Animated mesh | 8s morph cycle | Dynamic backdrop |
-| 3 | 6 Large orbs | Parallax + pulse | Primary depth |
-| 4 | 4 Accent orbs | Float + parallax | Mid-layer glow |
-| 5 | 12 Particles | Independent float | Fine details |
-| 6 | Grid overlay | Static | Subtle structure |
-| 7 | Noise texture | Static | Organic depth |
-| 8 | Radial fade | Static | Edge vignette |
+| Layer | Element       | Animation         | Effect           |
+| ----- | ------------- | ----------------- | ---------------- |
+| 1     | Base gradient | Static            | Dark foundation  |
+| 2     | Animated mesh | 8s morph cycle    | Dynamic backdrop |
+| 3     | 6 Large orbs  | Parallax + pulse  | Primary depth    |
+| 4     | 4 Accent orbs | Float + parallax  | Mid-layer glow   |
+| 5     | 12 Particles  | Independent float | Fine details     |
+| 6     | Grid overlay  | Static            | Subtle structure |
+| 7     | Noise texture | Static            | Organic depth    |
+| 8     | Radial fade   | Static            | Edge vignette    |
 
 ## Animation Details
 
 ### Pulse Glow Animation
+
 ```javascript
 {
   scale: [1, 1.2, 1],        // Grows 20%
@@ -101,6 +115,7 @@ Each theme has 8 color properties:
 ```
 
 ### Floating Orb Animation
+
 ```javascript
 {
   y: [0, -30, 0],            // Moves up 30px
@@ -114,6 +129,7 @@ Each theme has 8 color properties:
 ```
 
 ### Animated Mesh
+
 ```javascript
 {
   background: [               // Morphs between 3 states
@@ -130,6 +146,7 @@ Each theme has 8 color properties:
 ## Theme Configuration
 
 ### Blue Theme (Default)
+
 ```javascript
 {
   primary: 'from-blue-600/40 via-cyan-500/30 to-blue-400/20',
@@ -144,16 +161,19 @@ Each theme has 8 color properties:
 ```
 
 ### Purple Theme
+
 - Purple-600, Violet-500, Fuchsia-400 spectrum
 - Rich, mystical gradient blends
 - Higher contrast particles
 
 ### Green Theme
+
 - Green-600, Emerald-500, Teal-400 spectrum
 - Natural, calming gradient flow
 - Balanced glow effects
 
 ### Amber Theme
+
 - Amber-600, Orange-500, Yellow-400 spectrum
 - Warm, energetic gradient mix
 - High-energy particles
@@ -161,17 +181,20 @@ Each theme has 8 color properties:
 ## Performance Optimizations
 
 ### Efficient Animations
+
 - **GPU-Accelerated**: All transforms use CSS properties (translate, scale, rotate, opacity)
 - **Will-Change**: Not needed (Framer Motion handles this)
 - **Blur Optimization**: Uses CSS `blur-3xl` and `blur-2xl` for hardware acceleration
 - **Staggered Start**: Prevents simultaneous animation calculations
 
 ### Responsive Behavior
+
 - **Particles**: Hidden on mobile/tablet (`hidden lg:block`)
 - **Grid/Noise**: Minimal opacity to reduce rendering cost
 - **Orb Count**: Optimized to 6 large + 4 medium + 12 small
 
 ### Memory Efficiency
+
 - **No Images**: Pure CSS/SVG (minimal memory footprint)
 - **Reusable Animations**: Shared animation variants
 - **Single Component**: All effects in one file
@@ -179,6 +202,7 @@ Each theme has 8 color properties:
 ## Comparison: Before vs After
 
 ### Before (Simple Parallax)
+
 ```
 ┌──────────────────┐
 │  ○ ○ ○          │  7 static blur circles
@@ -189,6 +213,7 @@ Each theme has 8 color properties:
 ```
 
 ### After (Enhanced Gradient Mesh)
+
 ```
 ┌──────────────────────────┐
 │ ⭐⭐⭐ 12 particles       │
@@ -204,29 +229,31 @@ Each theme has 8 color properties:
 
 ## Key Improvements
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **Visual Depth** | 2 layers | 8 layers |
-| **Animations** | Scroll only | Scroll + continuous |
-| **Particles** | 0 | 12 floating |
-| **Glow Effects** | Static | Pulsing |
-| **Gradient Complexity** | Simple | Mesh system |
-| **Color Richness** | 3 colors | 8 properties |
-| **Texture** | None | Grid + noise |
+| Aspect                  | Before      | After               |
+| ----------------------- | ----------- | ------------------- |
+| **Visual Depth**        | 2 layers    | 8 layers            |
+| **Animations**          | Scroll only | Scroll + continuous |
+| **Particles**           | 0           | 12 floating         |
+| **Glow Effects**        | Static      | Pulsing             |
+| **Gradient Complexity** | Simple      | Mesh system         |
+| **Color Richness**      | 3 colors    | 8 properties        |
+| **Texture**             | None        | Grid + noise        |
 
 ## Usage
 
 ### Basic Usage
+
 ```jsx
 import ParallaxBackground from './ParallaxBackground';
 
 <section className="relative">
   <ParallaxBackground theme="blue" />
   {/* Your content */}
-</section>
+</section>;
 ```
 
 ### With Different Themes
+
 ```jsx
 // Hero section
 <ParallaxBackground theme="blue" />
@@ -244,7 +271,9 @@ import ParallaxBackground from './ParallaxBackground';
 ## Customization
 
 ### Adjust Orb Sizes
+
 Edit the `w-[XXX]` and `h-[XXX]` values:
+
 ```jsx
 <div className="w-[500px] h-[500px] ..." />
 // Change to:
@@ -252,7 +281,9 @@ Edit the `w-[XXX]` and `h-[XXX]` values:
 ```
 
 ### Modify Animation Speed
+
 Change the `duration` values:
+
 ```javascript
 variants={pulseGlow(6, 0)}  // 6 seconds
 // Change to:
@@ -260,7 +291,9 @@ variants={pulseGlow(4, 0)}  // 4 seconds (faster)
 ```
 
 ### Add More Particles
+
 Increase the array size:
+
 ```javascript
 {[...Array(12)].map((_, i) => ...)}
 // Change to:
@@ -268,7 +301,9 @@ Increase the array size:
 ```
 
 ### Create Custom Theme
+
 Add to the `themes` object:
+
 ```javascript
 custom: {
   primary: 'from-color-600/40 via-color-500/30 to-color-400/20',
@@ -285,6 +320,7 @@ custom: {
 ## Technical Details
 
 ### Component Props
+
 ```typescript
 interface ParallaxBackgroundProps {
   theme?: 'blue' | 'purple' | 'green' | 'amber';
@@ -292,21 +328,25 @@ interface ParallaxBackgroundProps {
 ```
 
 ### Dependencies
+
 - `framer-motion`: Animation library
 - `react`: Hooks (useRef)
 
 ### File Size
+
 - **Lines of Code**: 291
 - **Gzipped**: ~2KB
 - **Uncompressed**: ~8KB
 
 ### Browser Support
+
 - ✅ Chrome 90+
 - ✅ Firefox 88+
 - ✅ Safari 14+
 - ✅ Edge 90+
 
 ### Accessibility
+
 - **No Flash**: Smooth, gentle animations
 - **Reduced Motion**: Consider adding `prefers-reduced-motion` support
 - **Contrast**: Background doesn't interfere with text readability
@@ -315,12 +355,14 @@ interface ParallaxBackgroundProps {
 ## Best Practices
 
 ### Do's ✅
+
 - Use appropriate theme for each section
 - Keep particle count reasonable (12-20)
 - Test on lower-end devices
 - Maintain minimum 4.5:1 contrast ratio for text
 
 ### Don'ts ❌
+
 - Don't add too many particles (causes lag)
 - Don't use high opacity (overwhelms content)
 - Don't skip z-index management
@@ -329,17 +371,20 @@ interface ParallaxBackgroundProps {
 ## Troubleshooting
 
 ### Performance Issues
+
 1. Reduce particle count
 2. Decrease blur levels (`blur-3xl` → `blur-2xl`)
 3. Remove grid/noise overlays
 4. Simplify animation durations
 
 ### Colors Too Strong
+
 1. Reduce opacity values (`/40` → `/30`)
 2. Remove accent orbs
 3. Simplify mesh gradient
 
 ### Not Visible Enough
+
 1. Increase opacity values
 2. Add more glow orbs
 3. Brighten particle colors
@@ -348,6 +393,7 @@ interface ParallaxBackgroundProps {
 ## Future Enhancements
 
 Potential additions:
+
 - [ ] Mouse-reactive parallax
 - [ ] Theme transition animations
 - [ ] Dynamic particle generation

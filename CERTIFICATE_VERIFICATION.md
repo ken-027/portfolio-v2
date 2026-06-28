@@ -7,24 +7,28 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ## 🎖️ Verification Indicators
 
 ### 1. **"Verified" Badge on Certificate Image**
+
 - **Location**: Top-right corner of certificate image
 - **Appearance**: Green badge with checkmark icon
 - **Visibility**: Always visible on certificates with verification links
 - **Purpose**: Immediate visual confirmation of legitimacy
 
 ### 2. **"Verified" Badge Next to Platform**
+
 - **Location**: Next to platform badge, below the icon
 - **Appearance**: Small green pill with checkmark
 - **Design**: Matches platform badge style
 - **Purpose**: Secondary verification indicator
 
 ### 3. **"Verify Certificate" Button**
+
 - **Location**: Bottom of certificate card
 - **Appearance**: Full-width button with green accent
 - **Interactive**: Hover effects and animations
 - **Purpose**: Clear call-to-action for verification
 
 ### 4. **Clickable Certificate Image**
+
 - **Location**: Certificate image at top of card
 - **Hover Effect**: Shows "View Certificate" overlay
 - **Purpose**: Quick access to verification
@@ -32,6 +36,7 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ## 🎨 Visual Design
 
 ### Color Scheme
+
 - **Verification Color**: Green (#10b981 - emerald-500)
 - **Purpose**: Universal color for trust and verification
 - **Contrast**: Stands out against dark slate background
@@ -39,6 +44,7 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ### Interactive Elements
 
 #### Certificate Image Hover
+
 ```
 ┌───────────────────────────────┐
 │  [Certificate Image]          │
@@ -55,6 +61,7 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ```
 
 #### Verify Button
+
 ```
 ┌───────────────────────────────┐
 │ ✓ Verify Certificate      🔗  │
@@ -67,9 +74,11 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ### Required Fields for Verification
 
 **Primary Field:**
+
 - `credentialUrl` (recommended)
 
 **Alternative Fields:**
+
 - `link`
 - `url`
 
@@ -121,6 +130,7 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ### Certificate Image Overlay
 
 **Components:**
+
 1. **Verified Badge** (Always visible)
    - Green background with checkmark
    - "Verified" text
@@ -135,11 +145,13 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ### Badges Section
 
 **Layout:**
+
 ```html
 [ Platform Badge ] [ ✓ Verified Badge ]
 ```
 
 **Behavior:**
+
 - Only shows verified badge if link exists
 - Responsive wrapping on small screens
 - Consistent styling with color coding
@@ -147,6 +159,7 @@ The portfolio now includes prominent verification indicators to showcase the leg
 ### Verify Button
 
 **Features:**
+
 - Full-width for easy clicking
 - Green gradient background (trust color)
 - Three icons: checkmark, text, external link
@@ -240,17 +253,20 @@ text-sm → text-base
 ## 📱 Responsive Behavior
 
 ### Mobile
+
 - Badges stack properly
 - Button remains full-width
 - Touch-friendly tap targets
 - Image overlay optimized for touch
 
 ### Tablet
+
 - Optimal card layout (2 columns)
 - Comfortable spacing
 - All features visible
 
 ### Desktop
+
 - 3-column grid
 - Hover effects fully functional
 - Smooth animations
@@ -328,6 +344,7 @@ onClick={() => {
 ### Future Enhancements
 
 Potential additions:
+
 - Verification timestamp display
 - Certificate expiry warnings
 - Verification success counter
@@ -339,6 +356,7 @@ Potential additions:
 ## 🎉 Summary
 
 Your certificates now have:
+
 - ✅ **3 verification indicators** per certificate
 - ✅ **4 ways** for viewers to verify
 - ✅ **Professional design** with trust-building elements

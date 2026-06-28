@@ -11,11 +11,13 @@ The Certificates component now includes advanced filtering capabilities to help 
 The component automatically filters out any ongoing or incomplete certificates and **only displays completed ones**.
 
 **Supported Status Values:**
+
 - `completed`
 - `complete`
 - `finished`
 
 **API Field Names:**
+
 - `status`
 - `state`
 
@@ -26,6 +28,7 @@ If no status field is provided, the certificate is assumed to be completed and w
 Users can filter certificates by platform/provider with an interactive filter bar.
 
 **Supported Field Names:**
+
 - `platform` (primary)
 - `provider` (fallback)
 - `issuer` (second fallback)
@@ -37,6 +40,7 @@ Each filter button displays the number of certificates for that platform, making
 ## Visual Features
 
 ### Filter Bar
+
 - **All Platforms** button shows total count of completed certificates
 - **Individual platform** buttons show certificate count per platform
 - Active filter highlighted with gradient background
@@ -44,6 +48,7 @@ Each filter button displays the number of certificates for that platform, making
 - Responsive design for mobile devices
 
 ### Certificate Cards
+
 - **Platform Badge**: Each certificate displays its platform badge at the top
 - **Clickable Images**: Certificate images are clickable and open the credential link
 - **Hover Effects**: Interactive hover states with smooth transitions
@@ -71,18 +76,19 @@ Each filter button displays the number of certificates for that platform, making
 
 ### Alternate Field Names Supported
 
-| Primary Field | Alternative 1 | Alternative 2 |
-|--------------|---------------|---------------|
-| `platform` | `provider` | `issuer` |
-| `status` | `state` | (defaults to completed) |
-| `image` | `imageUrl` | `certificateImage` |
-| `credentialUrl` | `link` | `url` |
+| Primary Field   | Alternative 1 | Alternative 2           |
+| --------------- | ------------- | ----------------------- |
+| `platform`      | `provider`    | `issuer`                |
+| `status`        | `state`       | (defaults to completed) |
+| `image`         | `imageUrl`    | `certificateImage`      |
+| `credentialUrl` | `link`        | `url`                   |
 
 ### Response Wrapper Formats
 
 The component supports multiple API response formats:
 
 **Direct Array:**
+
 ```json
 [
   { "id": 1, "title": "..." },
@@ -91,38 +97,40 @@ The component supports multiple API response formats:
 ```
 
 **Nested in `data`:**
+
 ```json
 {
-  "data": [
-    { "id": 1, "title": "..." }
-  ]
+  "data": [{ "id": 1, "title": "..." }]
 }
 ```
 
 **Nested in `certificates`:**
+
 ```json
 {
-  "certificates": [
-    { "id": 1, "title": "..." }
-  ]
+  "certificates": [{ "id": 1, "title": "..." }]
 }
 ```
 
 ## User Experience
 
 ### Default State
+
 - Shows all completed certificates
 - "All Platforms" filter is selected by default
 - All available platforms displayed as filter options
 
 ### Filtering Interaction
+
 1. User clicks on a platform filter button
 2. Grid smoothly animates to show only certificates from that platform
 3. Active filter highlighted with gradient
 4. Certificate count updates in real-time
 
 ### Empty State
+
 When no certificates match the filter:
+
 - Displays helpful message
 - Offers button to reset to "All Platforms"
 - Maintains clean, centered layout
@@ -130,11 +138,13 @@ When no certificates match the filter:
 ## Technical Implementation
 
 ### Performance Optimizations
+
 - **useMemo** for computed values to prevent unnecessary re-renders
 - **Lazy evaluation** of filter options
 - **Efficient filtering** using JavaScript filter methods
 
 ### Accessibility
+
 - **Semantic HTML** for better screen reader support
 - **ARIA labels** on interactive elements
 - **Keyboard navigation** support
@@ -185,7 +195,7 @@ To modify which certificates are shown, edit the filter logic in `src/components
 
 ```javascript
 const completedCertificates = useMemo(() => {
-  return allCertificates.filter(cert => {
+  return allCertificates.filter((cert) => {
     // Customize your filter logic here
     const status = cert.status?.toLowerCase() || 'completed';
     return status === 'completed';
@@ -214,6 +224,7 @@ You can add additional filters (e.g., by date, by skill) by:
 ## Future Enhancements
 
 Potential additions:
+
 - Search functionality
 - Date range filtering
 - Sort options (newest, oldest, alphabetical)

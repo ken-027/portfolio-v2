@@ -9,6 +9,7 @@ Your modern, elegant portfolio website is now fully set up and running!
 The development server is currently running at: **http://localhost:5174/**
 
 ### Commands
+
 ```bash
 npm run dev      # Start development server
 npm run build    # Build for production
@@ -19,6 +20,7 @@ npm run lint     # Run linter
 ## Features Implemented
 
 ### 🎨 Design & UI
+
 - **Dark Theme**: Professional dark mode interface with slate color scheme
 - **Gradient Accents**: Beautiful cyan-blue gradients throughout
 - **Smooth Animations**: Framer Motion powered animations and transitions
@@ -27,6 +29,7 @@ npm run lint     # Run linter
 - **Custom Scrollbar**: Styled scrollbar matching the theme
 
 ### 🧭 Navigation
+
 - **Fixed Navigation Bar**: Sticky navigation with backdrop blur
 - **Smooth Scrolling**: Animated scroll to sections
 - **Mobile Menu**: Hamburger menu for mobile devices
@@ -35,6 +38,7 @@ npm run lint     # Run linter
 ### 📄 Sections
 
 #### 1. Hero Section
+
 - Eye-catching introduction
 - Animated background effects
 - Social media links (GitHub, LinkedIn, Email)
@@ -42,6 +46,7 @@ npm run lint     # Run linter
 - Scroll indicator
 
 #### 2. Experiences
+
 - Timeline layout with alternating sides on desktop
 - Company, position, and dates
 - Descriptions and responsibilities
@@ -49,6 +54,7 @@ npm run lint     # Run linter
 - Animated on scroll
 
 #### 3. Skills
+
 - Grouped by categories
 - Visual skill cards
 - Support for proficiency bars
@@ -56,6 +62,7 @@ npm run lint     # Run linter
 - Grid layout
 
 #### 4. Projects
+
 - Card-based project showcase
 - Project images with hover effects
 - GitHub and live demo links
@@ -63,6 +70,7 @@ npm run lint     # Run linter
 - Status badges (Completed, In Progress, etc.)
 
 #### 5. Certificates
+
 - Certificate cards with images/badges
 - Issuer information
 - Issue and expiry dates
@@ -71,6 +79,7 @@ npm run lint     # Run linter
 - Skills/tags for each certificate
 
 #### 6. Footer
+
 - Quick navigation links
 - Social media links
 - Copyright information
@@ -79,6 +88,7 @@ npm run lint     # Run linter
 ### 🔌 API Integration
 
 All data is fetched from your API endpoints:
+
 - **Experiences**: `https://portfolio-api.ksoftdev.site/api/v1/portfolio/experiences`
 - **Skills**: `https://portfolio-api.ksoftdev.site/api/v1/portfolio/skills`
 - **Projects**: `https://portfolio-api.ksoftdev.site/api/v1/portfolio/projects`
@@ -86,15 +96,15 @@ All data is fetched from your API endpoints:
 
 ### 🛠️ Technologies Used
 
-| Category | Technologies |
-|----------|-------------|
-| **Framework** | React 19 |
-| **Build Tool** | Vite 7 |
-| **Styling** | Tailwind CSS 4 |
-| **Animations** | Framer Motion |
-| **HTTP Client** | Axios |
-| **Icons** | React Icons |
-| **Fonts** | Google Fonts (Inter) |
+| Category        | Technologies         |
+| --------------- | -------------------- |
+| **Framework**   | React 19             |
+| **Build Tool**  | Vite 7               |
+| **Styling**     | Tailwind CSS 4       |
+| **Animations**  | Framer Motion        |
+| **HTTP Client** | Axios                |
+| **Icons**       | React Icons          |
+| **Fonts**       | Google Fonts (Inter) |
 
 ### 📁 Project Structure
 
@@ -133,18 +143,21 @@ portfolio-prompt/
 ### 1. Update Personal Information
 
 **Hero Section** (`src/components/Hero.jsx`):
+
 - Line 44: Update the greeting
 - Line 54: Update the name/title
 - Line 62: Update the description
 - Lines 83-105: Update social media links
 
 **Footer** (`src/components/Footer.jsx`):
+
 - Line 12: Update social media links
 - Line 70: Update copyright text
 
 ### 2. Change Color Scheme
 
 **Tailwind Config** (`tailwind.config.js`):
+
 ```js
 colors: {
   primary: {
@@ -156,6 +169,7 @@ colors: {
 ### 3. Modify API Endpoints
 
 **API Service** (`src/services/api.js`):
+
 ```js
 const BASE_URL = 'YOUR_NEW_API_URL';
 ```
@@ -163,6 +177,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ### 4. Add/Remove Sections
 
 **App.jsx** (`src/App.jsx`):
+
 - Import the component
 - Add it between the `<main>` tags
 
@@ -171,6 +186,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ### Expected Data Structures
 
 **Experiences**:
+
 ```json
 {
   "data": [
@@ -190,6 +206,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ```
 
 **Skills**:
+
 ```json
 {
   "data": [
@@ -205,6 +222,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ```
 
 **Projects**:
+
 ```json
 {
   "data": [
@@ -223,6 +241,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ```
 
 **Certificates**:
+
 ```json
 {
   "data": [
@@ -259,6 +278,7 @@ const BASE_URL = 'YOUR_NEW_API_URL';
 ## Deployment Ready
 
 The portfolio is ready to be deployed to:
+
 - **Vercel** (Recommended)
 - **Netlify**
 - **GitHub Pages**
@@ -277,6 +297,7 @@ Simply run `npm run build` and deploy the `dist` folder.
 ## Support
 
 For issues or questions:
+
 1. Check the README.md file
 2. Review component code comments
 3. Check browser console for errors

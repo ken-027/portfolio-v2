@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { motion, Variants, useScroll, useTransform } from "framer-motion";
+import { useEffect, useMemo, useState } from 'react';
+import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import {
   FaCode,
   FaReact,
@@ -12,30 +12,24 @@ import {
   FaCalendarAlt,
   FaFolderOpen,
   FaGlobe,
-} from "react-icons/fa";
-import { SiTypescript, SiPostgresql, SiExpress } from "react-icons/si";
-import { IconType } from "react-icons";
-import ParallaxBackground from "./ParallaxBackground";
-import TiltCard from "./TiltCard";
-
-const NOW = Date.now();
+} from 'react-icons/fa';
+import { SiTypescript, SiPostgresql, SiExpress } from 'react-icons/si';
+import { IconType } from 'react-icons';
+import ParallaxBackground from './ParallaxBackground';
+import TiltCard from './TiltCard';
 
 const FALLBACK_TECH_ICONS: TechIcon[] = [
-  { Icon: FaReact, color: "text-cyan-400", name: "React" },
-  { Icon: FaNodeJs, color: "text-green-400", name: "Node.js" },
-  { Icon: SiTypescript, color: "text-blue-400", name: "TypeScript" },
-  { Icon: FaDocker, color: "text-blue-500", name: "Docker" },
-  { Icon: SiPostgresql, color: "text-blue-300", name: "PostgreSQL" },
-  { Icon: FaDatabase, color: "text-purple-400", name: "Databases" },
-  { Icon: SiExpress, color: "text-slate-300", name: "Express" },
-  { Icon: FaRobot, color: "text-fuchsia-400", name: "AI/LLM" },
+  { Icon: FaReact, color: 'text-cyan-400', name: 'React' },
+  { Icon: FaNodeJs, color: 'text-green-400', name: 'Node.js' },
+  { Icon: SiTypescript, color: 'text-blue-400', name: 'TypeScript' },
+  { Icon: FaDocker, color: 'text-blue-500', name: 'Docker' },
+  { Icon: SiPostgresql, color: 'text-blue-300', name: 'PostgreSQL' },
+  { Icon: FaDatabase, color: 'text-purple-400', name: 'Databases' },
+  { Icon: SiExpress, color: 'text-slate-300', name: 'Express' },
+  { Icon: FaRobot, color: 'text-fuchsia-400', name: 'AI/LLM' },
 ];
-import { useFetch } from "../hooks/useFetch";
-import {
-  fetchExperiences,
-  fetchSkills,
-  fetchProjects,
-} from "../services/api";
+import { useFetch } from '../hooks/useFetch';
+import { fetchExperiences, fetchSkills, fetchProjects } from '../services/api';
 
 interface TechIcon {
   Icon: IconType;
@@ -69,7 +63,7 @@ interface SkillsData {
 }
 
 interface Project {
-  type: "personal" | "professional" | "open-source";
+  type: 'personal' | 'professional' | 'open-source';
 }
 
 interface ProjectsData {
@@ -77,7 +71,7 @@ interface ProjectsData {
   data: Project[];
 }
 
-const MOBILE_MQ = "(max-width: 767px)";
+const MOBILE_MQ = '(max-width: 767px)';
 
 const Hero = () => {
   const [isMobileLayout, setIsMobileLayout] = useState(false);
@@ -86,8 +80,8 @@ const Hero = () => {
     const mq = window.matchMedia(MOBILE_MQ);
     const sync = () => setIsMobileLayout(mq.matches);
     sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
   }, []);
 
   const { scrollY } = useScroll();
@@ -129,10 +123,7 @@ const Hero = () => {
   const { data: experiencesData } = useFetch<ExperiencesData>(fetchExperiences);
   const { data: skillsData } = useFetch<SkillsData>(fetchSkills);
   const { data: projectsData } = useFetch<ProjectsData>(fetchProjects);
-  const experiences = useMemo(
-    () => experiencesData?.data ?? [],
-    [experiencesData],
-  );
+  const experiences = useMemo(() => experiencesData?.data ?? [], [experiencesData]);
   const skillCategories = useMemo(() => skillsData?.data ?? [], [skillsData]);
 
   const yearsExperience = useMemo(() => {
@@ -142,14 +133,11 @@ const Hero = () => {
       .map((exp) => {
         if (!exp.startDate) return null;
         const start = new Date(exp.startDate).getTime();
-        const end = exp.endDate ? new Date(exp.endDate).getTime() : NOW;
-        if (Number.isNaN(start) || Number.isNaN(end) || end < start)
-          return null;
+        const end = exp.endDate ? new Date(exp.endDate).getTime() : Date.now();
+        if (Number.isNaN(start) || Number.isNaN(end) || end < start) return null;
         return { start, end };
       })
-      .filter((range): range is { start: number; end: number } =>
-        Boolean(range),
-      )
+      .filter((range): range is { start: number; end: number } => Boolean(range))
       .sort((a, b) => a.start - b.start);
 
     if (!ranges.length) return 0;
@@ -164,85 +152,74 @@ const Hero = () => {
       last.end = Math.max(last.end, range.end);
     }
 
-    const totalMs = merged.reduce(
-      (sum, range) => sum + (range.end - range.start),
-      0,
-    );
+    const totalMs = merged.reduce((sum, range) => sum + (range.end - range.start), 0);
     const totalYears = totalMs / (1000 * 60 * 60 * 24 * 365.25);
     return Math.floor(Math.max(0, totalYears));
   }, [experiences]);
 
   const locationLabel = useMemo(() => {
     const hasRemote = experiences.some((exp) =>
-      (exp.location || "").toLowerCase().includes("remote"),
+      (exp.location || '').toLowerCase().includes('remote'),
     );
-    return hasRemote ? "Remote · Worldwide" : "Philippines · Remote Worldwide";
+    return hasRemote ? 'Remote · Worldwide' : 'Philippines · Remote Worldwide';
   }, [experiences]);
 
   const techIcons = useMemo((): TechIcon[] => {
     if (!skillCategories.length) return FALLBACK_TECH_ICONS;
 
-    const allItems = skillCategories.flatMap(
-      (category) => category.items || [],
-    );
+    const allItems = skillCategories.flatMap((category) => category.items || []);
     const hasSkill = (term: string) =>
       allItems.some((skill) => skill.name.toLowerCase().includes(term));
     const hasCategory = (term: string) =>
-      skillCategories.some((category) =>
-        category.name.toLowerCase().includes(term),
-      );
+      skillCategories.some((category) => category.name.toLowerCase().includes(term));
 
     const dynamic: TechIcon[] = [];
-    if (hasSkill("react"))
-      dynamic.push({ Icon: FaReact, color: "text-cyan-400", name: "React" });
-    if (hasSkill("node"))
+    if (hasSkill('react')) dynamic.push({ Icon: FaReact, color: 'text-cyan-400', name: 'React' });
+    if (hasSkill('node'))
       dynamic.push({
         Icon: FaNodeJs,
-        color: "text-green-400",
-        name: "Node.js",
+        color: 'text-green-400',
+        name: 'Node.js',
       });
-    if (hasSkill("typescript"))
+    if (hasSkill('typescript'))
       dynamic.push({
         Icon: SiTypescript,
-        color: "text-blue-400",
-        name: "TypeScript",
+        color: 'text-blue-400',
+        name: 'TypeScript',
       });
-    if (hasSkill("docker"))
-      dynamic.push({ Icon: FaDocker, color: "text-blue-500", name: "Docker" });
-    if (hasSkill("postgres"))
+    if (hasSkill('docker'))
+      dynamic.push({ Icon: FaDocker, color: 'text-blue-500', name: 'Docker' });
+    if (hasSkill('postgres'))
       dynamic.push({
         Icon: SiPostgresql,
-        color: "text-blue-300",
-        name: "PostgreSQL",
+        color: 'text-blue-300',
+        name: 'PostgreSQL',
       });
-    if (hasCategory("database"))
+    if (hasCategory('database'))
       dynamic.push({
         Icon: FaDatabase,
-        color: "text-purple-400",
-        name: "Databases",
+        color: 'text-purple-400',
+        name: 'Databases',
       });
-    if (hasSkill("express"))
+    if (hasSkill('express'))
       dynamic.push({
         Icon: SiExpress,
-        color: "text-slate-300",
-        name: "Express",
+        color: 'text-slate-300',
+        name: 'Express',
       });
-    if (hasCategory("ai"))
+    if (hasCategory('ai'))
       dynamic.push({
         Icon: FaRobot,
-        color: "text-fuchsia-400",
-        name: "AI/LLM",
+        color: 'text-fuchsia-400',
+        name: 'AI/LLM',
       });
 
-    const deduped = Array.from(
-      new Map(dynamic.map((icon) => [icon.name, icon])).values(),
-    );
+    const deduped = Array.from(new Map(dynamic.map((icon) => [icon.name, icon])).values());
     return deduped.length >= 6 ? deduped.slice(0, 8) : FALLBACK_TECH_ICONS;
   }, [skillCategories]);
 
   const companyProjects = useMemo(() => {
-    return (projectsData?.data || []).filter((p) => p.type === "professional")
-      .length;
+    return (projectsData?.data || []).filter((p) => p.type === 'professional').length;
   }, [projectsData]);
 
   const leftTechChips = useMemo(() => {
@@ -256,15 +233,15 @@ const Hero = () => {
     };
 
     const ordered = [
-      pickFirst(["TypeScript"]),
-      pickFirst(["Node.js"]),
-      pickFirst(["React"]),
-      pickFirst(["PostgreSQL"]),
-      pickFirst(["AI/LLM"]),
+      pickFirst(['TypeScript']),
+      pickFirst(['Node.js']),
+      pickFirst(['React']),
+      pickFirst(['PostgreSQL']),
+      pickFirst(['AI/LLM']),
     ].filter((item): item is TechIcon => Boolean(item));
 
-    if (!ordered.some((item) => item.name === "AI/LLM")) {
-      ordered.push({ Icon: FaRobot, color: "text-fuchsia-400", name: "AI" });
+    if (!ordered.some((item) => item.name === 'AI/LLM')) {
+      ordered.push({ Icon: FaRobot, color: 'text-fuchsia-400', name: 'AI' });
     }
 
     return ordered;
@@ -282,7 +259,7 @@ const Hero = () => {
         initial="hidden"
         animate="visible"
         style={{ scale, opacity }}
-        className="container mx-auto px-4 py-20 relative z-10"
+        className="container mx-auto px-4 pt-10 pb-20 relative z-10"
       >
         <div className="max-w-6xl mx-auto">
           {/* Two-column layout */}
@@ -297,24 +274,20 @@ const Hero = () => {
                   <span className="text-gradient block">Andales</span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-slate-200 font-semibold">
-                  Full-Stack Developer{" "}
-                  <span className="text-cyan-400">· AI-Ready</span>
+                  Full-Stack Developer <span className="text-cyan-400">· AI-Ready</span>
                 </p>
               </motion.div>
 
               {/* Value prop */}
               <motion.div variants={itemVariants} className="mb-8">
                 <p className="text-slate-400 text-lg leading-relaxed max-w-xl">
-                  I build full-stack SaaS products and AI-powered web apps for
-                  startups — from MVP to production, fast and clean.
+                  I build full-stack SaaS products and AI-powered web apps for startups — from MVP
+                  to production, fast and clean.
                 </p>
               </motion.div>
 
               {/* Tech chips */}
-              <motion.div
-                variants={itemVariants}
-                className="flex flex-wrap gap-2.5 mb-7"
-              >
+              <motion.div variants={itemVariants} className="flex flex-wrap gap-2.5 mb-7">
                 {leftTechChips.map((tech) => (
                   <div
                     key={tech.name}
@@ -339,9 +312,7 @@ const Hero = () => {
                     <p className="text-3xl font-bold text-white leading-none">
                       {Math.max(1, yearsExperience)}+
                     </p>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Years Experience
-                    </p>
+                    <p className="text-xs text-slate-400 mt-1">Years Experience</p>
                   </div>
                 </div>
 
@@ -355,9 +326,7 @@ const Hero = () => {
                     <p className="text-3xl font-bold text-white leading-none">
                       {Math.max(1, companyProjects)}+
                     </p>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Projects Delivered
-                    </p>
+                    <p className="text-xs text-slate-400 mt-1">Projects Delivered</p>
                   </div>
                 </div>
 
@@ -368,12 +337,8 @@ const Hero = () => {
                     <FaGlobe className="text-sm" />
                   </span>
                   <div>
-                    <p className="text-xl font-semibold text-white leading-none">
-                      Remote
-                    </p>
-                    <p className="text-xs text-slate-400 mt-1">
-                      {locationLabel}
-                    </p>
+                    <p className="text-xl font-semibold text-white leading-none">Remote</p>
+                    <p className="text-xs text-slate-400 mt-1">{locationLabel}</p>
                   </div>
                 </div>
               </motion.div>
@@ -386,13 +351,11 @@ const Hero = () => {
                 <motion.button
                   whileHover={{
                     scale: 1.05,
-                    boxShadow: "0 20px 40px rgba(6, 182, 212, 0.3)",
+                    boxShadow: '0 20px 40px rgba(6, 182, 212, 0.3)',
                   }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() =>
-                    document
-                      .getElementById("projects")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
                   }
                   className="group px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow relative overflow-hidden"
                 >
@@ -407,9 +370,7 @@ const Hero = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() =>
-                    document
-                      .getElementById("contact")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
                   }
                   className="px-6 py-3 border-2 border-slate-700 rounded-xl font-semibold text-white hover:border-cyan-500/50 hover:bg-slate-800/50 transition-colors backdrop-blur-sm flex items-center gap-2"
                 >
@@ -424,13 +385,7 @@ const Hero = () => {
               variants={itemVariants}
               className="lg:col-span-2 flex justify-center lg:justify-end"
             >
-              <motion.div
-                // drag
-                // dragSnapToOrigin
-                // dragElastic={0.15}
-                // whileDrag={{ scale: 1.03, cursor: "grabbing" }}
-                className="relative w-full max-w-sm"
-              >
+              <motion.div className="relative w-full max-w-sm">
                 {/* Floating tech badges — desktop only */}
                 <div className="hidden lg:inline-flex absolute -top-3 -right-5 z-20 items-center gap-1.5 rounded-full border border-fuchsia-500/40 bg-slate-900/95 px-3 py-1 shadow-lg backdrop-blur-sm text-xs text-slate-200 whitespace-nowrap">
                   <FaRobot className="text-fuchsia-400" />
@@ -473,52 +428,109 @@ const Hero = () => {
 
                     {/* Code body */}
                     <div className="bg-[#0d1117] py-4 font-mono text-[13px] leading-[1.7] overflow-x-auto">
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">1</span>
-                        <span><span className="text-purple-400">const</span>{" "}<span className="text-cyan-300">router</span>{" "}<span className="text-slate-400">=</span>{" "}<span className="text-slate-200">express</span><span className="text-slate-400">.</span><span className="text-yellow-300">Router</span><span className="text-slate-400">()</span></span>
-                      </div>
-                      <div className="flex px-2">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">2</span>
-                        <span>&nbsp;</span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">3</span>
-                        <span><span className="text-cyan-300">router</span><span className="text-slate-400">.</span><span className="text-yellow-300">get</span><span className="text-slate-400">(</span><span className="text-green-400">&apos;/api/products&apos;</span><span className="text-slate-400">,</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">4</span>
-                        <span className="pl-[2ch]"><span className="text-cyan-300">authenticate</span><span className="text-slate-400">,</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">5</span>
-                        <span className="pl-[2ch]"><span className="text-purple-400">async</span>{" "}<span className="text-slate-400">(</span><span className="text-cyan-300">req</span><span className="text-slate-400">,</span>{" "}<span className="text-cyan-300">res</span><span className="text-slate-400">)</span>{" "}<span className="text-purple-400">{"=>"}</span>{" "}<span className="text-slate-400">{"{"}</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">6</span>
-                        <span className="pl-[4ch]"><span className="text-purple-400">const</span>{" "}<span className="text-cyan-300">products</span>{" "}<span className="text-slate-400">=</span>{" "}<span className="text-purple-400">await</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">7</span>
-                        <span className="pl-[6ch]"><span className="text-slate-200">db</span><span className="text-slate-400">.</span><span className="text-yellow-300">query</span><span className="text-slate-400">(</span><span className="text-green-400">&apos;SELECT * FROM products&apos;</span><span className="text-slate-400">)</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">8</span>
-                        <span className="pl-[4ch]"><span className="text-cyan-300">res</span><span className="text-slate-400">.</span><span className="text-yellow-300">json</span><span className="text-slate-400">({"{ "}</span><span className="text-cyan-300">products</span><span className="text-slate-400">{" })"}</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">9</span>
-                        <span className="pl-[2ch]"><span className="text-slate-400">{"}"}</span></span>
-                      </div>
-                      <div className="flex px-2 hover:bg-white/[0.025]">
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">10</span>
-                        <span><span className="text-slate-400">)</span></span>
-                      </div>
+                      {[
+                        <span>
+                          <span className="text-purple-400">const</span>{' '}
+                          <span className="text-cyan-300">router</span>{' '}
+                          <span className="text-slate-400">=</span>{' '}
+                          <span className="text-slate-200">express</span>
+                          <span className="text-slate-400">.</span>
+                          <span className="text-yellow-300">Router</span>
+                          <span className="text-slate-400">()</span>
+                        </span>,
+                        <span>&nbsp;</span>,
+                        <span>
+                          <span className="text-cyan-300">router</span>
+                          <span className="text-slate-400">.</span>
+                          <span className="text-yellow-300">get</span>
+                          <span className="text-slate-400">(</span>
+                          <span className="text-green-400">&apos;/api/products&apos;</span>
+                          <span className="text-slate-400">,</span>
+                        </span>,
+                        <span className="pl-[2ch]">
+                          <span className="text-cyan-300">authenticate</span>
+                          <span className="text-slate-400">,</span>
+                        </span>,
+                        <span className="pl-[2ch]">
+                          <span className="text-purple-400">async</span>{' '}
+                          <span className="text-slate-400">(</span>
+                          <span className="text-cyan-300">req</span>
+                          <span className="text-slate-400">,</span>{' '}
+                          <span className="text-cyan-300">res</span>
+                          <span className="text-slate-400">)</span>{' '}
+                          <span className="text-purple-400">{'=>'}</span>{' '}
+                          <span className="text-slate-400">{'{'}</span>
+                        </span>,
+                        <span className="pl-[4ch]">
+                          <span className="text-purple-400">const</span>{' '}
+                          <span className="text-cyan-300">products</span>{' '}
+                          <span className="text-slate-400">=</span>{' '}
+                          <span className="text-purple-400">await</span>
+                        </span>,
+                        <span className="pl-[6ch]">
+                          <span className="text-slate-200">db</span>
+                          <span className="text-slate-400">.</span>
+                          <span className="text-yellow-300">query</span>
+                          <span className="text-slate-400">(</span>
+                          <span className="text-green-400">&apos;SELECT * FROM products&apos;</span>
+                          <span className="text-slate-400">)</span>
+                        </span>,
+                        <span className="pl-[4ch]">
+                          <span className="text-cyan-300">res</span>
+                          <span className="text-slate-400">.</span>
+                          <span className="text-yellow-300">json</span>
+                          <span className="text-slate-400">({'{ '}</span>
+                          <span className="text-cyan-300">products</span>
+                          <span className="text-slate-400">{' })'}</span>
+                        </span>,
+                        <span className="pl-[2ch]">
+                          <span className="text-slate-400">{'}'}</span>
+                        </span>,
+                        <span>
+                          <span className="text-slate-400">)</span>
+                        </span>,
+                      ].map((content, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 1.2 + i * 0.1, duration: 0.15 }}
+                          className="flex px-2 hover:bg-white/[0.025]"
+                        >
+                          <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">
+                            {i + 1}
+                          </span>
+                          {content}
+                        </motion.div>
+                      ))}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 2.2 }}
+                        className="flex px-2"
+                      >
+                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">
+                          11
+                        </span>
+                        <motion.span
+                          className="inline-block w-[2px] h-3.5 bg-cyan-400 align-middle"
+                          animate={{ opacity: [1, 1, 0, 0] }}
+                          transition={{
+                            delay: 2.3,
+                            duration: 0.8,
+                            repeat: Infinity,
+                            times: [0, 0.4, 0.5, 1],
+                          }}
+                        />
+                      </motion.div>
                     </div>
 
                     {/* Status bar */}
                     <div className="flex items-center gap-2 bg-slate-800/80 px-4 py-2 border-t border-slate-700/50">
                       <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
-                      <span className="text-[11px] text-slate-500 font-mono truncate">Node.js · TypeScript · Express · PostgreSQL</span>
+                      <span className="text-[11px] text-slate-500 font-mono truncate">
+                        Node.js · TypeScript · Express · PostgreSQL
+                      </span>
                     </div>
                   </div>
                 </TiltCard>
@@ -536,13 +548,11 @@ const Hero = () => {
           delay: 2,
           duration: 1,
           repeat: Infinity,
-          repeatType: "reverse",
+          repeatType: 'reverse',
         }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
         onClick={() =>
-          document
-            .getElementById("experiences")
-            ?.scrollIntoView({ behavior: "smooth" })
+          document.getElementById('experiences')?.scrollIntoView({ behavior: 'smooth' })
         }
       >
         <div className="flex flex-col items-center gap-2">

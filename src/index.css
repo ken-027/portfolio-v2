@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap");
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   body {
@@ -11,9 +11,9 @@
   .text-gradient {
     @apply bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent;
   }
-
 }
 
-a, button {
-    cursor: pointer;
+a,
+button {
+  cursor: pointer;
 }

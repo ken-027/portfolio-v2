@@ -3,6 +3,7 @@
 ## ✅ What's Preserved
 
 The **original timeline layout** with:
+
 - ✅ Vertical timeline line in the center
 - ✅ Timeline dots at each experience
 - ✅ **Alternating left/right layout** on desktop
@@ -14,33 +15,39 @@ The **original timeline layout** with:
 ### Added Details in Cards:
 
 #### 1. **Company Logo** (60x60px)
+
 - Displayed next to the title
 - Automatic fallback to company initial
 - Hover animation (scale + rotate)
 - Professional bordered container
 
 #### 2. **Clickable Company Name**
+
 - Links to company website
 - External link icon
 - Hover effects
 
 #### 3. **Formatted Dates**
+
 - Clean format: "Jul 2023 - Mar 2025"
 - Automatic date parsing
 
 #### 4. **Descriptions Array**
+
 - Properly displays all bullet points from your API
 - Staggered entrance animations
 - Cyan arrow indicators
 - Aligns with timeline side (left/right)
 
 #### 5. **Expandable Projects Section**
+
 - Click to expand/collapse
 - Shows project count
 - Smooth accordion animation
 - Chevron icon rotates
 
 #### 6. **Project Cards (Nested)**
+
 - **Category badges** with colors:
   - 🔵 Frontend (Blue)
   - 🟢 Backend (Green)
@@ -50,6 +57,7 @@ The **original timeline layout** with:
 - **Description text**
 
 #### 7. **Technology Stack**
+
 - Technology icons (small, 12px)
 - Technology names
 - Hover effects
@@ -60,7 +68,7 @@ The **original timeline layout** with:
 
 ```
         Desktop View:
-        
+
 Left Side          |  Timeline  |  Right Side
                    |            |
 ┌──────────────┐   |    ●      |
@@ -108,16 +116,19 @@ Left Side          |  Timeline  |  Right Side
 ## 🎯 Key Features
 
 ### Responsive Behavior
+
 - **Desktop**: Alternating left/right timeline
 - **Mobile**: Single column, left-aligned with timeline on left edge
 
 ### Animations
+
 - Cards slide up on entrance
 - Descriptions stagger in
 - Projects accordion smooth expand/collapse
 - Hover effects on all interactive elements
 
 ### Interactive Elements
+
 1. **Company name** → Opens company website
 2. **Projects button** → Expands/collapses projects
 3. **View button** → Opens project screenshot/PDF
@@ -125,21 +136,22 @@ Left Side          |  Timeline  |  Right Side
 
 ## 📊 Comparison
 
-| Feature | Before | After |
-|---------|--------|-------|
-| Company Logo | ❌ | ✅ |
-| Clickable Company | ❌ | ✅ |
-| Date Format | Basic string | Formatted (Jul 2023) |
-| Descriptions | Not supported | ✅ Array support |
-| Nested Projects | ❌ | ✅ Expandable |
-| Project Categories | ❌ | ✅ Color-coded |
-| Tech Icons | ❌ | ✅ With levels |
-| Project Roles | ❌ | ✅ Badges |
-| Timeline Layout | ✅ | ✅ **Preserved** |
+| Feature            | Before        | After                |
+| ------------------ | ------------- | -------------------- |
+| Company Logo       | ❌            | ✅                   |
+| Clickable Company  | ❌            | ✅                   |
+| Date Format        | Basic string  | Formatted (Jul 2023) |
+| Descriptions       | Not supported | ✅ Array support     |
+| Nested Projects    | ❌            | ✅ Expandable        |
+| Project Categories | ❌            | ✅ Color-coded       |
+| Tech Icons         | ❌            | ✅ With levels       |
+| Project Roles      | ❌            | ✅ Badges            |
+| Timeline Layout    | ✅            | ✅ **Preserved**     |
 
 ## 🎨 Visual Improvements
 
 ### Before:
+
 ```
 ┌──────────────────────┐
 │ Position Title       │
@@ -151,6 +163,7 @@ Left Side          |  Timeline  |  Right Side
 ```
 
 ### After:
+
 ```
 ┌────────────────────────────┐
 │ [Logo] Position Title      │
@@ -176,11 +189,12 @@ Left Side          |  Timeline  |  Right Side
 ✅ **Interactive** - Multiple clickable elements  
 ✅ **Detailed projects** - Full project information nested  
 ✅ **Technology showcase** - Icons and levels displayed  
-✅ **Mobile-friendly** - Responsive on all devices  
+✅ **Mobile-friendly** - Responsive on all devices
 
 ## 💡 Usage
 
 The component automatically:
+
 - Formats dates from ISO strings
 - Displays company logos with fallbacks
 - Shows descriptions as bullet points

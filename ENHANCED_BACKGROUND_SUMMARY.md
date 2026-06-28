@@ -7,43 +7,51 @@ The ParallaxBackground component has been completely redesigned with a sophistic
 ## Key Features
 
 ### 1. **Multi-Layer Gradient Mesh** 🎨
+
 - 6 large pulsing gradient orbs
 - Animated radial gradient overlay (morphs every 8s)
 - Rich color blending with 3-color gradients
 - Higher opacity for better visibility
 
 ### 2. **Pulsing Glow Effects** ✨
+
 - Each orb pulses independently (6-9s cycles)
 - Scale: 1.0 → 1.2 → 1.0
 - Opacity: 0.4 → 0.6 → 0.4
 - Creates breathing, organic feel
 
 ### 3. **Floating Accent Orbs** 🌟
+
 - 4 medium-sized glowing orbs
 - Independent floating animations
 - X/Y movement + scale + opacity
 - Positioned for strategic depth
 
 ### 4. **Particle System** ⭐
+
 - 12 small floating particles (3x3px)
 - Each has unique timing
 - Hidden on mobile (lg+ only)
 - 60% opacity with blur
 
 ### 5. **Scroll-Based Parallax** 🔄
+
 - Multiple movement speeds (150px to 300px range)
 - Rotation effects (0° to 180°)
 - Scale transformations (1.0 to 1.2)
 - Creates dynamic depth as you scroll
 
 ### 6. **Subtle Overlays** 📐
+
 - 50x50px grid pattern (2% opacity)
 - SVG fractal noise texture (1.5% opacity)
 - Radial edge fade for focus
 - Adds depth without distraction
 
 ### 7. **Enhanced Themes** 🎭
+
 Each theme now has 8 color properties:
+
 - `primary`, `secondary`, `accent` (gradients)
 - `glow1`, `glow2`, `glow3` (solid glows)
 - `mesh` (central gradient)
@@ -65,13 +73,13 @@ Each theme now has 8 color properties:
 
 ## Animation Types
 
-| Element | Animation | Duration | Effect |
-|---------|-----------|----------|--------|
-| Large Orbs | Pulse + Parallax | 6-9s | Breathing glow |
-| Accent Orbs | Float + Parallax | 5-7s | Drifting motion |
-| Particles | Float | 4-7s | Subtle movement |
-| Mesh | Morph | 8s | Color shifts |
-| All | Scroll Parallax | - | Depth on scroll |
+| Element     | Animation        | Duration | Effect          |
+| ----------- | ---------------- | -------- | --------------- |
+| Large Orbs  | Pulse + Parallax | 6-9s     | Breathing glow  |
+| Accent Orbs | Float + Parallax | 5-7s     | Drifting motion |
+| Particles   | Float            | 4-7s     | Subtle movement |
+| Mesh        | Morph            | 8s       | Color shifts    |
+| All         | Scroll Parallax  | -        | Depth on scroll |
 
 ## Layer Structure (8 Layers)
 
@@ -87,6 +95,7 @@ Each theme now has 8 color properties:
 ## Before vs After
 
 ### Before
+
 - 7 static blur circles
 - Basic parallax only
 - Simple 3-color theme
@@ -94,6 +103,7 @@ Each theme now has 8 color properties:
 - Flat appearance
 
 ### After
+
 - 22 animated elements (6+4+12)
 - Parallax + continuous animations
 - 8-property color system
@@ -103,21 +113,25 @@ Each theme now has 8 color properties:
 ## Theme Colors
 
 ### Blue (Default)
+
 - Blue-600, Cyan-500, Blue-400
 - Ocean/tech vibes
 - 40-20% opacity range
 
 ### Purple
+
 - Purple-600, Violet-500, Fuchsia-400
 - Mystical/creative vibes
 - Rich, high contrast
 
 ### Green
+
 - Green-600, Emerald-500, Teal-400
 - Natural/growth vibes
 - Balanced, calming
 
 ### Amber
+
 - Amber-600, Orange-500, Yellow-400
 - Warm/energetic vibes
 - High energy particles
@@ -132,14 +146,14 @@ Each theme now has 8 color properties:
 
 ## Key Improvements
 
-| Aspect | Improvement |
-|--------|-------------|
-| Visual Depth | 2 layers → 8 layers |
-| Color Richness | 3 colors → 8 properties |
-| Animation Types | 1 → 4 types |
-| Particle Count | 0 → 12 |
-| Opacity | 10-25% → 15-40% |
-| Blur Levels | 1 type → 3 types |
+| Aspect          | Improvement             |
+| --------------- | ----------------------- |
+| Visual Depth    | 2 layers → 8 layers     |
+| Color Richness  | 3 colors → 8 properties |
+| Animation Types | 1 → 4 types             |
+| Particle Count  | 0 → 12                  |
+| Opacity         | 10-25% → 15-40%         |
+| Blur Levels     | 1 type → 3 types        |
 
 ## Usage
 
@@ -150,24 +164,27 @@ import ParallaxBackground from './ParallaxBackground';
 <section className="relative">
   <ParallaxBackground theme="blue" />
   {/* Your content */}
-</section>
+</section>;
 ```
 
 ## Quick Customization
 
 ### Adjust Speed
+
 ```javascript
 variants={pulseGlow(6, 0)}  // Duration in seconds
 ```
 
 ### Change Particle Count
+
 ```javascript
 {[...Array(12)].map((_, i) => ...)}  // Change 12 to desired count
 ```
 
 ### Modify Orb Size
+
 ```jsx
-<div className="w-[500px] h-[500px] ..." />  // Change dimensions
+<div className="w-[500px] h-[500px] ..." /> // Change dimensions
 ```
 
 ## Technical Details
@@ -181,18 +198,21 @@ variants={pulseGlow(6, 0)}  // Duration in seconds
 ## Benefits
 
 ### Visual
+
 - ✅ More engaging and dynamic
 - ✅ Better depth perception
 - ✅ Richer color experience
 - ✅ Professional, modern look
 
 ### Technical
+
 - ✅ Performance optimized
 - ✅ Fully responsive
 - ✅ No external assets
 - ✅ Browser compatible
 
 ### User Experience
+
 - ✅ Smooth, non-jarring animations
 - ✅ Doesn't distract from content
 - ✅ Creates immersive feeling
@@ -200,11 +220,11 @@ variants={pulseGlow(6, 0)}  // Duration in seconds
 
 ## Responsive Behavior
 
-| Screen Size | Large Orbs | Accent Orbs | Particles | Grid/Noise |
-|-------------|------------|-------------|-----------|------------|
-| Mobile      | ✅ Visible  | ✅ Visible   | ❌ Hidden  | ✅ Visible  |
-| Tablet      | ✅ Visible  | ✅ Visible   | ❌ Hidden  | ✅ Visible  |
-| Desktop     | ✅ Visible  | ✅ Visible   | ✅ Visible  | ✅ Visible  |
+| Screen Size | Large Orbs | Accent Orbs | Particles  | Grid/Noise |
+| ----------- | ---------- | ----------- | ---------- | ---------- |
+| Mobile      | ✅ Visible | ✅ Visible  | ❌ Hidden  | ✅ Visible |
+| Tablet      | ✅ Visible | ✅ Visible  | ❌ Hidden  | ✅ Visible |
+| Desktop     | ✅ Visible | ✅ Visible  | ✅ Visible | ✅ Visible |
 
 ## Testing Checklist
 
@@ -225,7 +245,7 @@ variants={pulseGlow(6, 0)}  // Duration in seconds
 - ⚠️ Projects (green theme)
 - ⚠️ Certificates (amber theme)
 
-*Note: Only Hero currently has the enhanced version. Other sections may still use the old simple version.*
+_Note: Only Hero currently has the enhanced version. Other sections may still use the old simple version._
 
 ## Documentation
 
@@ -236,14 +256,17 @@ variants={pulseGlow(6, 0)}  // Duration in seconds
 ## Troubleshooting
 
 ### Too Bright
+
 - Reduce opacity values (`/40` → `/30`)
 - Remove accent orbs
 
 ### Too Slow
+
 - Decrease animation durations
 - Reduce particle count
 
 ### Performance Issues
+
 - Remove particles
 - Reduce blur levels
 - Hide on mobile

@@ -143,7 +143,7 @@ npm install --save-dev gh-pages
 export default defineConfig({
   plugins: [react()],
   base: '/portfolio/', // Your repo name
-})
+});
 ```
 
 4. Deploy:
@@ -280,10 +280,12 @@ server {
 2. **Configure DNS**:
 
 For Vercel/Netlify:
+
 - Add A record: `@` → platform IP
 - Add CNAME: `www` → `your-site.platform.app`
 
 3. **Enable HTTPS**:
+
 - Most platforms enable this automatically
 - Wait for SSL certificate provisioning (5-10 minutes)
 
@@ -319,6 +321,7 @@ VITE_API_BASE_URL=https://portfolio-api.ksoftdev.site/api/v1/portfolio
    - Use appropriate sizes
 
 2. **Remove Unused Code**:
+
    ```bash
    npm run build -- --mode production
    ```
@@ -369,6 +372,7 @@ Platforms like Vercel and Netlify create preview deployments for pull requests.
 **Issue**: App works locally but shows blank page in production
 
 **Solutions**:
+
 1. Check browser console for errors
 2. Verify API endpoints are accessible
 3. Check if base URL is set correctly in `vite.config.js`
@@ -381,6 +385,7 @@ Platforms like Vercel and Netlify create preview deployments for pull requests.
 **Solution**: Configure your platform to redirect all routes to `index.html`
 
 **Vercel** - Create `vercel.json`:
+
 ```json
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
@@ -388,6 +393,7 @@ Platforms like Vercel and Netlify create preview deployments for pull requests.
 ```
 
 **Netlify** - Create `_redirects` in public folder:
+
 ```
 /*    /index.html   200
 ```
@@ -397,6 +403,7 @@ Platforms like Vercel and Netlify create preview deployments for pull requests.
 **Issue**: API requests blocked by CORS
 
 **Solution**: Configure CORS on your backend to allow your domain:
+
 ```js
 Access-Control-Allow-Origin: https://yourdomain.com
 ```
@@ -404,6 +411,7 @@ Access-Control-Allow-Origin: https://yourdomain.com
 ### Slow Loading
 
 **Solutions**:
+
 1. Enable gzip compression
 2. Use a CDN
 3. Optimize images
@@ -417,11 +425,13 @@ Access-Control-Allow-Origin: https://yourdomain.com
 ### If Deployment Fails
 
 **Vercel/Netlify**:
+
 - Go to Deployments
 - Find previous working version
 - Click "Rollback"
 
 **Manual**:
+
 - Revert to previous commit
 - Redeploy
 

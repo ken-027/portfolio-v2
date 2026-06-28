@@ -5,6 +5,7 @@
 ### 1. Personal Information
 
 #### Update Your Name and Title
+
 **File**: `src/components/Hero.jsx`
 
 ```jsx
@@ -16,6 +17,7 @@ Backend specialist crafting robust, scalable solutions...
 ```
 
 #### Update Footer Copyright
+
 **File**: `src/components/Footer.jsx`
 
 ```jsx
@@ -26,6 +28,7 @@ by Your Name
 ### 2. Social Media Links
 
 #### Hero Section
+
 **File**: `src/components/Hero.jsx` (Lines 83-105)
 
 ```jsx
@@ -35,6 +38,7 @@ by Your Name
 ```
 
 #### Footer Section
+
 **File**: `src/components/Footer.jsx` (Line 12)
 
 ```jsx
@@ -49,6 +53,7 @@ const socialLinks = [
 ### 3. Color Scheme
 
 #### Current Color Palette
+
 - **Primary**: Blue to Cyan gradient (#0ea5e9 → #06b6d4)
 - **Background**: Slate 950 (#020617)
 - **Cards**: Slate 800/50 with transparency
@@ -56,6 +61,7 @@ const socialLinks = [
 - **Borders**: Slate 700
 
 #### Change Primary Colors
+
 **File**: `tailwind.config.js`
 
 ```js
@@ -70,6 +76,7 @@ colors: {
 ```
 
 #### Change Gradient Colors
+
 **File**: `src/index.css`
 
 ```css
@@ -82,10 +89,12 @@ colors: {
 ### 4. Typography
 
 #### Current Font
+
 - **Font Family**: Inter (Google Fonts)
 - **Weights**: 300, 400, 500, 600, 700, 800
 
 #### Change Font
+
 **File**: `src/index.css`
 
 ```css
@@ -140,11 +149,13 @@ const BASE_URL = 'https://your-api-domain.com/api/v1/portfolio';
 Or use environment variables:
 
 **File**: `.env`
+
 ```env
 VITE_API_BASE_URL=https://your-api-domain.com/api/v1/portfolio
 ```
 
 **File**: `src/services/api.js`
+
 ```js
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'default-url';
 ```
@@ -175,7 +186,7 @@ export default NewSection;
 2. **Import in App.jsx**:
 
 ```jsx
-import NewSection from './components/NewSection'
+import NewSection from './components/NewSection';
 
 function App() {
   return (
@@ -184,11 +195,11 @@ function App() {
       <main>
         <Hero />
         {/* ... other sections */}
-        <NewSection />  {/* Add here */}
+        <NewSection /> {/* Add here */}
       </main>
       <Footer />
     </div>
-  )
+  );
 }
 ```
 
@@ -204,6 +215,7 @@ const navItems = [
 ### 9. Animation Customization
 
 #### Adjust Animation Speed
+
 **Any component with animations**:
 
 ```jsx
@@ -211,11 +223,13 @@ transition={{ duration: 0.6 }}  // Change duration (in seconds)
 ```
 
 #### Change Animation Style
+
 ```jsx
 transition={{ ease: 'easeOut' }}  // Options: easeIn, easeOut, easeInOut, linear
 ```
 
 #### Disable Animations
+
 Remove or comment out `framer-motion` imports and `motion.*` components:
 
 ```jsx
@@ -252,6 +266,7 @@ Replace `/vite.svg` in the `public` folder with your own icon, or:
 ### 12. Loading States
 
 Customize spinners and loading messages in:
+
 - `src/components/Experiences.jsx`
 - `src/components/Skills.jsx`
 - `src/components/Projects.jsx`

@@ -1,11 +1,8 @@
 import sharp from 'sharp';
-import {
-    fileURLToPath
-} from 'url';
+import { fileURLToPath } from 'url';
 import path from 'path';
 
-const __dirname = path.dirname(fileURLToPath(
-    import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'og-image.png');
 
 const svgContent = `
@@ -94,12 +91,12 @@ const svgContent = `
 `;
 
 async function main() {
-    const svgBuffer = Buffer.from(svgContent);
-    await sharp(svgBuffer).png().toFile(OUTPUT_PATH);
-    console.log(`OG image written to ${OUTPUT_PATH}`);
+  const svgBuffer = Buffer.from(svgContent);
+  await sharp(svgBuffer).png().toFile(OUTPUT_PATH);
+  console.log(`OG image written to ${OUTPUT_PATH}`);
 }
 
-main().catch(err => {
-    console.error('Failed to generate OG image:', err);
-    process.exit(1);
+main().catch((err) => {
+  console.error('Failed to generate OG image:', err);
+  process.exit(1);
 });

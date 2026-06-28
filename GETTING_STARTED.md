@@ -8,6 +8,7 @@ Your portfolio is **fully functional** and running at:
 **http://localhost:5174/**
 
 ### Features Ready to Use:
+
 - ✅ Modern, elegant dark theme
 - ✅ Responsive design (mobile, tablet, desktop)
 - ✅ Smooth animations and transitions
@@ -51,12 +52,14 @@ Also update in `src/components/Footer.jsx`, line 12.
 ### 3. Test Your API Data
 
 Open your browser to http://localhost:5174/ and verify:
+
 - Your experiences show up
 - Your skills display correctly
 - Your projects appear
 - Your certificates are visible
 
 If data doesn't show, check:
+
 1. Your API endpoints are accessible
 2. Browser console for errors (F12)
 3. Network tab to see API responses
@@ -64,29 +67,38 @@ If data doesn't show, check:
 ## 📚 Documentation
 
 ### For Quick Customization:
+
 - **README.md** - Project overview and commands
 - **CUSTOMIZATION_GUIDE.md** - Detailed customization instructions
 - **SETUP_CHECKLIST.md** - Complete setup checklist
 
 ### For Deployment:
+
 - **DEPLOYMENT_GUIDE.md** - Step-by-step deployment for all platforms
 
 ### For Reference:
+
 - **PROJECT_OVERVIEW.md** - Complete feature list and architecture
 
 ## 🎨 Quick Customization Options
 
 ### Change Colors
+
 File: `tailwind.config.js`
+
 - Modify the color values under `primary`
 
 ### Change Font
+
 File: `src/index.css`
+
 - Update the Google Fonts import URL
 - Update `tailwind.config.js` font family
 
 ### Add/Remove Sections
+
 File: `src/App.jsx`
+
 - Import component
 - Add `<YourComponent />` in the main tag
 
@@ -107,19 +119,25 @@ npm run lint      # Check code quality
 ## 🐛 Troubleshooting
 
 ### Issue: Data not loading
-**Solution**: 
+
+**Solution**:
+
 1. Check browser console (F12)
 2. Verify API endpoints in `src/services/api.js`
 3. Check CORS settings on your API
 
 ### Issue: Styles not applying
+
 **Solution**:
+
 1. Restart dev server
 2. Clear browser cache
 3. Check for CSS syntax errors
 
 ### Issue: Build fails
+
 **Solution**:
+
 1. Run `npm install` again
 2. Delete `node_modules` and `package-lock.json`, then `npm install`
 3. Check for TypeScript/syntax errors
@@ -127,6 +145,7 @@ npm run lint      # Check code quality
 ## 🎓 Learning Resources
 
 ### Technologies Used:
+
 - **React**: https://react.dev
 - **Vite**: https://vitejs.dev
 - **Tailwind CSS**: https://tailwindcss.com
@@ -157,6 +176,7 @@ src/
 Once you're happy with your portfolio:
 
 1. **Build it**:
+
    ```bash
    npm run build
    ```
@@ -174,6 +194,7 @@ Once you're happy with your portfolio:
 ## ✨ Make It Yours
 
 ### Priority Tasks:
+
 1. [ ] Update name and description (5 min)
 2. [ ] Update social media links (2 min)
 3. [ ] Test with your API data (5 min)
@@ -182,6 +203,7 @@ Once you're happy with your portfolio:
 6. [ ] Update meta tags (3 min)
 
 ### Optional Enhancements:
+
 - [ ] Add testimonials section
 - [ ] Add blog section
 - [ ] Add contact form
@@ -210,6 +232,7 @@ Once you're happy with your portfolio:
 Your portfolio is set up and ready to customize. Take your time, make it yours, and show the world what you can do!
 
 ### Quick Links:
+
 - **Current Site**: http://localhost:5174/
 - **API Base**: https://portfolio-api.ksoftdev.site/api/v1/portfolio
 - **Documentation**: See files in project root

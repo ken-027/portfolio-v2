@@ -7,18 +7,21 @@ The Skills component has been completely redesigned to match your nested API str
 ## ✨ Key Features
 
 ### 1. **Nested Category Structure**
+
 - Displays skills grouped by categories
 - Category count badge
 - Color-coded category headers
 - Custom icons per category
 
 ### 2. **Skill Icons from API**
+
 - Displays actual technology icons (48x48px)
 - Automatic error handling with fallback
 - Smooth hover animations
 - Professional drop shadow effects
 
 ### 3. **Level System (1-10 Scale)**
+
 - Visual progress bars
 - Color-coded by proficiency:
   - 🟢 **Level 7-10**: Green (Advanced)
@@ -28,12 +31,14 @@ The Skills component has been completely redesigned to match your nested API str
 - Animated fill on scroll
 
 ### 4. **Proficiency Badges**
+
 - **Advanced/Expert**: Green badge
 - **Intermediate**: Blue badge
 - **Beginner**: Amber badge
 - Small, non-intrusive design
 
 ### 5. **Category Color Coding**
+
 - **Frontend**: Blue gradient
 - **Backend**: Green gradient
 - **Database**: Purple gradient
@@ -42,6 +47,7 @@ The Skills component has been completely redesigned to match your nested API str
 - **Other Tools**: Slate gradient
 
 ### 6. **Interactive Elements**
+
 - Hover effects: Scale + lift
 - Icon zoom on hover
 - Name changes to cyan
@@ -110,15 +116,15 @@ The Skills component has been completely redesigned to match your nested API str
 
 ### Field Descriptions
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `skills` | Array | Yes | Root array of skill categories |
-| `name` | String | Yes | Category name (Frontend, Backend, etc.) |
-| `items` | Array | Yes | Array of skills in this category |
-| `items[].name` | String | Yes | Skill/technology name |
-| `items[].level` | Number | Yes | Proficiency level (1-10) |
-| `items[].proficiency` | String | No | Text proficiency ("beginner", "intermediate", "advanced") |
-| `items[].icon` | String | No | URL to skill icon/logo |
+| Field                 | Type   | Required | Description                                               |
+| --------------------- | ------ | -------- | --------------------------------------------------------- |
+| `skills`              | Array  | Yes      | Root array of skill categories                            |
+| `name`                | String | Yes      | Category name (Frontend, Backend, etc.)                   |
+| `items`               | Array  | Yes      | Array of skills in this category                          |
+| `items[].name`        | String | Yes      | Skill/technology name                                     |
+| `items[].level`       | Number | Yes      | Proficiency level (1-10)                                  |
+| `items[].proficiency` | String | No       | Text proficiency ("beginner", "intermediate", "advanced") |
+| `items[].icon`        | String | No       | URL to skill icon/logo                                    |
 
 ## 🎨 Category Recognition
 
@@ -126,15 +132,15 @@ The component automatically recognizes categories and applies appropriate colors
 
 ### Category Mapping
 
-| Category Name Contains | Icon | Color Gradient |
-|------------------------|------|----------------|
-| "frontend" | 💻 FaCode | Blue to Cyan |
-| "backend" | 🖥️ FaServer | Green to Emerald |
-| "database" | 🗄️ FaDatabase | Purple to Pink |
-| "cloud", "devops" | ☁️ FaCloud | Orange to Amber |
-| "ai", "llm" | 🤖 FaRobot | Pink to Rose |
-| "other", "tool" | 🔧 FaTools | Slate |
-| Default | 💻 FaLaptopCode | Slate |
+| Category Name Contains | Icon            | Color Gradient   |
+| ---------------------- | --------------- | ---------------- |
+| "frontend"             | 💻 FaCode       | Blue to Cyan     |
+| "backend"              | 🖥️ FaServer     | Green to Emerald |
+| "database"             | 🗄️ FaDatabase   | Purple to Pink   |
+| "cloud", "devops"      | ☁️ FaCloud      | Orange to Amber  |
+| "ai", "llm"            | 🤖 FaRobot      | Pink to Rose     |
+| "other", "tool"        | 🔧 FaTools      | Slate            |
+| Default                | 💻 FaLaptopCode | Slate            |
 
 ### Examples
 
@@ -293,6 +299,7 @@ Title:
 ## 🔍 Tooltips
 
 Hovering over any skill card shows:
+
 ```
 React JS - Level 7/10
 ```
@@ -302,32 +309,38 @@ Implemented via HTML `title` attribute.
 ## 🎯 Example Categories from Your API
 
 ### Frontend (9 skills)
+
 - HTML, CSS, Javascript, Typescript
 - React JS, JQuery, Tailwind CSS
 - Bootstrap, Sass
 
 ### Backend (11 skills)
+
 - Node JS, Express JS, PHP
 - Next JS, Laravel, CodeIgniter
 - Socket.IO, Python, ASP.NET
 - Csharp, Rust
 
 ### Database (7 skills)
+
 - SQL Server, MySQL, Maria DB
 - MongoDB, PostgreSQL
 - Vector DB, Redis
 
 ### Clouds & DevOps (6 skills)
+
 - GIT, Docker, AWS
 - Bash, Kubernetes, Terraform
 
 ### Other Tools (10 skills)
+
 - VS Code, Postman, Redux Toolkit
 - Crystal Report, NPM, Jest
 - Figma, Gradio, Drizzle
 - Better Auth
 
 ### AI & LLM Development (6 skills)
+
 - OpenAI, Anthropic, CrewAI
 - LangChain, LangGraph, MCP
 
@@ -336,6 +349,7 @@ Implemented via HTML `title` attribute.
 ### Adding New Categories
 
 Just add to your API response:
+
 ```json
 {
   "name": "Mobile Development",
@@ -351,6 +365,7 @@ Just add to your API response:
 ```
 
 The component will automatically:
+
 - Apply appropriate colors
 - Select matching icon
 - Create the grid layout
@@ -359,12 +374,14 @@ The component will automatically:
 ### Icon Requirements
 
 **Recommended Format:**
+
 - SVG or PNG
 - Size: 48x48px to 128x128px
 - Transparent background
 - Clear, recognizable logo
 
 **Fallback Behavior:**
+
 - If icon fails to load, it's hidden
 - Card still displays name and level
 - No broken image shown
@@ -400,7 +417,7 @@ Your Skills component now features:
 ✅ **Custom category icons**  
 ✅ **Smooth animations** on scroll  
 ✅ **Professional design** with depth  
-✅ **Error handling** for icons  
+✅ **Error handling** for icons
 
 **Result**: A stunning, professional skills showcase! 🎨🚀
 

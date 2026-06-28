@@ -16,6 +16,7 @@ A modern, elegant portfolio website built with React, Vite, and Tailwind CSS. Sh
 ## Component Features
 
 ### Navigation
+
 - **Enhanced Logo**: Animated rotating glow with dual text layout (Portfolio + Kenneth Andales)
 - **Multi-Color Progress Bar**: 4-color gradient (Blue→Cyan→Purple→Fuchsia) with glow effect
 - **Active Indicators**: Floating pulsing dots below active sections
@@ -26,6 +27,7 @@ A modern, elegant portfolio website built with React, Vite, and Tailwind CSS. Sh
 - **Smooth Animations**: Lift effects, shared motion transitions, micro-interactions
 
 ### Hero Section
+
 - **Availability Badge**: Dynamic status indicator with pulsing dot
 - **Enhanced Typography**: Responsive 5xl→7xl→8xl heading with gradient text
 - **Floating Tech Icons**: 8 animated technology icons (React, Node.js, TypeScript, Docker, etc.)
@@ -37,6 +39,7 @@ A modern, elegant portfolio website built with React, Vite, and Tailwind CSS. Sh
 - **Enhanced Parallax Background**: 8-layer gradient mesh with pulsing orbs, floating particles, and animations
 
 ### Projects Section
+
 - **Advanced Filtering**: Filter by project type (personal/company/freelance) and category (frontend/backend/fullstack)
 - **Real-time Counts**: See project counts for each filter option
 - **Combined Filters**: Use multiple filters together for precise results
@@ -49,6 +52,7 @@ A modern, elegant portfolio website built with React, Vite, and Tailwind CSS. Sh
 - **Smart Fallbacks**: Graceful handling of missing images and optional fields
 
 ### Other Sections
+
 - **Experiences**: Timeline view with expandable nested projects and company details
 - **Skills**: Categorized skills with proficiency indicators and visual level bars
 - **Certificates**: Filterable certificate gallery with verification links
@@ -82,17 +86,20 @@ The portfolio fetches data from the following endpoints:
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd portfolio-prompt
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -169,6 +176,7 @@ const BASE_URL = 'YOUR_API_BASE_URL';
 ## Building for Production
 
 1. Build the project:
+
 ```bash
 npm run build
 ```
@@ -176,6 +184,7 @@ npm run build
 2. The built files will be in the `dist` directory
 
 3. Preview the production build:
+
 ```bash
 npm run preview
 ```

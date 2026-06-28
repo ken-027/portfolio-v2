@@ -25,7 +25,7 @@ const Tooltip = () => {
         delayShow={300}
         delayHide={100}
       />
-      
+
       {/* Quick tooltip - for interactive elements with shorter delay */}
       <ReactTooltip
         id="quick-tooltip"

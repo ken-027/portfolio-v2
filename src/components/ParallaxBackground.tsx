@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-type ThemeType = "blue" | "purple" | "green" | "amber";
+type ThemeType = 'blue' | 'purple' | 'green' | 'amber';
 
 interface ParallaxBackgroundProps {
   theme?: ThemeType;
@@ -21,52 +21,52 @@ interface ThemeColors {
 
 const THEMES: Record<ThemeType, ThemeColors> = {
   blue: {
-    farBlob1: "bg-blue-600/20",
-    farBlob2: "bg-cyan-500/15",
-    midGlow1: "bg-cyan-400/20",
-    midGlow2: "bg-blue-500/15",
-    midGlow3: "bg-indigo-500/20",
-    nearAccent1: "bg-cyan-300/25",
-    nearAccent2: "bg-blue-400/20",
-    nearAccent3: "bg-indigo-400/20",
-    nearAccent4: "bg-cyan-500/15",
+    farBlob1: 'bg-blue-600/20',
+    farBlob2: 'bg-cyan-500/15',
+    midGlow1: 'bg-cyan-400/20',
+    midGlow2: 'bg-blue-500/15',
+    midGlow3: 'bg-indigo-500/20',
+    nearAccent1: 'bg-cyan-300/25',
+    nearAccent2: 'bg-blue-400/20',
+    nearAccent3: 'bg-indigo-400/20',
+    nearAccent4: 'bg-cyan-500/15',
   },
   purple: {
-    farBlob1: "bg-purple-600/20",
-    farBlob2: "bg-violet-500/15",
-    midGlow1: "bg-violet-400/20",
-    midGlow2: "bg-purple-500/15",
-    midGlow3: "bg-fuchsia-500/20",
-    nearAccent1: "bg-violet-300/25",
-    nearAccent2: "bg-purple-400/20",
-    nearAccent3: "bg-fuchsia-400/20",
-    nearAccent4: "bg-violet-500/15",
+    farBlob1: 'bg-purple-600/20',
+    farBlob2: 'bg-violet-500/15',
+    midGlow1: 'bg-violet-400/20',
+    midGlow2: 'bg-purple-500/15',
+    midGlow3: 'bg-fuchsia-500/20',
+    nearAccent1: 'bg-violet-300/25',
+    nearAccent2: 'bg-purple-400/20',
+    nearAccent3: 'bg-fuchsia-400/20',
+    nearAccent4: 'bg-violet-500/15',
   },
   green: {
-    farBlob1: "bg-green-600/20",
-    farBlob2: "bg-emerald-500/15",
-    midGlow1: "bg-emerald-400/20",
-    midGlow2: "bg-green-500/15",
-    midGlow3: "bg-teal-500/20",
-    nearAccent1: "bg-emerald-300/25",
-    nearAccent2: "bg-green-400/20",
-    nearAccent3: "bg-teal-400/20",
-    nearAccent4: "bg-emerald-500/15",
+    farBlob1: 'bg-green-600/20',
+    farBlob2: 'bg-emerald-500/15',
+    midGlow1: 'bg-emerald-400/20',
+    midGlow2: 'bg-green-500/15',
+    midGlow3: 'bg-teal-500/20',
+    nearAccent1: 'bg-emerald-300/25',
+    nearAccent2: 'bg-green-400/20',
+    nearAccent3: 'bg-teal-400/20',
+    nearAccent4: 'bg-emerald-500/15',
   },
   amber: {
-    farBlob1: "bg-amber-600/20",
-    farBlob2: "bg-orange-500/15",
-    midGlow1: "bg-orange-400/20",
-    midGlow2: "bg-amber-500/15",
-    midGlow3: "bg-yellow-500/20",
-    nearAccent1: "bg-orange-300/25",
-    nearAccent2: "bg-amber-400/20",
-    nearAccent3: "bg-yellow-400/20",
-    nearAccent4: "bg-orange-500/15",
+    farBlob1: 'bg-amber-600/20',
+    farBlob2: 'bg-orange-500/15',
+    midGlow1: 'bg-orange-400/20',
+    midGlow2: 'bg-amber-500/15',
+    midGlow3: 'bg-yellow-500/20',
+    nearAccent1: 'bg-orange-300/25',
+    nearAccent2: 'bg-amber-400/20',
+    nearAccent3: 'bg-yellow-400/20',
+    nearAccent4: 'bg-orange-500/15',
   },
 };
 
-const ParallaxBackground = ({ theme = "blue" }: ParallaxBackgroundProps) => {
+const ParallaxBackground = ({ theme = 'blue' }: ParallaxBackgroundProps) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -86,8 +86,8 @@ const ParallaxBackground = ({ theme = "blue" }: ParallaxBackgroundProps) => {
       mouseX.set(e.clientX - window.innerWidth / 2);
       mouseY.set(e.clientY - window.innerHeight / 2);
     };
-    window.addEventListener("mousemove", handler);
-    return () => window.removeEventListener("mousemove", handler);
+    window.addEventListener('mousemove', handler);
+    return () => window.removeEventListener('mousemove', handler);
   }, [mouseX, mouseY]);
 
   const colors = THEMES[theme] ?? THEMES.blue;
@@ -140,8 +140,8 @@ const ParallaxBackground = ({ theme = "blue" }: ParallaxBackgroundProps) => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
+            'linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px',
         }}
       />
 

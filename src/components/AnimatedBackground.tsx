@@ -9,7 +9,7 @@ interface Particle {
   opacity: number;
 }
 
-const PARTICLE_COUNT = 70;
+const PARTICLE_COUNT = 55;
 
 export default function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,6 +52,25 @@ export default function AnimatedBackground() {
         if (p.y > canvas.height) p.y = 0;
       }
 
+      // connections between nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const pi = particles[i]!;
+          const pj = particles[j]!;
+          const dx = pi.x - pj.x;
+          const dy = pi.y - pj.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(pi.x, pi.y);
+            ctx.lineTo(pj.x, pj.y);
+            ctx.strokeStyle = `rgba(6, 182, 212, ${0.08 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
       // dots
       for (const p of particles) {
         ctx.beginPath();
@@ -70,7 +89,9 @@ export default function AnimatedBackground() {
 
     resize();
     spawnParticles();
-    draw();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      draw();
+    }
 
     window.addEventListener('resize', handleResize);
     return () => {

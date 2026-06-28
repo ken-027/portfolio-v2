@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import {
-  FaSpinner,
   FaExternalLinkAlt,
   FaMapMarkerAlt,
   FaChevronDown,
@@ -136,8 +135,28 @@ const Experiences = () => {
     return (
       <section id="experiences" className="py-20">
         <div className="container mx-auto px-6 max-w-5xl">
-          <div className="flex items-center justify-center h-64">
-            <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
+          <div className="mb-12 space-y-3">
+            <div className="h-3 w-14 bg-white/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-72 bg-white/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-80 bg-white/[0.05] rounded animate-pulse" />
+          </div>
+          <div className="space-y-4 sm:pl-10">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                <div className="flex items-start gap-4">
+                  <div className="hidden sm:block w-10 h-10 rounded-xl bg-white/[0.06] animate-pulse shrink-0" />
+                  <div className="flex-1 space-y-3">
+                    <div className="h-5 w-48 bg-white/[0.08] rounded animate-pulse" />
+                    <div className="h-3 w-32 bg-white/[0.06] rounded animate-pulse" />
+                    <div className="flex gap-2">
+                      {Array.from({ length: 4 }).map((_, j) => (
+                        <div key={j} className="h-6 w-16 bg-white/[0.06] rounded-full animate-pulse" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -245,7 +264,7 @@ const Experiences = () => {
                     </div>
                   </div>
 
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
+                  <div className="card-hover-glow bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
                     {/* Card header — always visible */}
                     <div className="p-5 flex items-start gap-4">
                       {/* Company logo or fallback */}
@@ -254,6 +273,7 @@ const Experiences = () => {
                           <img
                             src={experience.companyLogo}
                             alt={experience.company}
+                            loading="lazy"
                             className="w-full h-full object-contain p-1.5 opacity-70 group-hover:opacity-90 transition-opacity duration-300"
                             onError={(e) => {
                               const el = e.currentTarget;

@@ -4,7 +4,6 @@ import {
   FaGithub,
   FaExternalLinkAlt,
   FaFolder,
-  FaSpinner,
   FaCode,
   FaUsers,
   FaUser,
@@ -200,9 +199,24 @@ const Projects = () => {
   if (loading) {
     return (
       <section id="projects" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center h-64">
-            <FaSpinner className="text-4xl text-cyan-400 animate-spin" />
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="mb-10 space-y-3">
+            <div className="h-3 w-20 bg-white/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-64 bg-white/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-96 bg-white/[0.05] rounded animate-pulse" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                <div className="h-36 bg-white/[0.06] animate-pulse" />
+                <div className="p-4 space-y-3">
+                  <div className="h-3 w-16 bg-white/[0.06] rounded animate-pulse" />
+                  <div className="h-5 w-3/4 bg-white/[0.08] rounded animate-pulse" />
+                  <div className="h-3 w-full bg-white/[0.05] rounded animate-pulse" />
+                  <div className="h-3 w-4/5 bg-white/[0.05] rounded animate-pulse" />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -299,6 +313,7 @@ const Projects = () => {
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedType(type as Project['type'])}
+                        aria-pressed={selectedType === type}
                         className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 capitalize ${
                           selectedType === type
                             ? 'bg-white/10 border border-white/20 text-white'
@@ -329,6 +344,7 @@ const Projects = () => {
                           whileHover={{ scale: 1.02, y: -1 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setSelectedCategory(category as Project['category'])}
+                          aria-pressed={selectedCategory === category}
                           className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                             selectedCategory === category
                               ? 'bg-white/10 border border-white/20 text-white'
@@ -383,6 +399,7 @@ const Projects = () => {
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedCategory(category as Project['category'])}
+                  aria-pressed={selectedCategory === category}
                   className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                     selectedCategory === category
                       ? 'bg-white/10 border border-white/20 text-white'
@@ -434,7 +451,7 @@ const Projects = () => {
             return (
               <motion.div key={project.id || index} variants={itemVariants}>
                 <div
-                  className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
+                  className={`card-hover-glow bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
                 >
                   {/* Thumbnail — real image or category icon fallback */}
                   <div className="relative h-36 shrink-0 overflow-hidden">
@@ -443,6 +460,7 @@ const Projects = () => {
                         <img
                           src={project.thumbnailLink}
                           alt={project.title}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           onError={(e) => {
                             const el = e.currentTarget;

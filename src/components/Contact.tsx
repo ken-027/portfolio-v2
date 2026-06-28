@@ -134,10 +134,16 @@ const Contact = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBlur = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const result = SendEmailDto.shape[name as keyof typeof SendEmailDto.shape]?.safeParse(value);
+    if (result && !result.success) {
+      setErrors((prev) => ({ ...prev, [name]: result.error.issues[0]?.message }));
     }
   };
 
@@ -174,7 +180,7 @@ const Contact = () => {
         >
           {/* Contact Info Section */}
           <motion.div variants={itemVariants} className="lg:col-span-1 space-y-6">
-            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 shadow-lg">
+            <div className="card-hover-glow bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 shadow-lg">
               <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
 
               <div className="space-y-4">
@@ -270,6 +276,8 @@ const Contact = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
+                        onBlur={handleBlur}
+                        autoComplete="name"
                         className={`w-full pl-12 pr-4 py-3 bg-slate-900/50 border ${
                           errors.name ? 'border-red-500/50' : 'border-slate-700'
                         } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
@@ -277,7 +285,7 @@ const Contact = () => {
                       />
                     </div>
                     {errors.name && (
-                      <p className="mt-1 text-sm text-red-400 flex items-center gap-1">
+                      <p role="alert" className="mt-1 text-sm text-red-400 flex items-center gap-1">
                         <FaExclamationCircle className="text-xs" />
                         {errors.name}
                       </p>
@@ -302,6 +310,8 @@ const Contact = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
+                        onBlur={handleBlur}
+                        autoComplete="email"
                         className={`w-full pl-12 pr-4 py-3 bg-slate-900/50 border ${
                           errors.email ? 'border-red-500/50' : 'border-slate-700'
                         } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
@@ -309,7 +319,7 @@ const Contact = () => {
                       />
                     </div>
                     {errors.email && (
-                      <p className="mt-1 text-sm text-red-400 flex items-center gap-1">
+                      <p role="alert" className="mt-1 text-sm text-red-400 flex items-center gap-1">
                         <FaExclamationCircle className="text-xs" />
                         {errors.email}
                       </p>
@@ -331,13 +341,15 @@ const Contact = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoComplete="off"
                     className={`w-full px-4 py-3 bg-slate-900/50 border ${
                       errors.subject ? 'border-red-500/50' : 'border-slate-700'
                     } rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-[border-color,box-shadow]`}
                     placeholder="What's this about?"
                   />
                   {errors.subject && (
-                    <p className="mt-1 text-sm text-red-400 flex items-center gap-1">
+                    <p role="alert" className="mt-1 text-sm text-red-400 flex items-center gap-1">
                       <FaExclamationCircle className="text-xs" />
                       {errors.subject}
                     </p>
@@ -357,6 +369,7 @@ const Contact = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     rows={6}
                     className={`w-full px-4 py-3 bg-slate-900/50 border ${
                       errors.message ? 'border-red-500/50' : 'border-slate-700'
@@ -364,7 +377,7 @@ const Contact = () => {
                     placeholder="Tell me about your project..."
                   />
                   {errors.message && (
-                    <p className="mt-1 text-sm text-red-400 flex items-center gap-1">
+                    <p role="alert" className="mt-1 text-sm text-red-400 flex items-center gap-1">
                       <FaExclamationCircle className="text-xs" />
                       {errors.message}
                     </p>
@@ -398,27 +411,29 @@ const Contact = () => {
                   </motion.button>
 
                   {/* Success/Error Messages */}
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center gap-2 text-green-400"
-                    >
-                      <FaCheckCircle />
-                      <span className="text-sm font-medium">Message sent successfully!</span>
-                    </motion.div>
-                  )}
+                  <div aria-live="polite" aria-atomic="true">
+                    {submitStatus === 'success' && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="flex items-center gap-2 text-green-400"
+                      >
+                        <FaCheckCircle />
+                        <span className="text-sm font-medium">Message sent successfully!</span>
+                      </motion.div>
+                    )}
 
-                  {submitStatus === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="flex items-center gap-2 text-red-400"
-                    >
-                      <FaExclamationCircle />
-                      <span className="text-sm font-medium">Failed to send. Please try again.</span>
-                    </motion.div>
-                  )}
+                    {submitStatus === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="flex items-center gap-2 text-red-400"
+                      >
+                        <FaExclamationCircle />
+                        <span className="text-sm font-medium">Failed to send. Please try again.</span>
+                      </motion.div>
+                    )}
+                  </div>
                 </div>
               </form>
             </div>

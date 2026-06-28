@@ -5,16 +5,17 @@ import { contactInformation, socials } from '../config/socials';
 import { useFetch } from '../hooks/useFetch';
 import { getPublicProfile } from '../services/api';
 
-interface SocialLink {
+interface PlatformLink {
   icon: IconType;
   href: string;
   label: string;
 }
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data: publicProfile } = useFetch(getPublicProfile);
 
-  const socialLinks: SocialLink[] = [
+  const platforms: PlatformLink[] = [
     {
       icon: socials.github.icon,
       href: publicProfile?.githubLink || socials.github.link,
@@ -30,117 +31,101 @@ const Footer = () => {
       href: `mailto:${publicProfile?.email || contactInformation.email.link}`,
       label: contactInformation.email.name,
     },
+    {
+      icon: socials.npm.icon,
+      href: publicProfile?.npmLink || socials.npm.link,
+      label: socials.npm.name,
+    },
+    {
+      icon: socials.docker.icon,
+      href: publicProfile?.dockerHubLink || socials.docker.link,
+      label: socials.docker.name,
+    },
+    {
+      icon: socials.leetcode.icon,
+      href: publicProfile?.leetCodeLink || socials.leetcode.link,
+      label: socials.leetcode.name,
+    },
+    {
+      icon: socials.hackerrank.icon,
+      href: publicProfile?.hackerRankLink || socials.hackerrank.link,
+      label: socials.hackerrank.name,
+    },
+    {
+      icon: socials.huggingface.icon,
+      href: publicProfile?.huggingFaceLink || socials.huggingface.link,
+      label: socials.huggingface.name,
+    },
   ];
 
   return (
-    <footer className="bg-slate-900/80 backdrop-blur-lg border-t border-slate-800">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="relative mt-8">
+      {/* Gradient top border */}
+      <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
+
+      <div className="bg-slate-900/60 backdrop-blur-xl">
+        <div className="container mx-auto px-6 py-16 max-w-3xl">
           {/* Brand */}
-          <div>
-            <h3 className="text-xl font-bold text-gradient mb-4">Portfolio</h3>
-            <p className="text-slate-400 text-sm">
-              Crafting elegant solutions with clean code and modern architecture.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-3">
+              Kenneth Andales
+            </h2>
+            <p className="text-slate-400 text-base max-w-md mx-auto leading-relaxed">
+              Building full-stack products & AI-powered web experiences for startups
+            </p>
+          </motion.div>
+
+          {/* Platform icons */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex flex-wrap justify-center gap-3 mb-12"
+          >
+            {platforms.map(({ icon: Icon, href, label }) => (
+              <motion.a
+                key={label}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-400 transition-all duration-300"
+              >
+                <Icon className="text-xl" />
+              </motion.a>
+            ))}
+          </motion.div>
+
+          {/* Divider */}
+          <div className="h-px bg-slate-800/60 mb-8" />
+
+          {/* Copyright */}
+          <div className="text-center space-y-1.5">
+            <p className="text-slate-400 text-sm flex items-center justify-center gap-2 flex-wrap">
+              <span>© {currentYear}</span>
+              <span className="text-gradient font-semibold">Kenneth Andales</span>
+              <span className="text-slate-600">·</span>
+              <span>Made with</span>
+              <motion.span
+                animate={{ scale: [1, 1.25, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <FaHeart className="text-red-500 inline" />
+              </motion.span>
+            </p>
+            <p className="text-slate-600 text-xs">
+              Built with React · TypeScript · Tailwind CSS · Framer Motion
             </p>
           </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {['Home', 'Experiences', 'Skills', 'Projects', 'Certificates', 'Contact'].map(
-                (item) => (
-                  <li key={item}>
-                    <button
-                      onClick={() => {
-                        const element = document.getElementById(item.toLowerCase());
-                        element?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
-                    >
-                      {item}
-                    </button>
-                  </li>
-                ),
-              )}
-            </ul>
-          </div>
-
-          {/* Developer Platforms */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Developer Platforms</h4>
-
-            <div className="flex flex-wrap gap-3">
-              {Object.keys(socials)
-                .filter((socialKey) => !['github', 'linkedin'].includes(socialKey))
-                .map((socialKey) => {
-                  const social = socials[socialKey as keyof typeof socials];
-                  const Icon = social.icon;
-
-                  let link = {
-                    npm: publicProfile?.npmLink || socials.npm.link,
-                    leetcode: publicProfile?.leetCodeLink || socials.leetcode.link,
-                    hackerrank: publicProfile?.hackerRankLink || socials.hackerrank.link,
-                    huggingface: publicProfile?.huggingFaceLink || socials.huggingface.link,
-                    docker: publicProfile?.dockerHubLink || socials.docker.link,
-                  };
-
-                  return (
-                    <motion.a
-                      key={social.name}
-                      whileHover={{ scale: 1.1, y: -3 }}
-                      whileTap={{ scale: 0.95 }}
-                      href={link[socialKey as keyof typeof link]}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.name}
-                      className="p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 hover:text-cyan-400 transition-colors"
-                      data-tooltip-id="portfolio-tooltip"
-                    >
-                      <Icon className="text-xl" />
-                    </motion.a>
-                  );
-                })}
-            </div>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Connect</h4>
-            <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.label}
-                  whileHover={{ scale: 1.1, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 hover:text-cyan-400 transition-colors"
-                >
-                  <social.icon className="text-xl" />
-                </motion.a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="pt-8 border-t border-slate-800 text-center space-y-2">
-          <p className="text-slate-400 text-sm flex items-center justify-center gap-2">
-            © {currentYear} Made with{' '}
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              <FaHeart className="text-red-500" />
-            </motion.span>
-            by Software Developer
-          </p>
-          <p className="text-slate-500 text-xs">
-            Built with React, TypeScript, Tailwind CSS & Cursor AI
-          </p>
         </div>
       </div>
     </footer>

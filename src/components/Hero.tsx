@@ -250,7 +250,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen translate-y-2 flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
       <ParallaxBackground theme="blue" />
 
@@ -566,7 +566,7 @@ const Hero = () => {
               className="w-1.5 h-1.5 bg-cyan-400 rounded-full"
             />
           </div>
-          <FaChevronDown className="text-slate-600 text-xs animate-bounce" />
+          <FaChevronDown className="text-slate-600 text-xs" />
         </div>
       </motion.div>
     </section>

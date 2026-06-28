@@ -5,7 +5,6 @@ import {
   FaDatabase,
   FaTools,
   FaServer,
-  FaSpinner,
   FaCloud,
   FaRobot,
   FaLaptopCode,
@@ -107,8 +106,26 @@ const Skills = () => {
     return (
       <section id="skills" className="py-12 bg-transparent">
         <div className="container mx-auto px-6 max-w-7xl">
-          <div className="flex items-center justify-center h-40">
-            <FaSpinner className="text-3xl text-cyan-400 animate-spin" />
+          <div className="mb-10 space-y-3">
+            <div className="h-3 w-16 bg-white/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-56 bg-white/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-80 bg-white/[0.05] rounded animate-pulse" />
+          </div>
+          <div className="flex gap-2 mb-8">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="h-8 w-20 bg-white/[0.06] rounded-full animate-pulse" />
+            ))}
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-white/5 border border-white/10 rounded-xl p-3 h-20 flex flex-col items-center justify-center gap-2"
+              >
+                <div className="w-8 h-8 rounded bg-white/[0.06] animate-pulse" />
+                <div className="h-2 w-12 bg-white/[0.06] rounded animate-pulse" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -202,6 +219,7 @@ const Skills = () => {
                           whileHover={{ scale: 1.02, y: -1 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setActiveCategory(category.name)}
+                          aria-pressed={activeCategory === category.name}
                           className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                             activeCategory === category.name
                               ? 'bg-white/10 border border-white/20 text-white'
@@ -231,6 +249,7 @@ const Skills = () => {
                     whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setActiveCategory(category.name)}
+                    aria-pressed={activeCategory === category.name}
                     className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                       activeCategory === category.name
                         ? 'bg-white/10 border border-white/20 text-white'
@@ -266,12 +285,13 @@ const Skills = () => {
                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency`}
                 data-tooltip-place="top"
               >
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 h-full flex flex-col items-center justify-center gap-2">
+                <div className="card-hover-glow bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 h-full flex flex-col items-center justify-center gap-2">
                   {skill.icon && (
                     <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <img
                         src={skill.icon}
                         alt={skill.name}
+                        loading="lazy"
                         className="w-full h-full object-contain filter drop-shadow-sm"
                         onError={(e) => (e.currentTarget.style.display = 'none')}
                       />

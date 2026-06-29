@@ -45,6 +45,7 @@ interface Experience {
   projects?: Project[];
   createdAt?: string;
   updatedAt?: string;
+  techStacks?: Technology[];
 }
 
 interface ExperiencesData {
@@ -74,6 +75,7 @@ const calculateDuration = (startDate?: string, endDate?: string | null): string 
 };
 
 const getUniqueTechs = (experience: Experience): Technology[] => {
+  if (experience.techStacks && experience.techStacks?.length) return experience.techStacks;
   const seen = new Set<string>();
   const techs: Technology[] = [];
   for (const project of experience.projects || []) {
@@ -150,7 +152,10 @@ const Experiences = () => {
                     <div className="h-3 w-32 bg-white/[0.06] rounded animate-pulse" />
                     <div className="flex gap-2">
                       {Array.from({ length: 4 }).map((_, j) => (
-                        <div key={j} className="h-6 w-16 bg-white/[0.06] rounded-full animate-pulse" />
+                        <div
+                          key={j}
+                          className="h-6 w-16 bg-white/[0.06] rounded-full animate-pulse"
+                        />
                       ))}
                     </div>
                   </div>

@@ -371,7 +371,7 @@ const Experiences = () => {
                               <>
                                 <span className="text-slate-700">·</span>
                                 <span>
-                                  {featuredCount} project{featuredCount > 1 ? 's' : ''} shipped
+                                  {featuredCount} project{featuredCount > 1 ? 's' : ''} featued
                                 </span>
                               </>
                             )}

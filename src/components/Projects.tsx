@@ -451,7 +451,7 @@ const Projects = () => {
             return (
               <motion.div key={project.id || index} variants={itemVariants}>
                 <div
-                  className={`card-hover-glow bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
+                  className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
                 >
                   {/* Thumbnail — real image or category icon fallback */}
                   <div className="relative h-36 shrink-0 overflow-hidden">

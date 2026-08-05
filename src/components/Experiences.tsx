@@ -6,6 +6,8 @@ import {
   FaChevronDown,
   FaChevronRight,
   FaBriefcase,
+  FaUser,
+  FaUsers,
 } from 'react-icons/fa';
 import { useFetch } from '../hooks/useFetch';
 import { fetchExperiences } from '../services/api';
@@ -52,6 +54,12 @@ interface ExperiencesData {
   success: boolean;
   data: Experience[];
 }
+
+const getRoleIcon = (role?: string) => {
+  const lc = role?.toLowerCase() || '';
+  if (lc.includes('team') || lc.includes('collaborator')) return FaUsers;
+  return FaUser;
+};
 
 const formatYear = (dateString: string): string => {
   if (!dateString) return '';
@@ -269,7 +277,7 @@ const Experiences = () => {
                     </div>
                   </div>
 
-                  <div className="card-hover-glow bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
                     {/* Card header — always visible */}
                     <div className="p-5 flex items-start gap-4">
                       {/* Company logo or fallback */}
@@ -444,54 +452,70 @@ const Experiences = () => {
                                 <div className="space-y-2">
                                   {experience
                                     .projects!.filter((p) => p.featured)
-                                    .map((project, pi) => (
-                                      <div
-                                        key={project.id || pi}
-                                        className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
-                                      >
-                                        <div className="flex items-start justify-between gap-2 mb-1">
-                                          <span className="text-sm font-medium text-slate-300">
-                                            {project.title}
-                                          </span>
-                                          {project.featured && (
-                                            <span className="shrink-0 px-1.5 py-0.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-[9px] text-cyan-400 font-semibold">
-                                              Featured
+                                    .map((project, pi) => {
+                                      const RoleIcon = getRoleIcon(project.projectRole);
+                                      return (
+                                        <div
+                                          key={project.id || pi}
+                                          className="bg-white/[0.03] border border-white/[0.08] border-l-2 border-l-cyan-500/30 rounded-xl p-3 pl-4"
+                                        >
+                                          <div className="flex items-start justify-between gap-2 mb-1.5">
+                                            <span className="text-sm font-semibold text-slate-200">
+                                              {project.title}
                                             </span>
+                                            {project.projectRole && (
+                                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-[9px] text-cyan-400 font-medium capitalize">
+                                                <RoleIcon className="text-[8px]" />
+                                                {project.projectRole}
+                                              </span>
+                                            )}
+                                          </div>
+                                          {project.description && (
+                                            <p className="text-xs text-slate-500 leading-relaxed mb-2">
+                                              {project.description}
+                                            </p>
                                           )}
+                                          {project.technologies &&
+                                            project.technologies.length > 0 && (
+                                              <div className="flex flex-wrap gap-1.5">
+                                                {project.technologies
+                                                  .slice(0, 5)
+                                                  .map((tech, ti) => (
+                                                    <span
+                                                      key={ti}
+                                                      className="flex items-center gap-1 px-2 py-0.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-[10px] text-slate-400"
+                                                    >
+                                                      {tech.icon && (
+                                                        <img
+                                                          src={tech.icon}
+                                                          alt=""
+                                                          className="w-2.5 h-2.5 object-contain"
+                                                          onError={(e) =>
+                                                            (e.currentTarget.style.display = 'none')
+                                                          }
+                                                        />
+                                                      )}
+                                                      {tech.name}
+                                                    </span>
+                                                  ))}
+                                                {project.technologies.length > 5 && (
+                                                  <span
+                                                    className="text-[10px] text-slate-600 py-0.5 cursor-default"
+                                                    data-tooltip-id="info-tooltip"
+                                                    data-tooltip-content={project.technologies
+                                                      .slice(5)
+                                                      .map((t) => t.name)
+                                                      .join(', ')}
+                                                    data-tooltip-place="top"
+                                                  >
+                                                    +{project.technologies.length - 5}
+                                                  </span>
+                                                )}
+                                              </div>
+                                            )}
                                         </div>
-                                        {project.description && (
-                                          <p className="text-xs text-slate-500 leading-relaxed mb-2">
-                                            {project.description}
-                                          </p>
-                                        )}
-                                        {project.technologies &&
-                                          project.technologies.length > 0 && (
-                                            <div className="flex flex-wrap gap-1">
-                                              {project.technologies.slice(0, 5).map((tech, ti) => (
-                                                <span
-                                                  key={ti}
-                                                  className="px-1.5 py-0.5 bg-white/[0.03] border border-white/[0.07] rounded-full text-[10px] text-slate-500"
-                                                >
-                                                  {tech.name}
-                                                </span>
-                                              ))}
-                                              {project.technologies.length > 5 && (
-                                                <span
-                                                  className="text-[10px] text-slate-600 py-0.5 cursor-default"
-                                                  data-tooltip-id="info-tooltip"
-                                                  data-tooltip-content={project.technologies
-                                                    .slice(5)
-                                                    .map((t) => t.name)
-                                                    .join(', ')}
-                                                  data-tooltip-place="top"
-                                                >
-                                                  +{project.technologies.length - 5}
-                                                </span>
-                                              )}
-                                            </div>
-                                          )}
-                                      </div>
-                                    ))}
+                                      );
+                                    })}
                                 </div>
                               </div>
                             )}

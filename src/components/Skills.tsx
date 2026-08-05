@@ -285,7 +285,7 @@ const Skills = () => {
                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency`}
                 data-tooltip-place="top"
               >
-                <div className="card-hover-glow bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 h-full flex flex-col items-center justify-center gap-2">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 h-full flex flex-col items-center justify-center gap-2">
                   {skill.icon && (
                     <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <img

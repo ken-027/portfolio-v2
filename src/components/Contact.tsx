@@ -180,7 +180,7 @@ const Contact = () => {
         >
           {/* Contact Info Section */}
           <motion.div variants={itemVariants} className="lg:col-span-1 space-y-6">
-            <div className="card-hover-glow bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 shadow-lg">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 shadow-lg">
               <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
 
               <div className="space-y-4">

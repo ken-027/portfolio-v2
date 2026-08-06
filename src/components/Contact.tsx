@@ -197,7 +197,7 @@ const Contact = () => {
                       className="flex items-start gap-4 group"
                     >
                       <div className="p-3 bg-linear-to-br from-cyan-500 to-blue-500 rounded-lg shadow-lg">
-                        <Icon className="text-white text-lg" />
+                        <Icon className="text-on-accent text-lg" />
                       </div>
                       <div>
                         <p className="text-slate-400 text-sm">{contactInfoData.name}</p>
@@ -244,7 +244,7 @@ const Contact = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={socialData.name}
-                          className="p-3 bg-slate-700/50 rounded-lg hover:bg-linear-to-br hover:from-cyan-500 hover:to-blue-500 text-slate-300 hover:text-white transition-colors"
+                          className="p-3 bg-slate-700/50 rounded-lg hover:bg-linear-to-br hover:from-cyan-500 hover:to-blue-500 text-slate-300 hover:text-on-accent transition-colors"
                         >
                           <Icon className="text-xl" />
                         </motion.a>
@@ -391,10 +391,10 @@ const Contact = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                     whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                    className={`px-8 py-4 rounded-xl font-semibold text-white shadow-lg transition-[background-image,box-shadow] flex items-center gap-2 ${
+                    className={`px-8 py-4 rounded-xl font-semibold shadow-lg transition-[background-image,box-shadow] flex items-center gap-2 ${
                       isSubmitting
-                        ? 'bg-slate-700 cursor-not-allowed'
-                        : 'bg-linear-to-r from-blue-500 to-cyan-500 hover:shadow-cyan-500/50'
+                        ? 'bg-slate-700 text-slate-300 cursor-not-allowed'
+                        : 'bg-linear-to-r from-blue-500 to-cyan-500 text-on-accent hover:shadow-cyan-500/50'
                     }`}
                   >
                     {isSubmitting ? (

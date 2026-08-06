@@ -146,23 +146,23 @@ const Experiences = () => {
       <section id="experiences" className="py-20">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="mb-12 space-y-3">
-            <div className="h-3 w-14 bg-white/[0.06] rounded animate-pulse" />
-            <div className="h-9 w-72 bg-white/[0.08] rounded animate-pulse" />
-            <div className="h-4 w-80 bg-white/[0.05] rounded animate-pulse" />
+            <div className="h-3 w-14 bg-card/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-72 bg-card/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-80 bg-card/[0.05] rounded animate-pulse" />
           </div>
           <div className="space-y-4 sm:pl-10">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div key={i} className="bg-card/5 border border-card/10 rounded-2xl p-5">
                 <div className="flex items-start gap-4">
-                  <div className="hidden sm:block w-10 h-10 rounded-xl bg-white/[0.06] animate-pulse shrink-0" />
+                  <div className="hidden sm:block w-10 h-10 rounded-xl bg-card/[0.06] animate-pulse shrink-0" />
                   <div className="flex-1 space-y-3">
-                    <div className="h-5 w-48 bg-white/[0.08] rounded animate-pulse" />
-                    <div className="h-3 w-32 bg-white/[0.06] rounded animate-pulse" />
+                    <div className="h-5 w-48 bg-card/[0.08] rounded animate-pulse" />
+                    <div className="h-3 w-32 bg-card/[0.06] rounded animate-pulse" />
                     <div className="flex gap-2">
                       {Array.from({ length: 4 }).map((_, j) => (
                         <div
                           key={j}
-                          className="h-6 w-16 bg-white/[0.06] rounded-full animate-pulse"
+                          className="h-6 w-16 bg-card/[0.06] rounded-full animate-pulse"
                         />
                       ))}
                     </div>
@@ -277,11 +277,11 @@ const Experiences = () => {
                     </div>
                   </div>
 
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.08] hover:border-white/[0.18] transition-[border-color,background-color] duration-300 group">
+                  <div className="bg-card/5 backdrop-blur-md border border-card/10 rounded-2xl overflow-hidden hover:bg-card/[0.08] hover:border-card/[0.18] transition-[border-color,background-color] duration-300 group">
                     {/* Card header — always visible */}
                     <div className="p-5 flex items-start gap-4">
                       {/* Company logo or fallback */}
-                      <div className="hidden sm:flex shrink-0 w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 items-center justify-center overflow-hidden">
+                      <div className="hidden sm:flex shrink-0 w-10 h-10 rounded-xl bg-card/[0.05] border border-card/10 items-center justify-center overflow-hidden">
                         {experience.companyLogo ? (
                           <img
                             src={experience.companyLogo}
@@ -349,7 +349,7 @@ const Experiences = () => {
                             {techs.map((tech, i) => (
                               <div
                                 key={i}
-                                className="flex items-center gap-1 px-2.5 py-1 bg-white/[0.04] border border-white/[0.1] rounded-full"
+                                className="flex items-center gap-1 px-2.5 py-1 bg-card/[0.04] border border-card/[0.1] rounded-full"
                               >
                                 {tech.icon && (
                                   <img
@@ -419,7 +419,7 @@ const Experiences = () => {
                           exit="exit"
                           className="overflow-hidden"
                         >
-                          <div className="px-5 pb-5 border-t border-white/[0.07]">
+                          <div className="px-5 pb-5 border-t border-card/[0.07]">
                             {/* Descriptions */}
                             {(experience.descriptions?.length ?? 0) > 0 && (
                               <div className="pt-4 mb-4">
@@ -442,7 +442,7 @@ const Experiences = () => {
                               <div
                                 className={
                                   (experience.descriptions?.length ?? 0) > 0
-                                    ? 'border-t border-white/[0.07] pt-4'
+                                    ? 'border-t border-card/[0.07] pt-4'
                                     : 'pt-4'
                                 }
                               >
@@ -457,7 +457,7 @@ const Experiences = () => {
                                       return (
                                         <div
                                           key={project.id || pi}
-                                          className="bg-white/[0.03] border border-white/[0.08] border-l-2 border-l-cyan-500/30 rounded-xl p-3 pl-4"
+                                          className="bg-card/[0.03] border border-card/[0.08] border-l-2 border-l-cyan-500/30 rounded-xl p-3 pl-4"
                                         >
                                           <div className="flex items-start justify-between gap-2 mb-1.5">
                                             <span className="text-sm font-semibold text-slate-200">
@@ -471,7 +471,7 @@ const Experiences = () => {
                                             )}
                                           </div>
                                           {project.description && (
-                                            <p className="text-xs text-slate-500 leading-relaxed mb-2">
+                                            <p className="text-sm text-slate-500 leading-relaxed mb-2">
                                               {project.description}
                                             </p>
                                           )}
@@ -483,7 +483,7 @@ const Experiences = () => {
                                                   .map((tech, ti) => (
                                                     <span
                                                       key={ti}
-                                                      className="flex items-center gap-1 px-2 py-0.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-[10px] text-slate-400"
+                                                      className="flex items-center gap-1 px-2 py-0.5 bg-card/[0.04] border border-card/[0.08] rounded-full text-[10px] text-slate-400"
                                                     >
                                                       {tech.icon && (
                                                         <img

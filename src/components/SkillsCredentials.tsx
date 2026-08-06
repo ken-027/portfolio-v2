@@ -287,13 +287,13 @@ const SkillsCredentials = () => {
             {/* Mobile: collapsible filter panel */}
             <div className="md:hidden">
               <button
-                className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-white/[0.12] hover:border-white/[0.18] bg-white/[0.02] transition-colors duration-200"
+                className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-card/[0.12] hover:border-card/[0.18] bg-card/[0.02] transition-colors duration-200"
                 onClick={() => setFilterOpen((v) => !v)}
               >
                 <FaFilter className="text-slate-500 text-xs shrink-0" />
                 <span className="text-sm font-medium text-slate-300">Filters</span>
                 {activeTab && (
-                  <span className="px-2.5 py-0.5 bg-white/10 border border-white/20 rounded-full text-xs text-white">
+                  <span className="px-2.5 py-0.5 bg-card/10 border border-card/20 rounded-full text-xs text-white">
                     {activeTab}
                   </span>
                 )}
@@ -313,7 +313,7 @@ const SkillsCredentials = () => {
                   filterOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="mt-3 p-4 bg-white/[0.03] border border-white/[0.07] rounded-xl">
+                <div className="mt-3 p-4 bg-card/[0.03] border border-card/[0.07] rounded-xl">
                   <p className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
                     Domain
@@ -329,8 +329,8 @@ const SkillsCredentials = () => {
                           onClick={() => setActiveTab(domain)}
                           className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                             activeTab === domain
-                              ? 'bg-white/10 border border-white/20 text-white'
-                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                              ? 'bg-card/10 border border-card/20 text-white'
+                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                           }`}
                         >
                           <DomainIcon className="text-[10px]" />
@@ -358,8 +358,8 @@ const SkillsCredentials = () => {
                     onClick={() => setActiveTab(domain)}
                     className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                       activeTab === domain
-                        ? 'bg-white/10 border border-white/20 text-white'
-                        : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                        ? 'bg-card/10 border border-card/20 text-white'
+                        : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                     }`}
                   >
                     <DomainIcon className="text-[10px]" />
@@ -387,7 +387,7 @@ const SkillsCredentials = () => {
               const platform = getPlatform(cert);
               return (
                 <motion.div key={cert.id || index} variants={itemVariants}>
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.07] hover:border-white/20 transition-[border-color,background-color] duration-300 group overflow-hidden">
+                  <div className="bg-card/5 backdrop-blur-md border border-card/10 rounded-2xl flex flex-col h-full hover:bg-card/[0.07] hover:border-card/20 transition-[border-color,background-color] duration-300 group overflow-hidden">
                     {/* Thumbnail */}
                     <div className="relative h-32 shrink-0 overflow-hidden">
                       {cert.certificateImage ? (
@@ -401,7 +401,7 @@ const SkillsCredentials = () => {
                               el.style.display = 'none';
                               if (el.parentElement) {
                                 el.parentElement.classList.add(
-                                  'bg-white/[0.03]',
+                                  'bg-card/[0.03]',
                                   'flex',
                                   'items-center',
                                   'justify-center',
@@ -412,11 +412,11 @@ const SkillsCredentials = () => {
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
                         </>
                       ) : (
-                        <div className="w-full h-full bg-white/[0.03] flex items-center justify-center">
+                        <div className="w-full h-full bg-card/[0.03] flex items-center justify-center">
                           {(() => {
                             const Icon = DOMAIN_ICONS[classifyCert(cert)];
                             return (
-                              <Icon className="text-4xl text-white/10 group-hover:text-white/20 transition-opacity duration-500" />
+                              <Icon className="text-4xl text-card/10 group-hover:text-card/20 transition-opacity duration-500" />
                             );
                           })()}
                         </div>
@@ -434,7 +434,7 @@ const SkillsCredentials = () => {
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.1, y: -2 }}
                             whileTap={{ scale: 0.95 }}
-                            className="p-1.5 bg-white/[0.03] border border-white/10 rounded-lg text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+                            className="p-1.5 bg-card/[0.03] border border-card/10 rounded-lg text-slate-400 hover:text-cyan-400 transition-colors duration-300"
                             aria-label="View Certificate"
                           >
                             <FaExternalLinkAlt className="text-[10px]" />
@@ -478,7 +478,7 @@ const SkillsCredentials = () => {
                           {cert.skills.slice(0, 3).map((skill, i) => (
                             <span
                               key={i}
-                              className="px-2 py-0.5 bg-white/[0.03] border border-white/10 rounded-full text-[10px] text-slate-500"
+                              className="px-2 py-0.5 bg-card/[0.03] border border-card/10 rounded-full text-[10px] text-slate-500"
                             >
                               {skill}
                             </span>
@@ -498,7 +498,7 @@ const SkillsCredentials = () => {
 
                       {/* Row 5: credential ID */}
                       {cert.credentialId && (
-                        <div className="pt-2 border-t border-white/10 mt-auto">
+                        <div className="pt-2 border-t border-card/10 mt-auto">
                           <span className="text-[9px] text-slate-600 font-mono break-all">
                             ID: {cert.credentialId}
                           </span>
@@ -519,7 +519,7 @@ const SkillsCredentials = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-8"
           >
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-sm mx-auto">
+            <div className="bg-card/5 backdrop-blur-md border border-card/10 rounded-2xl p-6 max-w-sm mx-auto">
               <FaAward className="text-4xl text-slate-600/60 mx-auto mb-3" />
               <p className="text-base font-medium text-slate-400">No credentials in this domain</p>
             </div>

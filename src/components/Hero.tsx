@@ -357,7 +357,7 @@ const Hero = () => {
                   onClick={() =>
                     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
                   }
-                  className="group px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow relative overflow-hidden"
+                  className="group px-6 py-3 bg-linear-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold text-on-accent shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-shadow relative overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <FaCode />
@@ -417,77 +417,89 @@ const Hero = () => {
                   spotlightColor="rgba(6,182,212,0.10)"
                   className="w-full rounded-2xl"
                 >
-                  <div className="rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900/80 shadow-[0_30px_80px_rgba(14,116,255,0.22)]">
+                  {/* Static dark IDE mockup — colors below are literal (not theme
+                      tokens) on purpose. The code body's bg-[#0d1117] never
+                      changes with theme, so its chrome and syntax-highlight
+                      colors are pinned to the same always-dark values instead
+                      of inheriting the light-mode token remap, which would
+                      otherwise mismatch this card against its own body. */}
+                  <div className="rounded-2xl overflow-hidden border border-[oklch(37.2%_0.044_257.287)]/60 bg-[oklch(20.8%_0.042_265.755)]/80 shadow-[0_30px_80px_rgba(14,116,255,0.22)]">
                     {/* Title bar */}
-                    <div className="flex items-center gap-1.5 bg-slate-800 px-4 py-3 border-b border-slate-700/60">
+                    <div className="flex items-center gap-1.5 bg-[oklch(27.9%_0.041_260.031)] px-4 py-3 border-b border-[oklch(37.2%_0.044_257.287)]/60">
                       <span className="w-3 h-3 rounded-full bg-red-500/90" />
                       <span className="w-3 h-3 rounded-full bg-yellow-400/90" />
-                      <span className="w-3 h-3 rounded-full bg-green-500/90" />
-                      <span className="ml-3 text-xs text-slate-400 font-mono">api/routes.ts</span>
+                      <span className="w-3 h-3 rounded-full bg-[oklch(72.3%_0.219_149.579)]/90" />
+                      <span className="ml-3 text-xs text-[oklch(70.4%_0.04_256.788)] font-mono">
+                        api/routes.ts
+                      </span>
                     </div>
 
                     {/* Code body */}
                     <div className="bg-[#0d1117] py-4 font-mono text-[13px] leading-[1.7] overflow-x-auto">
                       {[
                         <span>
-                          <span className="text-purple-400">const</span>{' '}
-                          <span className="text-cyan-300">router</span>{' '}
-                          <span className="text-slate-400">=</span>{' '}
-                          <span className="text-slate-200">express</span>
-                          <span className="text-slate-400">.</span>
-                          <span className="text-yellow-300">Router</span>
-                          <span className="text-slate-400">()</span>
+                          <span className="text-[oklch(71.4%_0.203_305.504)]">const</span>{' '}
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">router</span>{' '}
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">=</span>{' '}
+                          <span className="text-[oklch(92.9%_0.013_255.508)]">express</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">.</span>
+                          <span className="text-[oklch(90.5%_0.182_98.111)]">Router</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">()</span>
                         </span>,
                         <span>&nbsp;</span>,
                         <span>
-                          <span className="text-cyan-300">router</span>
-                          <span className="text-slate-400">.</span>
-                          <span className="text-yellow-300">get</span>
-                          <span className="text-slate-400">(</span>
-                          <span className="text-green-400">&apos;/api/products&apos;</span>
-                          <span className="text-slate-400">,</span>
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">router</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">.</span>
+                          <span className="text-[oklch(90.5%_0.182_98.111)]">get</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">(</span>
+                          <span className="text-[oklch(79.2%_0.209_151.711)]">
+                            &apos;/api/products&apos;
+                          </span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">,</span>
                         </span>,
                         <span className="pl-[2ch]">
-                          <span className="text-cyan-300">authenticate</span>
-                          <span className="text-slate-400">,</span>
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">authenticate</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">,</span>
                         </span>,
                         <span className="pl-[2ch]">
-                          <span className="text-purple-400">async</span>{' '}
-                          <span className="text-slate-400">(</span>
-                          <span className="text-cyan-300">req</span>
-                          <span className="text-slate-400">,</span>{' '}
-                          <span className="text-cyan-300">res</span>
-                          <span className="text-slate-400">)</span>{' '}
-                          <span className="text-purple-400">{'=>'}</span>{' '}
-                          <span className="text-slate-400">{'{'}</span>
+                          <span className="text-[oklch(71.4%_0.203_305.504)]">async</span>{' '}
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">(</span>
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">req</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">,</span>{' '}
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">res</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">)</span>{' '}
+                          <span className="text-[oklch(71.4%_0.203_305.504)]">{'=>'}</span>{' '}
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">{'{'}</span>
                         </span>,
                         <span className="pl-[4ch]">
-                          <span className="text-purple-400">const</span>{' '}
-                          <span className="text-cyan-300">products</span>{' '}
-                          <span className="text-slate-400">=</span>{' '}
-                          <span className="text-purple-400">await</span>
+                          <span className="text-[oklch(71.4%_0.203_305.504)]">const</span>{' '}
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">products</span>{' '}
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">=</span>{' '}
+                          <span className="text-[oklch(71.4%_0.203_305.504)]">await</span>
                         </span>,
                         <span className="pl-[6ch]">
-                          <span className="text-slate-200">db</span>
-                          <span className="text-slate-400">.</span>
-                          <span className="text-yellow-300">query</span>
-                          <span className="text-slate-400">(</span>
-                          <span className="text-green-400">&apos;SELECT * FROM products&apos;</span>
-                          <span className="text-slate-400">)</span>
+                          <span className="text-[oklch(92.9%_0.013_255.508)]">db</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">.</span>
+                          <span className="text-[oklch(90.5%_0.182_98.111)]">query</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">(</span>
+                          <span className="text-[oklch(79.2%_0.209_151.711)]">
+                            &apos;SELECT * FROM products&apos;
+                          </span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">)</span>
                         </span>,
                         <span className="pl-[4ch]">
-                          <span className="text-cyan-300">res</span>
-                          <span className="text-slate-400">.</span>
-                          <span className="text-yellow-300">json</span>
-                          <span className="text-slate-400">({'{ '}</span>
-                          <span className="text-cyan-300">products</span>
-                          <span className="text-slate-400">{' })'}</span>
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">res</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">.</span>
+                          <span className="text-[oklch(90.5%_0.182_98.111)]">json</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">({'{ '}</span>
+                          <span className="text-[oklch(86.5%_0.127_207.078)]">products</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">{' })'}</span>
                         </span>,
                         <span className="pl-[2ch]">
-                          <span className="text-slate-400">{'}'}</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">{'}'}</span>
                         </span>,
                         <span>
-                          <span className="text-slate-400">)</span>
+                          <span className="text-[oklch(70.4%_0.04_256.788)]">)</span>
                         </span>,
                       ].map((content, i) => (
                         <motion.div
@@ -495,9 +507,9 @@ const Hero = () => {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 1.2 + i * 0.1, duration: 0.15 }}
-                          className="flex px-2 hover:bg-white/[0.025]"
+                          className="flex px-2 hover:bg-[oklch(78%_0.05_255)]/[0.025]"
                         >
-                          <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">
+                          <span className="select-none w-8 text-right pr-3 text-[oklch(44.6%_0.043_257.281)] shrink-0">
                             {i + 1}
                           </span>
                           {content}
@@ -509,11 +521,11 @@ const Hero = () => {
                         transition={{ delay: 2.2 }}
                         className="flex px-2"
                       >
-                        <span className="select-none w-8 text-right pr-3 text-slate-600 shrink-0">
+                        <span className="select-none w-8 text-right pr-3 text-[oklch(44.6%_0.043_257.281)] shrink-0">
                           11
                         </span>
                         <motion.span
-                          className="inline-block w-[2px] h-3.5 bg-cyan-400 align-middle"
+                          className="inline-block w-[2px] h-3.5 bg-[oklch(78.9%_0.154_211.53)] align-middle"
                           animate={{ opacity: [1, 1, 0, 0] }}
                           transition={{
                             delay: 2.3,
@@ -526,9 +538,9 @@ const Hero = () => {
                     </div>
 
                     {/* Status bar */}
-                    <div className="flex items-center gap-2 bg-slate-800/80 px-4 py-2 border-t border-slate-700/50">
-                      <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
-                      <span className="text-[11px] text-slate-500 font-mono truncate">
+                    <div className="flex items-center gap-2 bg-[oklch(27.9%_0.041_260.031)]/80 px-4 py-2 border-t border-[oklch(37.2%_0.044_257.287)]/50">
+                      <span className="w-2 h-2 rounded-full bg-[oklch(70.7%_0.165_254.624)] shrink-0" />
+                      <span className="text-[11px] text-[oklch(55.4%_0.046_257.417)] font-mono truncate">
                         Node.js · TypeScript · Express · PostgreSQL
                       </span>
                     </div>

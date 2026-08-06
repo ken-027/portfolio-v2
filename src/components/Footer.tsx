@@ -98,7 +98,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-400 transition-all duration-300"
+                className="p-2.5 rounded-xl bg-card/5 border border-card/10 text-slate-400 hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors duration-300"
               >
                 <Icon className="text-xl" />
               </motion.a>

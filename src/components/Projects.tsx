@@ -142,8 +142,8 @@ const getCategoryInfo = (category?: string): CategoryInfo => {
     Icon: FaCode,
     label: category || 'Other',
     color: 'text-slate-400',
-    bg: 'bg-white/[0.04]',
-    border: 'border-white/[0.1]',
+    bg: 'bg-card/[0.04]',
+    border: 'border-card/[0.1]',
   };
 };
 
@@ -201,19 +201,19 @@ const Projects = () => {
       <section id="projects" className="py-20">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="mb-10 space-y-3">
-            <div className="h-3 w-20 bg-white/[0.06] rounded animate-pulse" />
-            <div className="h-9 w-64 bg-white/[0.08] rounded animate-pulse" />
-            <div className="h-4 w-96 bg-white/[0.05] rounded animate-pulse" />
+            <div className="h-3 w-20 bg-card/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-64 bg-card/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-96 bg-card/[0.05] rounded animate-pulse" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                <div className="h-36 bg-white/[0.06] animate-pulse" />
+              <div key={i} className="bg-card/5 border border-card/10 rounded-2xl overflow-hidden">
+                <div className="h-36 bg-card/[0.06] animate-pulse" />
                 <div className="p-4 space-y-3">
-                  <div className="h-3 w-16 bg-white/[0.06] rounded animate-pulse" />
-                  <div className="h-5 w-3/4 bg-white/[0.08] rounded animate-pulse" />
-                  <div className="h-3 w-full bg-white/[0.05] rounded animate-pulse" />
-                  <div className="h-3 w-4/5 bg-white/[0.05] rounded animate-pulse" />
+                  <div className="h-3 w-16 bg-card/[0.06] rounded animate-pulse" />
+                  <div className="h-5 w-3/4 bg-card/[0.08] rounded animate-pulse" />
+                  <div className="h-3 w-full bg-card/[0.05] rounded animate-pulse" />
+                  <div className="h-3 w-4/5 bg-card/[0.05] rounded animate-pulse" />
                 </div>
               </div>
             ))}
@@ -269,18 +269,18 @@ const Projects = () => {
           {/* Mobile: collapsible filter panel */}
           <div className="md:hidden">
             <button
-              className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-white/[0.12] hover:border-white/[0.18] bg-white/[0.02] transition-colors duration-200"
+              className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-card/[0.12] hover:border-card/[0.18] bg-card/[0.02] transition-colors duration-200"
               onClick={() => setFilterOpen((v) => !v)}
             >
               <FaFilter className="text-slate-500 text-xs shrink-0" />
               <span className="text-sm font-medium text-slate-300">Filters</span>
               {selectedType !== 'all' && (
-                <span className="px-2.5 py-0.5 bg-white/10 border border-white/20 rounded-full text-xs text-white capitalize">
+                <span className="px-2.5 py-0.5 bg-card/10 border border-card/20 rounded-full text-xs text-white capitalize">
                   {selectedType}
                 </span>
               )}
               {selectedCategory !== 'all' && (
-                <span className="px-2.5 py-0.5 bg-white/10 border border-white/20 rounded-full text-xs text-white">
+                <span className="px-2.5 py-0.5 bg-card/10 border border-card/20 rounded-full text-xs text-white">
                   {getCategoryInfo(selectedCategory).label}
                 </span>
               )}
@@ -300,7 +300,7 @@ const Projects = () => {
                 filterOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
-              <div className="mt-3 p-4 bg-white/[0.03] border border-white/[0.07] rounded-xl space-y-5">
+              <div className="mt-3 p-4 bg-card/[0.03] border border-card/[0.07] rounded-xl space-y-5">
                 <div>
                   <p className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0" />
@@ -316,8 +316,8 @@ const Projects = () => {
                         aria-pressed={selectedType === type}
                         className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 capitalize ${
                           selectedType === type
-                            ? 'bg-white/10 border border-white/20 text-white'
-                            : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                            ? 'bg-card/10 border border-card/20 text-white'
+                            : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                         }`}
                       >
                         {type === 'all' ? 'All' : type}
@@ -347,8 +347,8 @@ const Projects = () => {
                           aria-pressed={selectedCategory === category}
                           className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                             selectedCategory === category
-                              ? 'bg-white/10 border border-white/20 text-white'
-                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                              ? 'bg-card/10 border border-card/20 text-white'
+                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                           }`}
                         >
                           {category !== 'all' && <Icon className="text-[10px]" />}
@@ -378,8 +378,8 @@ const Projects = () => {
                 onClick={() => setSelectedType(type as Project['type'])}
                 className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 capitalize ${
                   selectedType === type
-                    ? 'bg-white/10 border border-white/20 text-white'
-                    : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                    ? 'bg-card/10 border border-card/20 text-white'
+                    : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                 }`}
               >
                 {type === 'all' ? 'All' : type}
@@ -402,8 +402,8 @@ const Projects = () => {
                   aria-pressed={selectedCategory === category}
                   className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                     selectedCategory === category
-                      ? 'bg-white/10 border border-white/20 text-white'
-                      : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                      ? 'bg-card/10 border border-card/20 text-white'
+                      : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                   }`}
                 >
                   {category !== 'all' && <Icon className="text-[10px]" />}
@@ -451,7 +451,7 @@ const Projects = () => {
             return (
               <motion.div key={project.id || index} variants={itemVariants}>
                 <div
-                  className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl flex flex-col h-full hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
+                  className={`bg-card/5 backdrop-blur-md border border-card/10 rounded-2xl flex flex-col h-full hover:bg-card/[0.08] hover:border-card/[0.18] transition-[background-color,border-color,box-shadow] duration-300 group overflow-hidden hover:shadow-xl ${cardGlow}`}
                 >
                   {/* Thumbnail — real image or category icon fallback */}
                   <div className="relative h-36 shrink-0 overflow-hidden">
@@ -467,7 +467,7 @@ const Projects = () => {
                             el.style.display = 'none';
                             if (el.parentElement) {
                               el.parentElement.classList.add(
-                                'bg-white/[0.03]',
+                                'bg-card/[0.03]',
                                 'flex',
                                 'items-center',
                                 'justify-center',
@@ -517,7 +517,7 @@ const Projects = () => {
                             href={project.githubRepo}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 bg-white/[0.03] hover:bg-white/[0.08] rounded-lg text-slate-400 hover:text-white transition-colors duration-200 border border-white/10 hover:border-white/20"
+                            className="p-1.5 bg-card/[0.03] hover:bg-card/[0.08] rounded-lg text-slate-400 hover:text-white transition-colors duration-200 border border-card/10 hover:border-card/20"
                             aria-label="GitHub"
                           >
                             <FaGithub className="text-xs" />
@@ -575,12 +575,12 @@ const Projects = () => {
                     {/* Meta row: type + role */}
                     <div className="flex items-center gap-2 mb-3">
                       {project.type && (
-                        <span className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.08] rounded-full text-[10px] text-slate-500 capitalize">
+                        <span className="px-2 py-0.5 bg-card/[0.03] border border-card/[0.08] rounded-full text-[10px] text-slate-500 capitalize">
                           {project.type}
                         </span>
                       )}
                       {project.projectRole && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 bg-white/[0.03] border border-white/[0.08] rounded-full text-[10px] text-slate-500 capitalize">
+                        <span className="flex items-center gap-1 px-2 py-0.5 bg-card/[0.03] border border-card/[0.08] rounded-full text-[10px] text-slate-500 capitalize">
                           <RoleIcon className="text-[9px]" />
                           {project.projectRole.split(' ')[0]}
                         </span>
@@ -589,13 +589,13 @@ const Projects = () => {
 
                     {/* Tech rows */}
                     {project.technologies && project.technologies.length > 0 && (
-                      <div className="space-y-2 pt-3 border-t border-white/[0.07]">
+                      <div className="space-y-2 pt-3 border-t border-card/[0.07]">
                         {appTechs.length > 0 && (
                           <div className="flex flex-wrap gap-1.5">
                             {appTechs.slice(0, 4).map((tech, i) => (
                               <div
                                 key={i}
-                                className="flex items-center gap-1 px-2 py-0.5 bg-white/[0.03] border border-white/[0.1] rounded-full"
+                                className="flex items-center gap-1 px-2 py-0.5 bg-card/[0.03] border border-card/[0.1] rounded-full"
                               >
                                 {tech.icon && (
                                   <img
@@ -614,7 +614,7 @@ const Projects = () => {
                             ))}
                             {appTechs.length > 4 && (
                               <span
-                                className="px-2 py-0.5 text-[10px] text-slate-500 bg-white/[0.03] rounded-full border border-white/[0.08] cursor-default"
+                                className="px-2 py-0.5 text-[10px] text-slate-500 bg-card/[0.03] rounded-full border border-card/[0.08] cursor-default"
                                 data-tooltip-id="info-tooltip"
                                 data-tooltip-content={appTechs
                                   .slice(4)
@@ -634,7 +634,7 @@ const Projects = () => {
                             {infraTechs.slice(0, 5).map((tech, i) => (
                               <div
                                 key={i}
-                                className="flex items-center gap-1 px-1.5 py-0.5 bg-white/[0.02] border border-white/[0.07] rounded-full"
+                                className="flex items-center gap-1 px-1.5 py-0.5 bg-card/[0.02] border border-card/[0.07] rounded-full"
                               >
                                 {tech.icon && (
                                   <img
@@ -682,7 +682,7 @@ const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-8"
           >
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-sm mx-auto">
+            <div className="bg-card/5 backdrop-blur-md border border-card/10 rounded-2xl p-6 max-w-sm mx-auto">
               <FaFolder className="text-4xl text-slate-600/60 mx-auto mb-3" />
               {allProjects.length === 0 ? (
                 <p className="text-base font-medium text-slate-400">No projects available</p>
@@ -696,7 +696,7 @@ const Projects = () => {
                       setSelectedType('all');
                       setSelectedCategory('all');
                     }}
-                    className="px-4 py-2 bg-white/[0.06] border border-white/10 hover:bg-white/[0.1] rounded-lg text-white text-sm font-medium transition-colors duration-200"
+                    className="px-4 py-2 bg-card/[0.06] border border-card/10 hover:bg-card/[0.1] rounded-lg text-white text-sm font-medium transition-colors duration-200"
                   >
                     View All
                   </motion.button>

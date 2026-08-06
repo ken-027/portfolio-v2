@@ -17,6 +17,7 @@ import { IconType } from 'react-icons';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useFetch } from '../hooks/useFetch';
 import { getPublicProfile } from '../services/api';
+import ThemeToggle from './ThemeToggle';
 
 interface NavItem {
   id: string;
@@ -105,20 +106,23 @@ const Navigation = () => {
 
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* Logo — colors pinned literal (not theme tokens) so the brand
+                mark never shifts between light/dark. */}
             <motion.div
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => scrollToSection('home')}
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <div className="p-2 rounded-xl bg-linear-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 group-hover:border-cyan-400/60 transition-colors">
-                <FaCode className="text-cyan-400 text-lg" />
+              <div className="p-2 rounded-xl bg-[oklch(20.8%_0.042_265.755)] bg-linear-to-br from-[oklch(71.5%_0.143_215.221)]/20 to-[oklch(62.3%_0.214_259.815)]/20 border border-[oklch(71.5%_0.143_215.221)]/30 group-hover:border-[oklch(78.9%_0.154_211.53)]/60 transition-colors">
+                <FaCode className="text-[oklch(78.9%_0.154_211.53)] text-lg" />
               </div>
               <div className="flex flex-col leading-tight">
                 <span className="text-sm font-bold tracking-wide">
                   <span className="text-white">Kenneth </span>
-                  <span className="text-gradient">Andales</span>
+                  <span className="bg-gradient-to-r from-[oklch(62.3%_0.214_259.815)] via-[oklch(74.6%_0.16_232.661)] to-[oklch(77.7%_0.152_181.912)] bg-clip-text text-transparent">
+                    Andales
+                  </span>
                 </span>
                 <span className="text-[10px] text-slate-500 uppercase tracking-widest">
                   Full-Stack Developer
@@ -188,11 +192,13 @@ const Navigation = () => {
 
               <div className="w-px h-5 bg-slate-700/70 mx-1" />
 
+              <ThemeToggle />
+
               <motion.button
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => scrollToSection('contact')}
-                className="px-4 py-2 rounded-xl text-sm font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-shadow flex items-center gap-2"
+                className="px-4 py-2 rounded-xl text-sm font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-on-accent shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-shadow flex items-center gap-2"
               >
                 <FaEnvelope className="text-xs" />
                 Contact
@@ -209,38 +215,42 @@ const Navigation = () => {
               </motion.button>
             </div>
 
-            {/* Mobile menu toggle */}
-            <motion.button
-              whileTap={{ scale: 0.92 }}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors"
-              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isMobileMenuOpen}
-            >
-              <AnimatePresence mode="wait">
-                {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <FaTimes className="text-xl" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <FaBars className="text-xl" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
+            {/* Mobile actions: theme toggle + menu button */}
+            <div className="lg:hidden flex items-center gap-2">
+              <ThemeToggle />
+
+              <motion.button
+                whileTap={{ scale: 0.92 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors"
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMobileMenuOpen}
+              >
+                <AnimatePresence mode="wait">
+                  {isMobileMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <FaTimes className="text-xl" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <FaBars className="text-xl" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -317,6 +327,7 @@ const Navigation = () => {
                       LinkedIn
                     </motion.a>
                   )}
+                  <ThemeToggle className="shrink-0 w-12 flex items-center justify-center rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-slate-600 transition-colors" />
                 </div>
 
                 <div className="flex flex-col gap-2 pb-2">
@@ -326,7 +337,7 @@ const Navigation = () => {
                     transition={{ delay: NAV_ITEMS.length * 0.04 + 0.05 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection('contact')}
-                    className="w-full py-3 rounded-xl font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-cyan-500/20 flex items-center justify-center gap-2 text-sm"
+                    className="w-full py-3 rounded-xl font-semibold bg-linear-to-r from-cyan-500 to-blue-500 text-on-accent shadow-md shadow-cyan-500/20 flex items-center justify-center gap-2 text-sm"
                   >
                     <FaEnvelope />
                     Contact Me

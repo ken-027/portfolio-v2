@@ -107,23 +107,23 @@ const Skills = () => {
       <section id="skills" className="py-12 bg-transparent">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="mb-10 space-y-3">
-            <div className="h-3 w-16 bg-white/[0.06] rounded animate-pulse" />
-            <div className="h-9 w-56 bg-white/[0.08] rounded animate-pulse" />
-            <div className="h-4 w-80 bg-white/[0.05] rounded animate-pulse" />
+            <div className="h-3 w-16 bg-card/[0.06] rounded animate-pulse" />
+            <div className="h-9 w-56 bg-card/[0.08] rounded animate-pulse" />
+            <div className="h-4 w-80 bg-card/[0.05] rounded animate-pulse" />
           </div>
           <div className="flex gap-2 mb-8">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-8 w-20 bg-white/[0.06] rounded-full animate-pulse" />
+              <div key={i} className="h-8 w-20 bg-card/[0.06] rounded-full animate-pulse" />
             ))}
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3">
             {Array.from({ length: 14 }).map((_, i) => (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 rounded-xl p-3 h-20 flex flex-col items-center justify-center gap-2"
+                className="bg-card/5 border border-card/10 rounded-xl p-3 h-20 flex flex-col items-center justify-center gap-2"
               >
-                <div className="w-8 h-8 rounded bg-white/[0.06] animate-pulse" />
-                <div className="h-2 w-12 bg-white/[0.06] rounded animate-pulse" />
+                <div className="w-8 h-8 rounded bg-card/[0.06] animate-pulse" />
+                <div className="h-2 w-12 bg-card/[0.06] rounded animate-pulse" />
               </div>
             ))}
           </div>
@@ -178,13 +178,13 @@ const Skills = () => {
             {/* Mobile: collapsible filter panel */}
             <div className="md:hidden">
               <button
-                className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-white/[0.12] hover:border-white/[0.18] bg-white/[0.02] transition-colors duration-200"
+                className="w-full flex items-center gap-2.5 px-4 py-3 rounded-xl border border-card/[0.12] hover:border-card/[0.18] bg-card/[0.02] transition-colors duration-200"
                 onClick={() => setFilterOpen((v) => !v)}
               >
                 <FaFilter className="text-slate-500 text-xs shrink-0" />
                 <span className="text-sm font-medium text-slate-300">Filters</span>
                 {activeCategory && (
-                  <span className="px-2.5 py-0.5 bg-white/10 border border-white/20 rounded-full text-xs text-white">
+                  <span className="px-2.5 py-0.5 bg-card/10 border border-card/20 rounded-full text-xs text-white">
                     {activeCategory}
                   </span>
                 )}
@@ -205,7 +205,7 @@ const Skills = () => {
                   filterOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="mt-3 p-4 bg-white/[0.03] border border-white/[0.07] rounded-xl">
+                <div className="mt-3 p-4 bg-card/[0.03] border border-card/[0.07] rounded-xl">
                   <p className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
                     Category
@@ -222,8 +222,8 @@ const Skills = () => {
                           aria-pressed={activeCategory === category.name}
                           className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                             activeCategory === category.name
-                              ? 'bg-white/10 border border-white/20 text-white'
-                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                              ? 'bg-card/10 border border-card/20 text-white'
+                              : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                           }`}
                         >
                           <Icon className="text-[10px]" />
@@ -252,8 +252,8 @@ const Skills = () => {
                     aria-pressed={activeCategory === category.name}
                     className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium rounded-full transition-[color,background-color,border-color] duration-300 ${
                       activeCategory === category.name
-                        ? 'bg-white/10 border border-white/20 text-white'
-                        : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-white/10'
+                        ? 'bg-card/10 border border-card/20 text-white'
+                        : 'text-slate-500 hover:text-slate-300 border border-transparent hover:border-card/10'
                     }`}
                   >
                     <Icon className="text-[10px]" />
@@ -285,7 +285,7 @@ const Skills = () => {
                 data-tooltip-content={`${skill.name} - ${skill.proficiency} proficiency`}
                 data-tooltip-place="top"
               >
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-300 h-full flex flex-col items-center justify-center gap-2">
+                <div className="bg-card/5 backdrop-blur-sm border border-card/10 rounded-xl p-3 hover:bg-card/[0.08] hover:border-card/[0.18] transition-colors duration-300 h-full flex flex-col items-center justify-center gap-2">
                   {skill.icon && (
                     <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <img
@@ -300,7 +300,7 @@ const Skills = () => {
                   <h4 className="font-medium text-white text-[11px] text-center leading-tight group-hover:text-cyan-400 transition-colors line-clamp-2">
                     {skill.name}
                   </h4>
-                  <span className="px-1.5 py-0.5 bg-white/[0.05] border border-white/[0.12] rounded-full text-[10px] text-slate-400 capitalize">
+                  <span className="px-1.5 py-0.5 bg-card/[0.05] border border-card/[0.12] rounded-full text-[10px] text-slate-400 capitalize">
                     {skill.proficiency}
                   </span>
                 </div>

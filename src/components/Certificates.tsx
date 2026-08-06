@@ -179,7 +179,7 @@ const Certificates = () => {
                       onClick={() => setSelectedPlatform(platform)}
                       className={`px-4 py-2 rounded-full text-xs font-medium transition-[color,background-color,border-color,box-shadow] duration-300 capitalize ${
                         selectedPlatform === platform
-                          ? 'bg-linear-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+                          ? 'bg-linear-to-r from-blue-500 to-cyan-500 text-on-accent shadow-lg shadow-blue-500/25'
                           : 'bg-slate-800/60 text-slate-300 border border-slate-700/50 hover:border-blue-500/30 hover:text-white hover:bg-slate-800/80'
                       }`}
                     >
@@ -316,8 +316,8 @@ const Certificates = () => {
                       {(certificate.platform || certificate.provider || certificate.issuer) && (
                         <div className="absolute top-2 left-2">
                           <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg backdrop-blur-sm">
-                            <FaAward className="text-white text-xs" />
-                            <span className="text-white text-[10px] font-bold tracking-wide">
+                            <FaAward className="text-on-accent text-xs" />
+                            <span className="text-on-accent text-[10px] font-bold tracking-wide">
                               {certificate.platform || certificate.provider || certificate.issuer}
                             </span>
                           </div>
@@ -481,7 +481,7 @@ const Certificates = () => {
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedPlatform('all')}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 rounded-lg text-white transition-[background-image,box-shadow] duration-300 font-medium shadow-lg shadow-blue-500/25 text-sm"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 rounded-lg text-on-accent transition-[background-image,box-shadow] duration-300 font-medium shadow-lg shadow-blue-500/25 text-sm"
                   >
                     View All Certificates
                   </motion.button>

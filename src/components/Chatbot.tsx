@@ -143,7 +143,7 @@ const Chatbot = () => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-[transform,box-shadow] duration-300 flex items-center justify-center ${
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-on-accent shadow-lg hover:shadow-cyan-500/25 transition-[transform,box-shadow] duration-300 flex items-center justify-center ${
           isOpen ? 'rotate-180' : ''
         }`}
         initial={{ scale: 0 }}
@@ -187,7 +187,7 @@ const Chatbot = () => {
                     whileTap={{ scale: 0.95 }}
                     className={`px-3 py-1 rounded-lg text-xs font-medium transition-[color,background-color,box-shadow] ${
                       agent === 'portfolio'
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-on-accent shadow-lg'
                         : 'bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-cyan-400'
                     }`}
                   >
@@ -200,7 +200,7 @@ const Chatbot = () => {
                     whileTap={{ scale: 0.95 }}
                     className={`px-3 py-1 rounded-lg text-xs font-medium transition-[color,background-color,box-shadow] ${
                       agent === 'github'
-                        ? 'bg-gradient-to-r from-purple-500 to-violet-500 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-purple-500 to-violet-500 text-on-accent shadow-lg'
                         : 'bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-purple-400'
                     }`}
                   >
@@ -244,16 +244,16 @@ const Chatbot = () => {
                         }`}
                       >
                         {message.agent === 'github' ? (
-                          <FaGithub className="text-white text-sm" />
+                          <FaGithub className="text-on-accent text-sm" />
                         ) : (
-                          <FaCode className="text-white text-sm" />
+                          <FaCode className="text-on-accent text-sm" />
                         )}
                       </div>
                     )}
                     <div
                       className={`max-w-[80%] p-3 rounded-2xl text-sm ${
                         message.type === 'user'
-                          ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
+                          ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-on-accent'
                           : 'bg-slate-700/50 text-slate-100 border border-slate-600/50'
                       }`}
                     >
@@ -363,9 +363,9 @@ const Chatbot = () => {
                     }`}
                   >
                     {agent === 'github' ? (
-                      <FaGithub className="text-white text-sm" />
+                      <FaGithub className="text-on-accent text-sm" />
                     ) : (
-                      <FaCode className="text-white text-sm" />
+                      <FaCode className="text-on-accent text-sm" />
                     )}
                   </div>
                   <div className="bg-slate-700/50 border border-slate-600/50 p-3 rounded-2xl">
@@ -409,7 +409,7 @@ const Chatbot = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   disabled={isLoading || !inputMessage.trim()}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed transition-[opacity,box-shadow] hover:shadow-lg"
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-on-accent rounded-xl px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed transition-[opacity,box-shadow] hover:shadow-lg"
                 >
                   <FaPaperPlane className="text-sm" />
                 </motion.button>

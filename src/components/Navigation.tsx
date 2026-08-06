@@ -327,7 +327,6 @@ const Navigation = () => {
                       LinkedIn
                     </motion.a>
                   )}
-                  <ThemeToggle className="shrink-0 w-12 flex items-center justify-center rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 hover:border-slate-600 transition-colors" />
                 </div>
 
                 <div className="flex flex-col gap-2 pb-2">

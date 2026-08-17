@@ -32,7 +32,7 @@ const Chatbot = () => {
       id: '1',
       type: 'bot',
       content:
-        "Hi! I'm here to help you learn more about this portfolio. You can ask me about experiences, projects, skills, or switch to GitHub mode to explore repositories!",
+        "Hey! Ask me about my experience, projects, or skills — or switch to GitHub mode to explore my repos!",
       timestamp: new Date(),
       agent: 'portfolio',
     },
@@ -236,19 +236,13 @@ const Chatbot = () => {
                     }`}
                   >
                     {message.type === 'bot' && (
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          message.agent === 'github'
-                            ? 'bg-gradient-to-r from-purple-500 to-violet-500'
-                            : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                      <img
+                        src="https://avatars.githubusercontent.com/u/82031953"
+                        alt="Kenneth"
+                        className={`w-8 h-8 rounded-full flex-shrink-0 object-cover ring-2 ${
+                          message.agent === 'github' ? 'ring-purple-500' : 'ring-cyan-500'
                         }`}
-                      >
-                        {message.agent === 'github' ? (
-                          <FaGithub className="text-on-accent text-sm" />
-                        ) : (
-                          <FaCode className="text-on-accent text-sm" />
-                        )}
-                      </div>
+                      />
                     )}
                     <div
                       className={`max-w-[80%] p-3 rounded-2xl text-sm ${
@@ -355,19 +349,13 @@ const Chatbot = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex gap-2"
                 >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      agent === 'github'
-                        ? 'bg-gradient-to-r from-purple-500 to-violet-500'
-                        : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+                  <img
+                    src="https://avatars.githubusercontent.com/u/82031953"
+                    alt="Kenneth"
+                    className={`w-8 h-8 rounded-full object-cover ring-2 ${
+                      agent === 'github' ? 'ring-purple-500' : 'ring-cyan-500'
                     }`}
-                  >
-                    {agent === 'github' ? (
-                      <FaGithub className="text-on-accent text-sm" />
-                    ) : (
-                      <FaCode className="text-on-accent text-sm" />
-                    )}
-                  </div>
+                  />
                   <div className="bg-slate-700/50 border border-slate-600/50 p-3 rounded-2xl">
                     <div className="flex gap-1">
                       {[0, 1, 2].map((i) => (
